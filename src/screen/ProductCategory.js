@@ -1,20 +1,17 @@
-import React, { useEffect, useState } from 'react';
-import {Link} from 'react-router-dom';
-import axios from 'axios';
+import React, { useState, useEffect } from "react";
+import { Link } from 'react-router-dom'
+import axios from "axios";
 import Sidebar from '../components/Sidebar';
 import './styles/paginate.css';
 import Pagination from '../components/Pagination';
 
-export default function Shop(){
+export default function ProductCategory(){
+   
     const [products, setProducts]= useState([]);
-
-    // sort product price properties
-    // const [filterProducts , setFilterProducts] = useState([]);
-    // const [priceFilters, setPriceFilters] = useState(""); // only value is available
-
+    
     // pagination properties
     const [currentPage, setCurrentPage] = useState(1);
-    const [itemPerPage, setItemPerPage] = useState(6);
+    const [itemPerPage, setItemPerPage] = useState(3);
     const indexOfLastItem = currentPage * itemPerPage;
     const indexOfFirstItem = indexOfLastItem - itemPerPage;
     const currentItems = products.slice(indexOfFirstItem, indexOfLastItem);
@@ -23,55 +20,30 @@ export default function Shop(){
     const next = () => { setCurrentPage (currentPage + 1)};
 
     useEffect(() => {
-        axios.get("http://localhost:5000/api/v1/products")
-        .then(res=>{
-            console.log(res);
-            setProducts(res.data);
-        })
-        .catch(err =>{
-            console.log(err);
-        })
-    },[]);
+        setTimeout(() => {
+            Object.keys(products).map((key) => 
+                
+                axios.get(`http://localhost:5000/api/v1/products/get/product_category/${products[key]._id.toString()}`)
+                .then(res=>{
+                    console.log("Heelow");
+                    console.log(res);
+                    setProducts(res.data);
+                    console.log(products[key]._id.toString())
+                })
+                .catch(err =>{
+                    console.log(err);
+                })
+             
+            );
+            
+        }, 0);
+    }, []);
+    
 
-    const [cart, setCart] = useState([]);
-    const [wishlist, setWishlist] = useState({});
-    const token = localStorage.getItem("token");
-    const user = token ? JSON.parse(token) : "";
-    const userId = user ? user.user.id : "";
+    
 
-    console.log(userId);
+    
    
-    const handleAddToCart = async (productId, proQty) => {
-        try {
-            const response = await axios.post('http://localhost:5000/api/v1/shoppingcarts/add-cart-item', {
-                user: userId,
-                product: productId,
-                instance: 'cart',
-                quantity: proQty
-              
-            });
-
-            setCart(response.data);
-        } catch (err) {
-            console.log(err)
-        }
-    }
-
-    const handleAddToWishlist = async (productId) => {
-        try {
-            const response = await axios.post('http://localhost:5000/api/v1/shoppingcarts/add-cart-item', {
-                user: userId,
-                product: productId,
-                instance: 'wishlist'
-            });
-
-            setWishlist({...wishlist, [productId]: response.data });
-        } catch (err) {
-            console.log(err)
-        }
-    }
-   
-
     return(
         <div>
             <section className="breadcrumb-option">
@@ -82,7 +54,8 @@ export default function Shop(){
                         <h4>Shop</h4>
                         <div className="breadcrumb__links">
                         <Link to="/">Home</Link>
-                        <span>Shop</span>
+                        <Link to="/shop">Shop</Link>
+                        <span>{products.name}</span>
                         </div>
                     </div>
                     </div>
@@ -133,19 +106,15 @@ export default function Shop(){
                                         : " "
                                     }
                                         <ul className="product__hover">
-                                            <li>
-                                                <a href="#" onClick={() => handleAddToWishlist(product.id)}>
-                                                    {wishlist[product.id] ? <img src="img/icon/red-heart.png" alt /> : <img src="img/icon/heart.png" alt />}
-                                                </a>
+                                            <li><a href="#"><img src="img/icon/heart.png" alt /></a></li>
+                                            <li><a href="#"><img src="img/icon/compare.png" alt /> <span>Compare</span></a>
                                             </li>
-                                            {/* <li><a href="#"><img src="img/icon/compare.png" alt /> <span>Compare</span></a>
-                                            </li> */}
                                             <li><Link to={`/shop/product_detail/${product.id}`}><img src="img/icon/search.png" alt /></Link></li>
                                         </ul>
                                     </div>
                                     <div className="product__item__text">
                                     <h6>{product.name}</h6>
-                                    <a href="#" className="add-cart" onClick={() => handleAddToCart(product.id, 1)}>+ Add To Cart</a>
+                                    <a href="#" className="add-cart">+ Add To Cart</a>
                                     <div className="rating">
                                         <i className="fa fa-star-o" />
                                         <i className="fa fa-star-o" />
@@ -210,10 +179,8 @@ export default function Shop(){
                                               next={next}
                                             />
                                           </div>
-                                        ) : (
-                                          ""
-                                        )
-                                        }
+                                        ) : ("")
+                                }
                                 
                             </div>
                         </div>
@@ -224,5 +191,6 @@ export default function Shop(){
                 {/* end shop page */}
             </section>
         </div>
+   
     )
 }

@@ -1,0 +1,13 @@
+.product-img img{
+    height: 450px;
+    object-fit: cover;
+}
+.carousel.carousel-slider .control-arrow {
+    top: 0;
+    color: #000 !important;
+    font-size: 26px;
+    bottom: 0;
+    margin-top: 0;
+    padding: 5px;
+    background: #cccccc8e !important;
+}

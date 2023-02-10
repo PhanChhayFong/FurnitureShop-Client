@@ -14,7 +14,7 @@ export default function Slider(){
         .catch(err =>{
             console.log(err);
         })
-    })
+    }, [])
     return(
         <section className="hero">
         <div className="hero__slider owl-carousel">

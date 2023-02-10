@@ -1,0 +1,21 @@
+.card-body h2{
+    color: #111111;
+    font-weight: 700;
+    line-height: 46px;
+    margin-bottom: 10px;
+}
+.card-body a{
+    display: inline-block;
+    color: #111111;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    padding: 3px 0;
+}
+.card-img-top {
+    width: 70% !important;
+    height: 40vh;
+    object-fit: contain;
+    margin: auto;
+}

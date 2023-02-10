@@ -1,43 +1,47 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import './style/banner.css';
 
 export default function Banner(){
+
+    const [produdct_category, setProductCategory] = useState([]);
+
+    
+    useEffect(()=>{
+        axios.get("http://localhost:5000/api/v1/categories//get/product_category")
+        .then(res =>{
+            console.log(res);
+            setProductCategory(res.data);
+        })
+        .catch(err =>{
+            console.log(err);
+        })
+    }, [])
+
     return(
         <section className="banner spad">
         <div className="container">
+            <div className="row mb-5">
+                <div className="col-12 text-center mb-3">
+                    <h2 className="fw-bold fs-1">Product By Category</h2>
+                </div>
+            </div>
             <div className="row">
-            <div className="col-lg-7 offset-lg-4">
-                <div className="banner__item">
-                <div className="banner__item__pic">
-                    <img src="img/banner/banner-1.jpg" alt />
-                </div>
-                <div className="banner__item__text">
-                    <h2>Clothing Collections 2030</h2>
-                    <a href="#">Shop now</a>
-                </div>
-                </div>
-            </div>
-            <div className="col-lg-5">
-                <div className="banner__item banner__item--middle">
-                <div className="banner__item__pic">
-                    <img src="img/banner/banner-2.jpg" alt />
-                </div>
-                <div className="banner__item__text">
-                    <h2>Accessories</h2>
-                    <a href="#">Shop now</a>
-                </div>
-                </div>
-            </div>
-            <div className="col-lg-7">
-                <div className="banner__item banner__item--last">
-                <div className="banner__item__pic">
-                    <img src="img/banner/banner-3.jpg" alt />
-                </div>
-                <div className="banner__item__text">
-                    <h2>Shoes Spring 2030</h2>
-                    <a href="#">Shop now</a>
-                </div>
-                </div>
-            </div>
+                
+                {produdct_category.map(productCategory =>(
+               
+                    <div key={productCategory.id}  className="col-md-4 col-12 mb-md-0 mb-3">
+                        <div className="card h-100 border border-5 border-secondary">
+                            <img src={productCategory.icon} className="card-img-top"  width="180"/>
+                            <div className="card-body text-center py-5">
+                                <h2 className="card-title">{productCategory.name}</h2>
+                                <a href="#" className="card-link">Shop now</a>                            
+                            </div>
+                        </div>
+                    </div>
+                    
+                ))}
+
             </div>
         </div>
         </section>

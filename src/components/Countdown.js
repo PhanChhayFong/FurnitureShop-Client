@@ -2,7 +2,7 @@ import React from "react";
 
 export default function Countdown(){
     return(
-    <section className="categories spad">
+    <section className="categories spad mt-5">
         <div className="container">
             <div className="row">
             <div className="col-lg-3">

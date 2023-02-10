@@ -1,0 +1,28 @@
+.product__pagination {
+	padding: 25px 35px;
+	text-align: center;
+}
+
+.product__pagination a, .product__pagination button {
+	display: inline-block;
+	font-size: 18px;
+	color: #111111;
+	border: 2px solid #ccc;
+	text-align: center;
+    margin: 0px 5px;
+    padding: 10px 18px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.product__pagination a.active {
+	border: 2px solid #111111;
+    background-color: #f3f2ee;
+    color:  #000;
+    font-weight: 700;
+}
+
+.product__pagination a:hover, .product__pagination button:hover{
+	border: 2px solid #111111;
+    background-color: #f3f2ee; ;
+}

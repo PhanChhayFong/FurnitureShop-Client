@@ -22,7 +22,7 @@ export default function Sliders() {
       .catch(err =>{
           console.log(err);
       })
-  })
+  }, [])
   const styles = {
     Bslide:{
       backgroundImage:`url(${background})`,
@@ -57,6 +57,7 @@ export default function Sliders() {
           <h5 style={{color:"red",textTransform:"uppercase"}} className='fw'>{slider.miniTitle}</h5>
           <h1 className='fw'>{slider.title}</h1>
           <p className='fw'>{slider.description}</p>
+          <a href={slider.url} className="primary-btn" style={{textDecoration: "none"}}>Shop now<span className="arrow_right"></span></a>
         </Carousel.Caption>
       </Carousel.Item>
     )}

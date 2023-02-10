@@ -1,6 +1,25 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react';
+import { NavLink } from 'react-router-dom';
+import axios from 'axios';
+import "./style/sidebar.css";
 
 export default function Sidebar() {
+
+    const [categories, setCategories] = useState({});
+
+
+    useEffect(() => {
+        axios.get('http://localhost:5000/api/v1/products/get/product_category')
+        .then(res => {
+            setCategories(res.data);
+        })
+        .catch(err => {
+            console.log(err);
+        });
+    }, []);
+
+
+    
   return (
     <div className="col-lg-3">
         <div className="shop__sidebar">
@@ -23,15 +42,21 @@ export default function Sidebar() {
                             <div className="card-body">
                             <div className="shop__sidebar__categories">
                                 <ul className="nice-scroll">
-                                <li><a href="#">Men (20)</a></li>
-                                <li><a href="#">Women (20)</a></li>
-                                <li><a href="#">Bags (20)</a></li>
-                                <li><a href="#">Clothing (20)</a></li>
-                                <li><a href="#">Shoes (20)</a></li>
-                                <li><a href="#">Accessories (20)</a></li>
-                                <li><a href="#">Kids (20)</a></li>
-                                <li><a href="#">Kids (20)</a></li>
-                                <li><a href="#">Kids (20)</a></li>
+                                    
+                                {Object.keys(categories).map((key => 
+                                    <li key={key}>
+                                        <NavLink to={`/shop/product_category/${categories[key]._id.toString()}`}>
+                                            {categories[key].name} ({categories[key].count})
+                                        </NavLink>
+                                        {/* <a href={`/shop/product_category/${JSON.stringify(categories[key]._id)}`}>{categories[key].name} ({categories[key].count})</a> */}
+                                    </li>
+                                ))}
+                              
+                                {/* {categories.map(category => (
+                                    <li key={category._id._id}>
+                                        <a href="#">{category.name} ({category.count})</a>
+                                    </li>
+                                ))} */}
                                 </ul>
                             </div>
                             </div>
@@ -61,84 +86,7 @@ export default function Sidebar() {
                     </div>
                     {/* end filter price*/}
                     
-                    {/* start filter size*/}
-                    <div className="card">
-                        <div className="card-heading">
-                            <a data-toggle="collapse" data-target="#collapseFour">Size</a>
-                        </div>
-                        <div id="collapseFour" className="collapse show" data-parent="#accordionExample">
-                            <div className="card-body">
-                                <div className="shop__sidebar__size">
-                                    <label htmlFor="xs">xs
-                                    <input type="radio" id="xs" />
-                                    </label>
-                                    <label htmlFor="sm">s
-                                    <input type="radio" id="sm" />
-                                    </label>
-                                    <label htmlFor="md">m
-                                    <input type="radio" id="md" />
-                                    </label>
-                                    <label htmlFor="xl">xl
-                                    <input type="radio" id="xl" />
-                                    </label>
-                                    <label htmlFor="2xl">2xl
-                                    <input type="radio" id="2xl" />
-                                    </label>
-                                    <label htmlFor="xxl">xxl
-                                    <input type="radio" id="xxl" />
-                                    </label>
-                                    <label htmlFor="3xl">3xl
-                                    <input type="radio" id="3xl" />
-                                    </label>
-                                    <label htmlFor="4xl">4xl
-                                    <input type="radio" id="4xl" />
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    {/* end filter size*/}
-                    
-                    {/* start filter color*/}
-                    <div className="card">
-                        <div className="card-heading">
-                            <a data-toggle="collapse" data-target="#collapseFive">Colors</a>
-                        </div>
-                        <div id="collapseFive" className="collapse show" data-parent="#accordionExample">
-                            <div className="card-body">
-                                <div className="shop__sidebar__color">
-                                    <label className="c-1" htmlFor="sp-1">
-                                    <input type="radio" id="sp-1" />
-                                    </label>
-                                    <label className="c-2" htmlFor="sp-2">
-                                    <input type="radio" id="sp-2" />
-                                    </label>
-                                    <label className="c-3" htmlFor="sp-3">
-                                    <input type="radio" id="sp-3" />
-                                    </label>
-                                    <label className="c-4" htmlFor="sp-4">
-                                    <input type="radio" id="sp-4" />
-                                    </label>
-                                    <label className="c-5" htmlFor="sp-5">
-                                    <input type="radio" id="sp-5" />
-                                    </label>
-                                    <label className="c-6" htmlFor="sp-6">
-                                    <input type="radio" id="sp-6" />
-                                    </label>
-                                    <label className="c-7" htmlFor="sp-7">
-                                    <input type="radio" id="sp-7" />
-                                    </label>
-                                    <label className="c-8" htmlFor="sp-8">
-                                    <input type="radio" id="sp-8" />
-                                    </label>
-                                    <label className="c-9" htmlFor="sp-9">
-                                    <input type="radio" id="sp-9" />
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    {/* end filter color*/}
+                   
                 </div>
             </div>
         </div>

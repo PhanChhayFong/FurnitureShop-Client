@@ -30,6 +30,34 @@
 /* Template default CSS
 /*----------------------------------------*/
 
+ /************************************************
+        Back To Top Button
+    ***********************************************/
+    .btn-back-to-top{
+        width: 60px;
+        height: 60px;
+        background-color: #ccc;
+        border: 2px solid #7fad39;
+        border-radius: 50%;
+        position: fixed;
+        bottom: 100px;
+        right: 50px;
+        cursor: pointer;
+        background: url('../img/icon/arrow-up.png') center center no-repeat;
+        background-size: 40px;
+        z-index:100;
+        display:none;
+    }
+    .btn-back-to-top.active{
+        transition: 1.5s;
+    }
+    .btn-back-to-top:hover{
+        background-color: #7fad39;
+        border: 2px solid #000;
+        transition: 1s;
+		rotate: 360deg;
+    }
+
 html,
 body {
 	height: 100%;
@@ -1470,7 +1498,7 @@ ol {
 	text-align: center;
 }
 
-.product__pagination a {
+/* .product__pagination a {
 	display: inline-block;
 	font-size: 16px;
 	font-weight: 700;
@@ -1498,7 +1526,7 @@ ol {
 	color: #111111;
 	padding-left: 10px;
 	padding-right: 15px;
-}
+} */
 
 /*---------------------
   Shop

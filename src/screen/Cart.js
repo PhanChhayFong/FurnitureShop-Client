@@ -1,4 +1,5 @@
 import React from "react";
+import {Link} from "react-router-dom"
 
 export default function Cart(){
     return(
@@ -120,7 +121,8 @@ export default function Cart(){
                     <div className="row">
                         <div className="col-lg-6 col-md-6 col-sm-6">
                         <div className="continue__btn">
-                            <a href="#">Continue Shopping</a>
+                            {/* <a href="#">Continue Shopping</a> */}
+                            <Link to="/shop">Continue Shopping</Link>
                         </div>
                         </div>
                         <div className="col-lg-6 col-md-6 col-sm-6">
@@ -144,7 +146,8 @@ export default function Cart(){
                         <li>Subtotal <span>$ 169.50</span></li>
                         <li>Total <span>$ 169.50</span></li>
                         </ul>
-                        <a href="#" className="primary-btn">Proceed to checkout</a>
+                        {/* <a href="#" className="primary-btn">Proceed to checkout</a> */}
+                        <Link to="/checkout" className="primary-btn">Proceed to checkout</Link>
                     </div>
                     </div>
                 </div>

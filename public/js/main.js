@@ -10,6 +10,22 @@ $(window).on('load',function(){
 'use strict';
 
 (function ($) {
+    /********************************************* 
+        jQuery Back To Top Option
+    ********************************************/
+        $(window).scroll(function(){
+            if($(this).scrollTop() > 1000){
+                $('.btn-back-to-top').fadeIn();
+                $('.btn-back-to-top').addClass('.active');
+            }
+            else{
+                $('.btn-back-to-top').fadeOut();
+            }
+        });
+        $('.btn-back-to-top').click(function(){
+            $("html, body").animate({scrollTop: 0}, 1200);
+            return false;
+        });
 
     /*------------------
         Preloader
