@@ -431,10 +431,6 @@ ol {
 	cursor: pointer;
 }
 
-.header__logo {
-	padding: 30px 0;
-}
-
 .header__logo a {
 	display: inline-block;
 }

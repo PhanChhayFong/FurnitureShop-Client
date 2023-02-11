@@ -30,7 +30,6 @@ export default function App() {
       <MenuNavbar />
 
       {/* <Breadcrumbs/> */}
-
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/aboutus" element={<AboutUs />} />
