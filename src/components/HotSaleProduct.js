@@ -15,7 +15,6 @@ export default function HotSaleProduct() {
       .then((res) => setHotSaleProduct(res.data));
   }, []);
 
-
   return (
     <section className="product spad">
       <div className="container">
@@ -31,13 +30,10 @@ export default function HotSaleProduct() {
             autoPlay={true}
             autoPlaySpeed={3000}
             centerMode={false}
-            className=""
             containerClass="container-with-dots"
-            dotListClass=""
             draggable
             focusOnSelect={true}
             infinite={true}
-            itemClass=""
             keyBoardControl
             minimumTouchDrag={150}
             renderButtonGroupOutside={false}
@@ -81,9 +77,7 @@ export default function HotSaleProduct() {
                     style={{ backgroundImage: `url(${hot_product.image})` }}
                   >
                     {hot_product.salePrice ? (
-                      <>
-                        <span className="label text-light bg-dark">sales</span>
-                      </>
+                      <span className="label text-light bg-dark">sales</span>
                     ) : (
                       ""
                     )}
