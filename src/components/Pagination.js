@@ -10,9 +10,8 @@ const Pagination = ({
 }) => {
   const pageNumbers = [];
   //   console.log(itemsPerPage,totalItems,paginate)
-  for (let i = 1; i <= Math.ceil(totalItems / itemsPerPage); i++) {
+  for (let i = 1; i <= Math.ceil(totalItems / itemsPerPage); i++)
     pageNumbers.push(i);
-  }
 
   const currentItems = Math.ceil(totalItems / itemsPerPage);
 
