@@ -18,7 +18,7 @@ import ProductCategory from "./screen/ProductCategory";
 import Cart from "./screen/Cart";
 import Checkout from "./screen/Checkout";
 import BlogDetail from "./screen/BlogDetail";
-// import Breadcrumbs from './components/Breadcrumbs';z
+// import Breadcrumbs from './components/Breadcrumbs';
 import Login from "./screen/Login";
 import SignUp from "./screen/SignUp";
 import ProtectedRoute from "./components/ProtectedRoute";
