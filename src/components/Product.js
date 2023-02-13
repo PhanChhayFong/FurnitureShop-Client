@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import apiService from "../services/api-service";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import "./style/product.css";
@@ -8,15 +9,9 @@ import "./style/product.css";
 export default function Product() {
   const [products, setProducts] = useState([]);
   useEffect(() => {
-    axios
-      .get("http://localhost:5000/api/v1/products/get/featured/8")
-      .then((res) => {
-        // console.log(res);
-        setProducts(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    apiService
+      .get("products/get/featured/8")
+      .then((res) => setProducts(res.data));
   }, []);
 
   return (
