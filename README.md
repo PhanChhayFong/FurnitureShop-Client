@@ -1,1 +1,1 @@
-# FurnitureShop_Client
+# FurnitureShop-Client

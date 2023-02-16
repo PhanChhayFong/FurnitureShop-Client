@@ -159,5 +159,13 @@ class Alart {
       else this.alartLoginEmpty("New Password");
     }
   };
+
+  alartOrderSuccess = () => {
+    Swal.fire({
+      icon: "success",
+      title: `Thank For Order`,
+    });
+  };
+
 }
 export default new Alart();
