@@ -1,15 +1,4 @@
 import React, { useState } from "react";
-import {
-  MDBBtn,
-  MDBContainer,
-  MDBCard,
-  MDBCardBody,
-  MDBCol,
-  MDBRow,
-  MDBInput,
-  MDBCheckbox,
-  MDBIcon,
-} from "mdb-react-ui-kit";
 import { Link, Navigate } from "react-router-dom";
 import axios from "axios";
 import Alart from "../services/Alart";
@@ -42,7 +31,7 @@ function App() {
   };
 
   return (
-    <MDBContainer fluid className="register-form">
+    <div className="container-fluid">
       <div
         className="p-5 bg-image"
         style={{
@@ -54,7 +43,7 @@ function App() {
         }}
       ></div>
 
-      <MDBCard
+      <div
         className="mx-5 mb-5 p-5 shadow-5"
         style={{
           marginTop: "-100px",
@@ -62,15 +51,14 @@ function App() {
           backdropFilter: "blur(30px)",
         }}
       >
-        <MDBCardBody className="p-5 text-center">
+        <div className="p-5 text-center">
           <h2 className="fw-bold mb-5">Sign up now</h2>
           {/* <form onSubmit={submit}> */}
 
-          <MDBRow>
-            <MDBCol col="6">
-              <MDBInput
-                wrapperClass="mb-4"
-                label="Username"
+          <div className="row">
+            <div className="col-6">
+              <input
+                className="form-control"
                 id="form1"
                 type="text"
                 value={user.name}
@@ -81,12 +69,12 @@ function App() {
                   });
                 }}
               />
-            </MDBCol>
+              <label className="mb-4">Username</label>
+            </div>
 
-            <MDBCol col="6">
-              <MDBInput
-                wrapperClass="mb-4"
-                label="Email"
+            <div className="col-6">
+              <input
+                className="form-control"
                 id="form1"
                 type="email"
                 value={user.email}
@@ -97,14 +85,14 @@ function App() {
                   });
                 }}
               />
-            </MDBCol>
-          </MDBRow>
+              <label className="mb-4">Email</label>
+            </div>
+          </div>
 
-          <MDBRow>
-            <MDBCol col="6">
-              <MDBInput
-                wrapperClass="mb-4"
-                label="Password"
+          <div className="row">
+            <div className="col-6">
+              <input
+                className="form-control"
                 id="form1"
                 type="password"
                 value={user.password}
@@ -115,12 +103,12 @@ function App() {
                   });
                 }}
               />
-            </MDBCol>
+              <label className="mb-4">Password</label>
+            </div>
 
-            <MDBCol col="6">
-              <MDBInput
-                wrapperClass="mb-4"
-                label="Confirm Password"
+            <div className="col-6">
+              <input
+                className="form-control"
                 id="form1"
                 type="password"
                 value={confirmPassword}
@@ -128,8 +116,9 @@ function App() {
                   setConfirmPassword(e.target.value);
                 }}
               />
-            </MDBCol>
-          </MDBRow>
+              <label className="mb-4">Confirm Password</label>
+            </div>
+          </div>
 
           <button
             className="btn btn-primary btn-block mb-4"
@@ -142,9 +131,9 @@ function App() {
           </p>
 
           {/* </form> */}
-        </MDBCardBody>
-      </MDBCard>
-    </MDBContainer>
+        </div>
+      </div>
+    </div>
   );
 }
 

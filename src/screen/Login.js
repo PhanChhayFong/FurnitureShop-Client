@@ -1,11 +1,4 @@
 import React, { useEffect, useState } from "react";
-import {
-  MDBBtn,
-  MDBContainer,
-  MDBRow,
-  MDBCol,
-  MDBInput,
-} from "mdb-react-ui-kit";
 import "./styles/login.css";
 import axios from "axios";
 import Alart from "../services/Alart";
@@ -19,7 +12,7 @@ function Login() {
       .get("http://localhost:5000/api/v1/companys")
       .then((res) => setCompanys(res.data))
       .catch((err) => console.log(err));
-  },[]);
+  }, []);
 
   const [navigate, setNavigate] = useState(false);
   const [user, setUser] = useState({
@@ -29,10 +22,8 @@ function Login() {
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-    if (token) {
-      setNavigate(true);
-    }
-  },[]);
+    if (token) setNavigate(true);
+  }, []);
 
   const login = async () => {
     if (user.email != "" && user.password != "") {
@@ -90,9 +81,9 @@ function Login() {
   }
 
   return (
-    <MDBContainer fluid className="gradient-form login-form">
-      <MDBRow>
-        <MDBCol col="6" className="mb-5">
+    <div className="container">
+      <div className="row">
+        <div className="col-6 mb-5">
           <div className="d-flex flex-column ms-5">
             {companys &&
               companys.map((company) => (
@@ -108,10 +99,9 @@ function Login() {
               ))}
 
             <p>Please login to your account</p>
-
-            <MDBInput
-              wrapperClass="mb-4"
-              label="Email address"
+            <label>Email Address</label>
+            <input
+              className="mb-4 p-2"
               id="form1"
               type="email"
               onChange={(e) => {
@@ -121,9 +111,9 @@ function Login() {
                 });
               }}
             />
-            <MDBInput
-              wrapperClass="mb-4"
-              label="Password"
+            <label>Password</label>
+            <input
+              className="mb-4 p-2"
               id="form2"
               type="password"
               onChange={(e) => {
@@ -161,9 +151,9 @@ function Login() {
               </Link>
             </div>
           </div>
-        </MDBCol>
+        </div>
 
-        <MDBCol col="6" className="mb-5">
+        <div className="col-6 mb-5 rounded">
           <div className="d-flex flex-column  justify-content-center gradient-custom-2 h-100 mb-4">
             {companys &&
               companys.map((company) => (
@@ -187,9 +177,9 @@ function Login() {
                 </div>
               ))}
           </div>
-        </MDBCol>
-      </MDBRow>
-    </MDBContainer>
+        </div>
+      </div>
+    </div>
   );
 }
 

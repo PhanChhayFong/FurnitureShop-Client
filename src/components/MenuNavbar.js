@@ -7,33 +7,6 @@ import ApiService from "../services/api-service";
 export default function MenuNavbar({ click }) {
   const [companys, setCompanys] = useState();
   const [categories, setCategories] = useState([]);
-
-  useEffect(() => {
-    axios
-      .get("http://localhost:5000/api/v1/companys")
-      .then((res) => setCompanys(res.data));
-  }, []);
-  useEffect(() => {
-    axios
-      .get("http://localhost:5000/api/v1/categories")
-      .then((res) => setCategories(res.data));
-  }, []);
-
-  useEffect(() => {
-    axios
-      .get(
-        `http://localhost:5000/api/v1/shoppingcarts/get/cart_item_count/${userId}`
-      )
-      .then((res) => setCountNumCartItem(res.data));
-  }, []);
-
-  useEffect(() => {
-    axios
-      .get(
-        `http://localhost:5000/api/v1/shoppingcarts/get/wishlist_item_count/${userId}`
-      )
-      .then((res) => setCountNumWishlistItem(res.data));
-  }, []);
   const [navigate, setNavigate] = useState(false);
   const token = localStorage.getItem("token");
   const user = token ? JSON.parse(token) : "";
@@ -41,6 +14,26 @@ export default function MenuNavbar({ click }) {
   const userId = user ? user.user.id : "";
   const [countNumCartItem, setCountNumCartItem] = useState(0);
   const [countNumWishlistItem, setCountNumWishlistItem] = useState(0);
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:5000/api/v1/companys")
+      .then((res) => setCompanys(res.data));
+    axios
+      .get("http://localhost:5000/api/v1/categories")
+      .then((res) => setCategories(res.data));
+    if(token){axios
+      .get(
+        `http://localhost:5000/api/v1/shoppingcarts/get/cart_item_count/${userId}`
+      )
+      .then((res) => setCountNumCartItem(res.data));
+    axios
+      .get(
+        `http://localhost:5000/api/v1/shoppingcarts/get/wishlist_item_count/${userId}`
+      )
+      .then((res) => setCountNumWishlistItem(res.data));}
+  }, []);
+
 
   const logout = () => {
     if (token) {
