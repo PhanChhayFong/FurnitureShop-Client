@@ -42,7 +42,7 @@ export default function Footer() {
                     The customer is at the heart of our unique business model,
                     which includes design.
                   </p>
-                  <p>
+                  <p className="m-0">
                     <span>
                       <i className="fas fa-envelope me-2"></i>
                     </span>
@@ -53,7 +53,7 @@ export default function Footer() {
                       {company.email}
                     </a>
                   </p>
-                  <p>
+                  <p className="m-0">
                     <span>
                       <i className="fas fa-phone-square-alt me-2"></i>
                     </span>
@@ -74,10 +74,10 @@ export default function Footer() {
               </div>
             ))}
 
-          <div className="col-lg-2 offset-lg-1 col-md-3 col-sm-6">
-            <div className="footer__widget">
+          <div className="col-lg-2 offset-lg-1 col-md-3 col-sm-6 mx-auto">
+            <div className="footer__widget text-center">
               <h6>Useful Links</h6>
-              <ul>
+              <ul className="p-0">
                 {categories.map((category) => (
                   <li key={category._id}>
                     {/* <a href="#">Clothing Store</a> */}
@@ -89,9 +89,9 @@ export default function Footer() {
           </div>
 
           <div className="col-lg-2 col-md-3 col-sm-6">
-            <div className="footer__widget">
+            <div className="footer__widget text-center">
               <h6>Shopping</h6>
-              <ul>
+              <ul className="p-0">
                 <li>
                   <a href="#">Contact Us</a>
                 </li>
@@ -108,7 +108,7 @@ export default function Footer() {
             </div>
           </div>
           <div className="col-lg-3 offset-lg-1 col-md-6 col-sm-6">
-            <div className="footer__widget">
+            <div className="footer__widget text-center">
               <h6>NewLetter</h6>
               <div className="footer__newslatter">
                 <p>

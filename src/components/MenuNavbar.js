@@ -90,11 +90,11 @@ export default function MenuNavbar({ click }) {
       <div className="container">
         <div className="row">
           <div className="col-lg-3 col-md-3">
-            <div className="header__logo">
+            <div className="header__logo p-0 pt-2">
               {companys &&
                 companys.map((company) => (
                   <Link to="/" key={company._id}>
-                    <img src={company.logo} width="80" />
+                    <img src={company.logo} width="150" />
                   </Link>
                 ))}
             </div>
@@ -169,6 +169,7 @@ export default function MenuNavbar({ click }) {
                           <Link
                             onClick={() => {
                               logout();
+                              window.location.reload(true);
                             }}
                           >
                             Logout<i className="fas fa-door-open ms-2"></i>

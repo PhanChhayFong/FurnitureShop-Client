@@ -69,6 +69,8 @@ function Login() {
 
         // redirect to Home Page
         setNavigate(true);
+
+        window.location.reload(true);
       }
     } else {
       user.email
