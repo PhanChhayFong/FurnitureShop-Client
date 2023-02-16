@@ -19,8 +19,6 @@ export default function Shop(){
     const indexOfFirstItem = indexOfLastItem - itemPerPage;
     const currentItems = products.slice(indexOfFirstItem, indexOfLastItem);
     const paginate = (pageNumber) => setCurrentPage(pageNumber);
-    const prev = () => { setCurrentPage (currentPage - 1)};
-    const next = () => { setCurrentPage (currentPage + 1)};
 
     useEffect(() => {
         setTimeout(() => {
@@ -133,7 +131,7 @@ export default function Shop(){
                             <div className="row">
                             <div className="col-lg-6 col-md-6 col-sm-6">
                                 <div className="shop__product__option__left">
-                                <p>Showing {itemPerPage}–{currentPage} of 126 results</p>
+                                <p>Showing {currentItems.length}-{currentPage} of {products.length} results</p>
                                 </div>
                             </div>
                             <div className="col-lg-6 col-md-6 col-sm-6">
@@ -226,8 +224,6 @@ export default function Shop(){
                                               totalItems={products.length}
                                               paginate={paginate}
                                               currentPage={currentPage}
-                                              prev={prev}
-                                              next={next}
                                             />
                                           </div>
                                         ) : (
