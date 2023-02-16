@@ -38,10 +38,6 @@ export default function Footer() {
                     </Link>
                   </div>
                   <h3 className="text-light fw-bold">{company.name}</h3>
-                  <p>
-                    The customer is at the heart of our unique business model,
-                    which includes design.
-                  </p>
                   <p className="m-0">
                     <span>
                       <i className="fas fa-envelope me-2"></i>

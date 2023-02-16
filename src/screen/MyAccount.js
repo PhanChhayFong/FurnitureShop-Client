@@ -41,14 +41,17 @@ export default function MyAccount() {
             <div className="col-lg-4">
               <div className="mb-4">
                 <div className="text-center">
-                  <img
-                    src={users.image}
+                  <div
                     style={{
-                      width: "160px",
-                      height: "160px",
+                      width: "200px",
+                      height: "200px",
+                      margin:"auto",
                       borderRadius: "50%",
-                      marginBottom: "10px",
                       border: "5px solid rgb(238, 238, 238)",
+                      marginBottom: "10px",
+                      backgroundImage:`url(${users.image})`,
+                      backgroundSize:"100%",
+                      backgroundRepeat:"no-repeat"
                     }}
                   />
                   <p className="text-muted mb-1">{users.name}</p>
