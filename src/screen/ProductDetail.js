@@ -22,7 +22,7 @@ export default function ProductDetail() {
       .catch((err) => {
         console.log(err);
       });
-  });
+  },[]);
 
   // useEffect(() => {
   //     // fetch the related product by category

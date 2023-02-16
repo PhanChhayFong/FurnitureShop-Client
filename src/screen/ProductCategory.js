@@ -112,7 +112,7 @@ export default function ProductCategory() {
                           </li>
                           <li>
                             <a href="#">
-                              <img src="img/icon/compare.png" />{" "}
+                              <img src="img/icon/compare.png" />
                               <span>Compare</span>
                             </a>
                           </li>

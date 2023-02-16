@@ -19,7 +19,7 @@ function Login() {
       .get("http://localhost:5000/api/v1/companys")
       .then((res) => setCompanys(res.data))
       .catch((err) => console.log(err));
-  });
+  },[]);
 
   const [navigate, setNavigate] = useState(false);
   const [user, setUser] = useState({
@@ -32,7 +32,7 @@ function Login() {
     if (token) {
       setNavigate(true);
     }
-  });
+  },[]);
 
   const login = async () => {
     if (user.email != "" && user.password != "") {

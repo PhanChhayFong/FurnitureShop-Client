@@ -218,11 +218,10 @@ export default function Product() {
                             ? product.salePrice.toFixed(2)
                             : "N/A"}
                           <span>
-                            {" "}
                             $
                             {product.regularPrice
                               ? product.regularPrice.toFixed(2)
-                              : "N/A"}{" "}
+                              : "N/A"}
                           </span>
                         </>
                       ) : (

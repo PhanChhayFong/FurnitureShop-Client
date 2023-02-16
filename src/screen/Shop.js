@@ -31,7 +31,7 @@ export default function Shop() {
           console.log(err);
         });
     }, 1000);
-  });
+  }, []);
 
   const [cart, setCart] = useState([]);
   const [wishlist, setWishlist] = useState({});
@@ -147,7 +147,7 @@ export default function Shop() {
                   <div className="col-lg-6 col-md-6 col-sm-6">
                     <div className="shop__product__option__left">
                       <p>
-                        Showing {currentItems.length}-{currentPage} of{" "}
+                        Showing {currentItems.length}-{currentPage} of
                         {products.length} results
                       </p>
                     </div>

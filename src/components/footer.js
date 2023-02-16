@@ -45,7 +45,7 @@ export default function Footer() {
                   <p>
                     <span>
                       <i className="fas fa-envelope me-2"></i>
-                    </span>{" "}
+                    </span>
                     <a
                       href="mailto:{company.email}"
                       style={{ textDecoration: "none", color: "#fff" }}
@@ -56,7 +56,7 @@ export default function Footer() {
                   <p>
                     <span>
                       <i className="fas fa-phone-square-alt me-2"></i>
-                    </span>{" "}
+                    </span>
                     <a
                       href="tel:{company.telephone}"
                       style={{ textDecoration: "none", color: "#fff" }}
@@ -67,7 +67,7 @@ export default function Footer() {
                   <p>
                     <span>
                       <i className="far fa-map me-2"></i>
-                    </span>{" "}
+                    </span>
                     {company.address}
                   </p>
                 </div>

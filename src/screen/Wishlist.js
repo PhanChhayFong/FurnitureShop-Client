@@ -15,7 +15,7 @@ export default function Wishlist() {
       .get(`http://localhost:5000/api/v1/shoppingcarts/wishlist-item/${userId}`)
       .then((res) => setWishlistItem(res.data))
       .catch((err) => console.log(err));
-  });
+  }, []);
 
   const handleAddToCart = async (productId, proQty) => {
     try {
@@ -164,8 +164,8 @@ export default function Wishlist() {
                           className="add-cart"
                           onClick={() => handleAddToCart(wishlistItem.id, 1)}
                         >
-                          Move To Cart{" "}
-                          <i className="fas fa-shopping-cart ms-3"></i>{" "}
+                          Move To Cart
+                          <i className="fas fa-shopping-cart ms-3"></i>
                         </a>
                         <div className="rating">
                           <i className="fa fa-star-o" />

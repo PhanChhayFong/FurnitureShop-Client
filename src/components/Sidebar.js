@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 import "./style/sidebar.css";
 
@@ -45,18 +45,12 @@ export default function Sidebar() {
                                     
                                 {Object.keys(categories).map((key => 
                                     <li key={key}>
-                                        <NavLink to={`/shop/product_category/${categories[key]._id.toString()}`}>
+                                        <Link to={`/shop/product_category/${categories[key]._id.toString()}`}>
                                             {categories[key].name} ({categories[key].count})
-                                        </NavLink>
-                                        {/* <a href={`/shop/product_category/${JSON.stringify(categories[key]._id)}`}>{categories[key].name} ({categories[key].count})</a> */}
+                                        </Link>
                                     </li>
                                 ))}
                               
-                                {/* {categories.map(category => (
-                                    <li key={category._id._id}>
-                                        <a href="#">{category.name} ({category.count})</a>
-                                    </li>
-                                ))} */}
                                 </ul>
                             </div>
                             </div>

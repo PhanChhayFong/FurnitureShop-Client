@@ -16,7 +16,7 @@ export default function Cart() {
       .get(`http://localhost:5000/api/v1/shoppingcarts/cart-item/${userId}`)
       .then((res) => setCartItem(res.data))
       .catch((err) => console.log(err));
-  });
+  },[]);
 
   const totalPrice = cartItem.reduce(
     (total, item) =>
@@ -137,7 +137,6 @@ export default function Cart() {
                               </div>
                             </td>
                             <td className="cart__price">
-                              ${" "}
                               {item.product.salePrice
                                 ? item.product.salePrice.toFixed(2)
                                 : item.product.regularPrice.toFixed(2)}

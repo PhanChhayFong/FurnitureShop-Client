@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link, NavLink, Navigate } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import "./style/menuNavBar.css";
 import axios from "axios";
 import ApiService from "../services/api-service";
@@ -11,16 +11,29 @@ export default function MenuNavbar({ click }) {
   useEffect(() => {
     axios
       .get("http://localhost:5000/api/v1/companys")
-      .then((res) => setCompanys(res.data))
-      .catch((err) => console.log(err));
+      .then((res) => setCompanys(res.data));
   }, []);
   useEffect(() => {
     axios
       .get("http://localhost:5000/api/v1/categories")
-      .then((res) => setCategories(res.data))
-      .catch((err) => console.log(err));
+      .then((res) => setCategories(res.data));
   }, []);
 
+  useEffect(() => {
+    axios
+      .get(
+        `http://localhost:5000/api/v1/shoppingcarts/get/cart_item_count/${userId}`
+      )
+      .then((res) => setCountNumCartItem(res.data));
+  }, []);
+
+  useEffect(() => {
+    axios
+      .get(
+        `http://localhost:5000/api/v1/shoppingcarts/get/wishlist_item_count/${userId}`
+      )
+      .then((res) => setCountNumWishlistItem(res.data));
+  }, []);
   const [navigate, setNavigate] = useState(false);
   const token = localStorage.getItem("token");
   const user = token ? JSON.parse(token) : "";
@@ -29,24 +42,6 @@ export default function MenuNavbar({ click }) {
   const [countNumCartItem, setCountNumCartItem] = useState(0);
   const [countNumWishlistItem, setCountNumWishlistItem] = useState(0);
 
-  useEffect(() => {
-    axios
-      .get(
-        `http://localhost:5000/api/v1/shoppingcarts/get/cart_item_count/${userId}`
-      )
-      .then((res) => setCountNumCartItem(res.data))
-      .catch((err) => console.log(err));
-  });
-
-  useEffect(() => {
-    axios
-      .get(
-        `http://localhost:5000/api/v1/shoppingcarts/get/wishlist_item_count/${userId}`
-      )
-      .then((res) => setCountNumWishlistItem(res.data))
-      .catch((err) => console.log(err));
-  }, []);
-
   const logout = () => {
     if (token) {
       ApiService.updateActive("users", user.user.id, { active: false });
@@ -54,9 +49,8 @@ export default function MenuNavbar({ click }) {
       setNavigate(true);
     }
   };
-  if (navigate) {
-    return <Navigate to="/" />;
-  }
+  if (navigate) return <Navigate to="/" />;
+
   return (
     <nav>
       <div>
@@ -116,29 +110,24 @@ export default function MenuNavbar({ click }) {
             <nav className="header__menu mobile-menu">
               <ul>
                 <li>
-                  <NavLink to="/">Home</NavLink>
+                  <Link to="/">Home</Link>
                 </li>
                 <li>
-                  <NavLink to="/shop">Shop</NavLink>
+                  <Link to="/shop">Shop</Link>
                   <ul className="dropdown">
                     {categories &&
                       categories.map((category) => (
                         <li key={category._id}>
-                          <NavLink to="/aboutus">{category.name}</NavLink>
+                          <Link to="/aboutus">{category.name}</Link>
                         </li>
                       ))}
-                    {/* <NavLink to="/aboutus">About Us</NavLink>
-                      <li><NavLink to="/productdetail">Shop Details</NavLink></li>
-                      <li><NavLink to="/cart">Shopping Cart</NavLink></li>
-                      <li><NavLink to="/checkout">Check Out</NavLink></li>
-                      <li><NavLink to="/blogdetail">Blog Details</NavLink></li> */}
                   </ul>
                 </li>
                 <li>
-                  <NavLink to="/aboutus">About Us</NavLink>
+                  <Link to="/aboutus">About Us</Link>
                 </li>
                 <li>
-                  <NavLink to="/contact">Contact Us</NavLink>
+                  <Link to="/contact">Contact Us</Link>
                 </li>
               </ul>
             </nav>
@@ -146,8 +135,7 @@ export default function MenuNavbar({ click }) {
           <div className="col-lg-3 col-md-3">
             <div className="header__nav__option">
               <Link to="#" className="search-switch">
-                {" "}
-                <img src="img/icon/search.png" width="22" />{" "}
+                <img src="img/icon/search.png" width="22" />
               </Link>
 
               {token ? (
@@ -162,11 +150,11 @@ export default function MenuNavbar({ click }) {
                   </Link>
                   <Link to="/cart" className="dropdown open">
                     <img src="img/icon/cart.png" width="22" />
-                    <span>
+                    <span style={{ marginLeft: "3px" }}>
                       {countNumCartItem ? countNumCartItem.countCartItem : "0"}
                     </span>
                   </Link>
-                  <Link to="/" className="dropdown open">
+                  <a className="dropdown open">
                     <img
                       src={user.user.image}
                       style={{ width: "30px", height: "30px" }}
@@ -177,12 +165,12 @@ export default function MenuNavbar({ click }) {
                         <li>
                           <Link to="/my-dashboard">
                             My Dashboard<i className="fas fa-home ms-2"></i>
-                          </Link>{" "}
+                          </Link>
                         </li>
                         <li>
                           <Link to="/my-account">
                             My Account<i className="fas fa-crown ms-2"></i>
-                          </Link>{" "}
+                          </Link>
                         </li>
                         <li>
                           <Link
@@ -191,31 +179,31 @@ export default function MenuNavbar({ click }) {
                             }}
                           >
                             Logout<i className="fas fa-door-open ms-2"></i>
-                          </Link>{" "}
+                          </Link>
                         </li>
                       </ul>
                     </div>
-                  </Link>
+                  </a>
                 </>
               ) : (
                 <>
-                  <Link to="/" className="dropdown open">
+                  <a className="dropdown open">
                     <i className="fas fa-user-circle ms-3 fs-5 my-auto text-dark"></i>
                     <div className="user-dropdown">
                       <ul>
                         <li>
                           <Link to="/login" onClick={click}>
                             Sign In<i className="fas fa-sign-in-alt ms-2"></i>
-                          </Link>{" "}
+                          </Link>
                         </li>
                         <li>
                           <Link to="/sign-up">
                             Sign Up <i className="fas fa-user-plus ms-2"></i>
-                          </Link>{" "}
+                          </Link>
                         </li>
                       </ul>
                     </div>
-                  </Link>
+                  </a>
                 </>
               )}
             </div>

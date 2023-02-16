@@ -16,7 +16,7 @@ export default function Checkout() {
       .get(`http://localhost:5000/api/v1/shoppingcarts/cart-item/${userId}`)
       .then((res) => setCartItem(res.data))
       .catch((err) => console.log(err));
-  });
+  }, []);
 
   const subTotal = cartItem.reduce(
     (total, item) =>
@@ -140,7 +140,7 @@ export default function Checkout() {
                   <div className="row">
                     <div className="col-lg-8 col-md-6">
                       <h6 className="coupon__code">
-                        <span className="icon_tag_alt" /> Have a coupon?{" "}
+                        <span className="icon_tag_alt" /> Have a coupon?
                         <a href="#">Click here</a> to enter your code
                       </h6>
                       <h6 className="checkout__title">Billing Details</h6>
