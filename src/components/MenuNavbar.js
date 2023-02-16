@@ -9,16 +9,17 @@ export default function MenuNavbar({ click }) {
   const [categories, setCategories] = useState([]);
 
   useEffect(() => {
-    axios.get('http://localhost:5000/api/v1/companys')
-      .then(res => setCompanys(res.data))
-      .catch(err => console.log(err))
+    axios
+      .get("http://localhost:5000/api/v1/companys")
+      .then((res) => setCompanys(res.data))
+      .catch((err) => console.log(err));
   }, []);
   useEffect(() => {
-    axios.get('http://localhost:5000/api/v1/categories')
-      .then(res => setCategories(res.data))
-      .catch(err => console.log(err));
+    axios
+      .get("http://localhost:5000/api/v1/categories")
+      .then((res) => setCategories(res.data))
+      .catch((err) => console.log(err));
   }, []);
-
 
   const [navigate, setNavigate] = useState(false);
   const token = localStorage.getItem("token");
@@ -26,18 +27,24 @@ export default function MenuNavbar({ click }) {
 
   const userId = user ? user.user.id : "";
   const [countNumCartItem, setCountNumCartItem] = useState(0);
-  const [countNumWishlistItem, setCountNumWishlistItem] = useState(0); 
+  const [countNumWishlistItem, setCountNumWishlistItem] = useState(0);
 
   useEffect(() => {
-    axios.get(`http://localhost:5000/api/v1/shoppingcarts/get/cart_item_count/${userId}`)
-      .then(res => setCountNumCartItem(res.data))
-      .catch(err => console.log(err));
+    axios
+      .get(
+        `http://localhost:5000/api/v1/shoppingcarts/get/cart_item_count/${userId}`
+      )
+      .then((res) => setCountNumCartItem(res.data))
+      .catch((err) => console.log(err));
   });
 
   useEffect(() => {
-    axios.get(`http://localhost:5000/api/v1/shoppingcarts/get/wishlist_item_count/${userId}`)
-      .then(res => setCountNumWishlistItem(res.data))
-      .catch(err => console.log(err));
+    axios
+      .get(
+        `http://localhost:5000/api/v1/shoppingcarts/get/wishlist_item_count/${userId}`
+      )
+      .then((res) => setCountNumWishlistItem(res.data))
+      .catch((err) => console.log(err));
   }, []);
 
   const logout = () => {
@@ -46,9 +53,9 @@ export default function MenuNavbar({ click }) {
       localStorage.clear("token");
       setNavigate(true);
     }
-  }
+  };
   if (navigate) {
-    return <Navigate to="/" />
+    return <Navigate to="/" />;
   }
   return (
     <nav>
@@ -75,13 +82,13 @@ export default function MenuNavbar({ click }) {
           </div>
           <div className="offcanvas__nav__option">
             <a href="#" className="search-switch">
-              <img src="img/icon/search.png" alt />
+              <img src="img/icon/search.png" />
             </a>
             <a href="#">
-              <img src="img/icon/heart.png" alt />
+              <img src="img/icon/heart.png" />
             </a>
             <a href="#">
-              <img src="img/icon/cart.png" alt /> <span>0</span>
+              <img src="img/icon/cart.png" /> <span>0</span>
             </a>
             <div className="price">$0.00</div>
           </div>
@@ -96,13 +103,13 @@ export default function MenuNavbar({ click }) {
       <div className="container">
         <div className="row">
           <div className="col-lg-3 col-md-3">
-
             <div className="header__logo">
-              {companys && companys.map(company => (
-                <Link to="/" key={company._id}>
-                  <img src={company.logo} width="80" />
-                </Link>
-              ))}
+              {companys &&
+                companys.map((company) => (
+                  <Link to="/" key={company._id}>
+                    <img src={company.logo} width="80" />
+                  </Link>
+                ))}
             </div>
           </div>
           <div className="col-lg-6 col-md-6">
@@ -114,10 +121,12 @@ export default function MenuNavbar({ click }) {
                 <li>
                   <NavLink to="/shop">Shop</NavLink>
                   <ul className="dropdown">
-                    {categories && categories.map(category => (
-                      <li key={category._id}>
-                        <NavLink to="/aboutus">{category.name}</NavLink></li>
-                    ))}
+                    {categories &&
+                      categories.map((category) => (
+                        <li key={category._id}>
+                          <NavLink to="/aboutus">{category.name}</NavLink>
+                        </li>
+                      ))}
                     {/* <NavLink to="/aboutus">About Us</NavLink>
                       <li><NavLink to="/productdetail">Shop Details</NavLink></li>
                       <li><NavLink to="/cart">Shopping Cart</NavLink></li>
@@ -136,43 +145,79 @@ export default function MenuNavbar({ click }) {
           </div>
           <div className="col-lg-3 col-md-3">
             <div className="header__nav__option">
-              <Link to="#" className="search-switch"> <img src="img/icon/search.png" width="22" /> </Link>
+              <Link to="#" className="search-switch">
+                {" "}
+                <img src="img/icon/search.png" width="22" />{" "}
+              </Link>
 
-              {token ?
+              {token ? (
                 <>
                   <Link to="/wishlist">
                     <img src="img/icon/heart.png" width="22" />
-                    <span style={{ marginLeft: "3px" }}>{countNumWishlistItem ? countNumWishlistItem.countWishlistItem : "0"}</span>
+                    <span style={{ marginLeft: "3px" }}>
+                      {countNumWishlistItem
+                        ? countNumWishlistItem.countWishlistItem
+                        : "0"}
+                    </span>
                   </Link>
                   <Link to="/cart" className="dropdown open">
                     <img src="img/icon/cart.png" width="22" />
-                    <span>{countNumCartItem ? countNumCartItem.countCartItem : "0"}</span>
+                    <span>
+                      {countNumCartItem ? countNumCartItem.countCartItem : "0"}
+                    </span>
                   </Link>
                   <Link to="/" className="dropdown open">
-                    <img src={user.user.image} style={{ width: "30px", height: "30px" }} className="rounded-circle  border broder-5 border-danger" />
+                    <img
+                      src={user.user.image}
+                      style={{ width: "30px", height: "30px" }}
+                      className="rounded-circle  border broder-5 border-danger"
+                    />
                     <div className="user-dropdown">
                       <ul>
-                        <li><Link to="/my-dashboard">My Dashboard<i class="fas fa-home ms-2"></i></Link> </li>
-                        <li><Link to="/my-account">My Account<i class="fas fa-crown ms-2"></i></Link> </li>
-                        <li><Link onClick={() => { logout(); }}>Logout<i class="fas fa-door-open ms-2"></i></Link> </li>
+                        <li>
+                          <Link to="/my-dashboard">
+                            My Dashboard<i className="fas fa-home ms-2"></i>
+                          </Link>{" "}
+                        </li>
+                        <li>
+                          <Link to="/my-account">
+                            My Account<i className="fas fa-crown ms-2"></i>
+                          </Link>{" "}
+                        </li>
+                        <li>
+                          <Link
+                            onClick={() => {
+                              logout();
+                            }}
+                          >
+                            Logout<i className="fas fa-door-open ms-2"></i>
+                          </Link>{" "}
+                        </li>
                       </ul>
                     </div>
                   </Link>
                 </>
-                :
+              ) : (
                 <>
                   <Link to="/" className="dropdown open">
-
                     <i className="fas fa-user-circle ms-3 fs-5 my-auto text-dark"></i>
                     <div className="user-dropdown">
                       <ul>
-                        <li><Link to="/login" onClick={click}>Sign In<i class="fas fa-sign-in-alt ms-2"></i></Link> </li>
-                        <li><Link to="/sign-up">Sign Up <i class="fas fa-user-plus ms-2"></i></Link> </li>
+                        <li>
+                          <Link to="/login" onClick={click}>
+                            Sign In<i className="fas fa-sign-in-alt ms-2"></i>
+                          </Link>{" "}
+                        </li>
+                        <li>
+                          <Link to="/sign-up">
+                            Sign Up <i className="fas fa-user-plus ms-2"></i>
+                          </Link>{" "}
+                        </li>
                       </ul>
                     </div>
                   </Link>
                 </>
-              }
+              )}
             </div>
           </div>
         </div>
@@ -183,4 +228,3 @@ export default function MenuNavbar({ click }) {
     </nav>
   );
 }
-

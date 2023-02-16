@@ -107,18 +107,18 @@ export default function ProductCategory() {
                         <ul className="product__hover">
                           <li>
                             <a href="#">
-                              <img src="img/icon/heart.png" alt />
+                              <img src="img/icon/heart.png" />
                             </a>
                           </li>
                           <li>
                             <a href="#">
-                              <img src="img/icon/compare.png" alt />{" "}
+                              <img src="img/icon/compare.png" />{" "}
                               <span>Compare</span>
                             </a>
                           </li>
                           <li>
                             <Link to={`/shop/product_detail/${product.id}`}>
-                              <img src="img/icon/search.png" alt />
+                              <img src="img/icon/search.png" />
                             </Link>
                           </li>
                         </ul>

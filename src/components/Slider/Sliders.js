@@ -15,13 +15,7 @@ export default function Sliders() {
   const [sliders, setSliders]= useState([]);
   useEffect(() => {
       axios.get("http://localhost:5000/api/v1/sliders/get/enable")
-      .then(res=>{
-          console.log(res);
-          setSliders(res.data);
-      })
-      .catch(err =>{
-          console.log(err);
-      })
+      .then(res=>setSliders(res.data))
   }, [])
   const styles = {
     Bslide:{
@@ -51,7 +45,7 @@ export default function Sliders() {
   return (
     <Carousel activeIndex={index} onSelect={handleSelect} style={styles.Bslide}>
     {sliders.map(slider=>
-      <Carousel.Item>
+      <Carousel.Item key={slider.id}>
         <div style={styles.slide(`url(${slider.image})`)}></div>
         <Carousel.Caption style={styles.txtBox}>
           <h5 style={{color:"red",textTransform:"uppercase"}} className='fw'>{slider.miniTitle}</h5>

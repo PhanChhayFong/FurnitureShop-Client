@@ -7,9 +7,9 @@ const Pagination = ({ itemsPerPage, totalItems, paginate, currentPage }) => {
       
   return (
     <div className="product__pagination">
-      {currentPage==1?"":<button onClick={()=>paginate(currentPage-1)}><i class="fas fa-arrow-left"></i></button>}
+      {currentPage==1?"":<button onClick={()=>paginate(currentPage-1)}><i className="fas fa-arrow-left"></i></button>}
       {pageNumbers.map((number) => (<a key={number} className={number == currentPage ? "active": ""} onClick={() => paginate(number)}>{number}</a>))}
-      {currentPage==pageNumbers.length?"":<button onClick={()=>paginate(currentPage+1)}><i class="fas fa-arrow-right"></i></button>}
+      {currentPage==pageNumbers.length?"":<button onClick={()=>paginate(currentPage+1)}><i className="fas fa-arrow-right"></i></button>}
     </div> 
   );
 };
