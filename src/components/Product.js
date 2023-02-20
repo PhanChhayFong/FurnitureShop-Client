@@ -106,13 +106,10 @@ export default function Product() {
             autoPlay={true}
             autoPlaySpeed={3000}
             centerMode={false}
-            className=""
             containerClass="container-with-dots"
-            dotListClass=""
             draggable
             focusOnSelect={true}
             infinite={true}
-            itemClass=""
             keyBoardControl
             minimumTouchDrag={150}
             renderButtonGroupOutside={false}
@@ -144,7 +141,6 @@ export default function Product() {
               },
             }}
             showDots={true}
-            sliderClass=""
             slidesToSlide={1}
             swipeable
           >

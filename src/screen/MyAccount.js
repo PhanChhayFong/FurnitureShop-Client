@@ -65,13 +65,17 @@ export default function MyAccount() {
             >
               <div className="mb-4">
                 <div className="text-center">
-                  <img
+                  <div
                     src={users.image}
                     style={{
                       width: "160px",
                       height: "160px",
-                      borderRadius: "50%",
-                      marginBottom: "10px",
+                      borderRadius:"50%",
+                      backgroundImage:`url(${users.image})`,
+                      backgroundPosition:"center",
+                      backgroundRepeat:"no-repeat",
+                      backgroundSize:"100%",
+                      margin:"0 auto",
                       border: "5px solid rgb(238, 238, 238)",
                     }}
                   />

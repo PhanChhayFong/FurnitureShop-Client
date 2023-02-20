@@ -9,13 +9,15 @@ export default function Wishlist() {
   const token = localStorage.getItem("token");
   const user = token ? JSON.parse(token) : "";
   const userId = user ? user.user.id : "";
+  const [re, setRe] = useState(false);
 
   useEffect(() => {
     axios
       .get(`http://localhost:5000/api/v1/shoppingcarts/wishlist-item/${userId}`)
       .then((res) => setWishlistItem(res.data));
-    }, [wishlistItems]);
-  // }, []);
+    setRe(false);
+    // }, [wishlistItems]);
+  }, [re]);
 
   // move wishlist item to shopping carts
   const handleMoveToCart = async (productId, proQty) => {
@@ -44,6 +46,7 @@ export default function Wishlist() {
         cart
       );
       setWishlist(removeWishlsitItem.data);
+      setRe(true);
     } catch (err) {
       console.log(err);
     }
@@ -117,14 +120,14 @@ export default function Wishlist() {
                                 handleRemoveFromWishlist(wishlistItem.id)
                               }
                             >
-                              <img src="img/icon/trash-bin.png" />
+                              <i className="fa fa-trash" aria-hidden="true" />
                             </a>
                           </li>
                           <li>
                             <Link
                               to={`/shop/product_detail/${wishlistItem.product.id}`}
                             >
-                              <img src="img/icon/search.png" />
+                              <i className="fa fa-search" aria-hidden="true" />
                             </Link>
                           </li>
                         </ul>
@@ -140,12 +143,16 @@ export default function Wishlist() {
                           <i className="fas fa-shopping-cart ms-3"></i>{" "}
                         </a>
                         <div className="rating">
-                          {[...Array(wishlistItem.product.rating)].map((e,i) => (
-                            <i className="fa fa-star star-rating" key={i} />
-                          ))}
-                          {[...Array(5 - wishlistItem.product.rating)].map((e,i) => (
-                            <i className="fa fa-star-o" key={i} />
-                          ))}
+                          {[...Array(wishlistItem.product.rating)].map(
+                            (e, i) => (
+                              <i className="fa fa-star star-rating" key={i} />
+                            )
+                          )}
+                          {[...Array(5 - wishlistItem.product.rating)].map(
+                            (e, i) => (
+                              <i className="fa fa-star-o" key={i} />
+                            )
+                          )}
                         </div>
                         <h5>
                           {wishlistItem.product.salePrice ? (

@@ -3,7 +3,6 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { BrowserRouter as Router , Routes, Route} from "react-router-dom";
-// import {Container, AppBar, Typhography, Grow, Grid} from '@material-ui/core';
 // component
 import MenuNavbar from "./components/MenuNavbar";
 import Footer from "./components/footer";
@@ -19,7 +18,6 @@ import Cart from "./screen/Cart";
 import Wishlist from "./screen/Wishlist";
 import Checkout from "./screen/Checkout";
 
-// import Breadcrumbs from './components/Breadcrumbs';z
 import Login from "./screen/Login";
 import SignUp from "./screen/SignUp";
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -37,10 +35,7 @@ export default function App() {
   return (
 
     <Router>
-      {/* <dataFetching/> */}
-      <MenuNavbar />
-
-      {/* <Breadcrumbs/> */}  
+      <MenuNavbar /> 
       
       <Routes>
           <Route path="/" element={<HomePage />} />

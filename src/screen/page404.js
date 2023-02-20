@@ -27,7 +27,7 @@ const page404 = () => {
               <div className="col-lg-4 text-white p-0">
                 <div className="row justify-content-center d-flex p-0">
              
-                    <img src="./img/pic-404.png" className="poster-404"/>
+                    <img src="../../../img/pic-404.png" className="poster-404"/>
             
                   
                 </div>

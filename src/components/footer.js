@@ -46,7 +46,10 @@ export default function Footer({ click }) {
         <div className="row">
           {companys &&
             companys.map((company) => (
-              <div className="col-lg-3 col-md-6 col-sm-6 order-1 order-lg-1" key={company._id}>
+              <div
+                className="col-lg-3 col-md-6 col-sm-6 order-1 order-lg-1"
+                key={company._id}
+              >
                 <div className="footer__about text-center">
                   <div className="footer__logo">
                     <Link to="/" className="text-center">
@@ -110,7 +113,7 @@ export default function Footer({ click }) {
           </div>
 
           <div className="col-lg-3 col-md-6 col-sm-6 order-4 order-lg-3">
-            <div className="footer__widget text-center text-md-start">
+            <div className="footer__widget text-center text-lg-start">
               <h6>User Account</h6>
               <ul className="m-0 p-0">
                 {token ? (
@@ -156,12 +159,12 @@ export default function Footer({ click }) {
                   <>
                     <li>
                       <Link to="/login" onClick={click}>
-                        Sign In<i className="fas fa-sign-in-alt ms-2"></i>
+                        <i className="fas fa-sign-in-alt me-2"></i>Sign In
                       </Link>{" "}
                     </li>
                     <li>
                       <Link to="/sign-up">
-                        Sign Up <i className="fas fa-user-plus ms-2"></i>
+                        <i className="fas fa-user-plus me-2"></i>Sign Up
                       </Link>{" "}
                     </li>
                   </>
@@ -171,13 +174,11 @@ export default function Footer({ click }) {
           </div>
           <div className="col-lg-3 col-md-6 col-sm-6 text-center order-2 order-lg-4">
             <div className="footer__widget">
-              <h6>Our Shop Location</h6>
-              <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d13274.837857384235!2d104.87147572721516!3d11.564707895998772!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3109519fe4077d69%3A0x20138e822e434660!2sRUPP%20(Royal%20University%20of%20Phnom%20Penh)!5e0!3m2!1sen!2skh!4v1673066052086!5m2!1sen!2skh"
-                height={250}
-                width="100%"
-                tabIndex={0}
-              />
+              <h6>Our Social Media</h6>
+              <button style={{borderRadius:"50%",width:50,height:50}}><i className="fa fa-facebook-square fs-5" aria-hidden="true"></i></button>
+              <button style={{borderRadius:"50%",width:50,height:50}}><i className="fa-brands fa-telegram fs-5" aria-hidden="true"></i></button>
+              <button style={{borderRadius:"50%",width:50,height:50}}><i className="fa-solid fa-envelope  fs-5" aria-hidden="true"></i></button>
+              <button style={{borderRadius:"50%",width:50,height:50}}><i className="fa-brands fa-twitter  fs-5" aria-hidden="true"></i></button>
             </div>
           </div>
         </div>
@@ -185,7 +186,7 @@ export default function Footer({ click }) {
           <div className="col-lg-12 text-center">
             {companys &&
               companys.map((company) => (
-                <div className="footer__copyright__text">
+                <div className="footer__copyright__text" key={company._id}>
                   <p>
                     Copyright ©
                     <span className="me-2">{new Date().getFullYear()}.</span>

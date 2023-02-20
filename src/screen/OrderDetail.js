@@ -41,6 +41,7 @@ export default function OrderDetail() {
         {/* start shop page */}
         <div className="container">
           <div className="row">
+            <h2 className="text-center">Order Product Image</h2>
             {orders &&
               orders.orderItems &&
               orders.orderItems.map((item) => (

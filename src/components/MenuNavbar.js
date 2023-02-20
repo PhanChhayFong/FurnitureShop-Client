@@ -198,7 +198,7 @@ export default function MenuNavbar({ click }) {
                       
                     </a>
                     <a className="dropdown open">
-                      <img src={user.user.image} style={{ width: "30px", height: "30px", marginTop: "-10px" }} className="rounded-circle  border broder-5 border-danger" />
+                      <div style={{ width: "30px", height: "30px", backgroundImage:`url(${user.user.image})`, backgroundPosition:"center",backgroundSize:"100%",backgroundRepeat:"no-repeat"}} className="rounded-circle  border broder-5 border-danger" />
                       <div className="user-dropdown">
                         <ul>
                           <li><NavLink to="/my-dashboard">My Dashboard<i className="fas fa-home ms-2"></i></NavLink> </li>

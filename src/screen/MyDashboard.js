@@ -12,19 +12,28 @@ export default function MyDashboard() {
   const token = localStorage.getItem("token");
   const user = token ? JSON.parse(token) : "";
   const userId = user ? user.user.id : "";
- 
+
   useEffect(() => {
-      axios.all([
+    axios
+      .all([
         axios.get(`http://localhost:5000/api/v1/orders/item-order/${userId}`),
-        axios.get(`http://localhost:5000/api/v1/orders/total-purchased/${userId}`),
-        axios.get(`http://localhost:5000/api/v1/orders/total-delivery/${userId}`)
+        axios.get(
+          `http://localhost:5000/api/v1/orders/total-purchased/${userId}`
+        ),
+        axios.get(
+          `http://localhost:5000/api/v1/orders/total-delivery/${userId}`
+        ),
       ])
-      .then(axios.spread((orderResponse, totalPurchasedResponse ,totalDeliveryResponse) => {
-        setOrders(orderResponse.data);
-        setTotal_purchase(totalPurchasedResponse.data);
-        setTotal_delivery(totalDeliveryResponse.data);
-      }))
-      .catch(err => console.log(err));
+      .then(
+        axios.spread(
+          (orderResponse, totalPurchasedResponse, totalDeliveryResponse) => {
+            setOrders(orderResponse.data);
+            setTotal_purchase(totalPurchasedResponse.data);
+            setTotal_delivery(totalDeliveryResponse.data);
+          }
+        )
+      )
+      .catch((err) => console.log(err));
   }, [orders, setTotal_purchase, setTotal_delivery]);
 
   useEffect(() => {
@@ -96,7 +105,7 @@ export default function MyDashboard() {
           <div className="container">
             {/* Main Dashboard */}
             <div className="row">
-              <div className="col-md-3 col-sm-6">
+              <div className="col-md-4 col-sm-6">
                 <div className="icon-stat first">
                   <div className="row">
                     <div className="col-xs-8 text-left">
@@ -114,7 +123,7 @@ export default function MyDashboard() {
                   </div>
                 </div>
               </div>
-              <div className="col-md-3 col-sm-6">
+              <div className="col-md-4 col-sm-6">
                 <div className="icon-stat second">
                   <div className="row">
                     <div className="col-xs-8 text-left">
@@ -134,7 +143,7 @@ export default function MyDashboard() {
                   </div>
                 </div>
               </div>
-              <div className="col-md-3 col-sm-6">
+              <div className="col-md-4 col-sm-12">
                 <div className="icon-stat third">
                   <div className="row">
                     <div className="col-xs-8 text-left">
@@ -147,22 +156,6 @@ export default function MyDashboard() {
                     </div>
                     <div className="col-xs-4 text-center">
                       <i className="fa-solid fa-truck icon-stat-visual bg-dark" />
-                    </div>
-                  </div>
-                  <div className="icon-stat-footer">
-                    <i className="fa-solid fa-clock" /> Updated Now
-                  </div>
-                </div>
-              </div>
-              <div className="col-md-3 col-sm-6">
-                <div className="icon-stat fourth">
-                  <div className="row">
-                    <div className="col-xs-8 text-left">
-                      <span className="icon-stat-label">Total Cancelled</span>
-                      <span className="icon-stat-value">0</span>
-                    </div>
-                    <div className="col-xs-4 text-center">
-                      <i className="fa-solid fa-ban icon-stat-visual bg-secondary" />
                     </div>
                   </div>
                   <div className="icon-stat-footer">
@@ -244,28 +237,24 @@ export default function MyDashboard() {
                             </td>
                             <td>
                               <Link
-                                to={`/order-detail/${item.id}`}
+                                to={`/my-dashboard/order-detail/${item.id}`}
                                 className="btn btn-info btn-sm"
                               >
                                 {" "}
                                 <i className="fa-solid fa-eye" />
                               </Link>
-                              <a
-                                href="#"
-                                className={
-                                  item.status === "Success"
-                                    ? "d-none"
-                                    : "btn btn-sm btn-success ms-2"
-                                }
-                                onClick={() => updateStatusSuccess(item.id)}
-                              >
-                                <i className="fas fa-check"></i>
-                              </a></td>
-                            <td>
-                              {(new Date(item.dateOrdered)).toLocaleDateString('en-Us', {weekday: 'short', day: 'numeric', month: 'short', year: 'numeric'})} | {(new Date(item.dateOrdered)).toLocaleTimeString([], {hour: '2-digit', minute: '2-digit', hour12: true})} </td>
-                            <td>
-                              <Link to={`/my-dashboard/order-detail/${item.id}`} className="btn btn-info btn-sm"> <i className="fa-solid fa-eye" /></Link>
-                              <a href="#" className={item.status === "Success" ? "d-none" : "btn btn-sm btn-success ms-2"} onClick={() => updateStatusSuccess (item.id)}><i className="fas fa-check"></i></a>
+                              {item.status == "Success" ? (
+                                ""
+                              ) : (
+                                <a
+                                  href="#"
+                                  title="Confirm"
+                                  className={"btn btn-sm btn-success ms-2"}
+                                  onClick={() => updateStatusSuccess(item.id)}
+                                >
+                                  <i className="fas fa-check"></i>
+                                </a>
+                              )}
                             </td>
                           </tr>
                         ))}
