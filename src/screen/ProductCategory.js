@@ -66,19 +66,16 @@ export default function ProductCategory() {
     //   }, [products]);
   }, [categoryId]);
 
-<<<<<<< HEAD
   const [cart, setCart] = useState([]);
   const [wishlist, setWishlist] = useState({});
   const token = localStorage.getItem("token");
   const user = token ? JSON.parse(token) : "";
   const userId = user ? user.user.id : "";
-=======
     useEffect(() => {
         axios.get(`http://localhost:5000/api/v1/products/get/product_category/${categoryId}`)
         .then(res=> setProducts(res.data))
         .catch(err => console.log(err))
     },[]);
->>>>>>> a270336f3dbadd71cf77e0e814a2fa8ba2cb3a54
 
   const handleAddToCart = async (productId, proQty) => {
     try {

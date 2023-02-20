@@ -12,8 +12,6 @@ export default function MyDashboard() {
   const token = localStorage.getItem("token");
   const user = token ? JSON.parse(token) : "";
   const userId = user ? user.user.id : "";
-<<<<<<< HEAD
-=======
  
   useEffect(() => {
       axios.all([
@@ -28,7 +26,6 @@ export default function MyDashboard() {
       }))
       .catch(err => console.log(err));
   }, [orders, setTotal_purchase, setTotal_delivery]);
->>>>>>> a270336f3dbadd71cf77e0e814a2fa8ba2cb3a54
 
   useEffect(() => {
     axios
@@ -239,7 +236,6 @@ export default function MyDashboard() {
                                 </>
                               )}
                             </td>
-<<<<<<< HEAD
                             {/* <td>{formatDate(item.dateOrdered)}</td> */}
                             <td>
                               {new Date(item.dateOrdered).toLocaleDateString()}{" "}
@@ -264,14 +260,12 @@ export default function MyDashboard() {
                                 onClick={() => updateStatusSuccess(item.id)}
                               >
                                 <i className="fas fa-check"></i>
-                              </a>
-=======
+                              </a></td>
                             <td>
                               {(new Date(item.dateOrdered)).toLocaleDateString('en-Us', {weekday: 'short', day: 'numeric', month: 'short', year: 'numeric'})} | {(new Date(item.dateOrdered)).toLocaleTimeString([], {hour: '2-digit', minute: '2-digit', hour12: true})} </td>
                             <td>
                               <Link to={`/my-dashboard/order-detail/${item.id}`} className="btn btn-info btn-sm"> <i className="fa-solid fa-eye" /></Link>
                               <a href="#" className={item.status === "Success" ? "d-none" : "btn btn-sm btn-success ms-2"} onClick={() => updateStatusSuccess (item.id)}><i className="fas fa-check"></i></a>
->>>>>>> a270336f3dbadd71cf77e0e814a2fa8ba2cb3a54
                             </td>
                           </tr>
                         ))}
