@@ -160,115 +160,71 @@ export default function MenuNavbar({ click }) {
                 ></i>{" "}
               </Link>
 
-              {token ? (
-                <>
-                  <Link to="/wishlist">
-                    {countNumWishlistItem.countWishlistItem ? (
-                      <>
-                        <i
-                          className="fas fa-heart"
-                          style={{
-                            height: "24px",
-                            fontSize: "24px",
-                            color: "red",
-                          }}
-                        ></i>
-                        <span style={{ backgroundColor: "red" }}>
-                          {countNumWishlistItem.countWishlistItem}
-                        </span>
-                      </>
-                    ) : (
-                      <>
-                        <i
-                          className="far fa-heart"
-                          style={{ fontSize: "22px", color: "black" }}
-                        ></i>
-                        <span style={{ backgroundColor: "black" }}>0</span>
-                      </>
-                    )}
-                  </Link>
-                  <Link to="/cart">
-                    {countNumCartItem.countCartItem ? (
-                      <>
-                        <i
-                          className="fas fa-shopping-bag"
-                          style={{
-                            height: "24px",
-                            fontSize: "24px",
-                            color: "red",
-                          }}
-                        ></i>
-                        <span style={{ backgroundColor: "red" }}>
-                          {countNumCartItem.countCartItem}
-                        </span>
-                      </>
-                    ) : (
-                      <>
-                        <img
-                          src="img/icon/cart.png"
-                          width="20"
-                          style={{ marginTop: "-8px" }}
-                        />
-                        <span style={{ backgroundColor: "black" }}>0</span>
-                      </>
-                    )}
-                  </Link>
-                  <a className="dropdown open">
-                    <img
-                      src={user.user.image}
-                      style={{
-                        width: "30px",
-                        height: "30px",
-                        marginTop: "-10px",
-                      }}
-                      className="rounded-circle  border broder-5 border-danger"
-                    />
-                    <div className="user-dropdown">
-                      <ul>
-                        <li>
-                          <NavLink to="/my-dashboard">
-                            My Dashboard<i className="fas fa-home ms-2"></i>
-                          </NavLink>{" "}
-                        </li>
-                        <li>
-                          <NavLink to="/my-account">
-                            My Account<i className="fas fa-crown ms-2"></i>
-                          </NavLink>{" "}
-                        </li>
-                        <li>
-                          <Link
-                            onClick={() => {
-                              logout();
-                            }}
-                          >
-                            Logout<i className="fas fa-door-open ms-2"></i>
-                          </Link>{" "}
-                        </li>
-                      </ul>
-                    </div>
-                  </a>
-                </>
-              ) : (
-                <>
-                  <a className="dropdown open">
-                    <i className="fas fa-user-circle ms-3 fs-5 my-auto text-dark"></i>
-                    <div className="user-dropdown">
-                      <ul>
-                        <li>
-                          <Link to="/login" onClick={click}>
-                            Sign In<i className="fas fa-sign-in-alt ms-2"></i>
-                          </Link>{" "}
-                        </li>
-                        <li>
-                          <Link to="/sign-up">
-                            Sign Up <i className="fas fa-user-plus ms-2"></i>
-                          </Link>{" "}
-                        </li>
-                      </ul>
-                    </div>
-                  </a>
-                </>
-              )}
+              {token ?
+                (
+                  <>
+                    <a href="/shop/wishlist">
+                      
+                      {
+                        countNumWishlistItem.countWishlistItem ? 
+                          <>
+                            <i className="fas fa-heart" style={{fontSize: "24px" ,  color: "red"}}></i>
+                            <span style={{backgroundColor: "red"}}>{countNumWishlistItem.countWishlistItem}</span>
+                          </>
+                          :
+                          <>
+                            <i className="far fa-heart" style={{fontSize: "22px", color: "black"}}></i>
+                            <span style={{backgroundColor: "black"}}>0</span>
+                          </>
+                          
+                          
+                      }
+                    </a>
+                    <a href="/shop/cart">
+                      {
+                        countNumCartItem.countCartItem ? 
+                          <>
+                            <i className="fas fa-shopping-bag" style={{fontSize: "24px" ,  color: "red"}}></i>
+                            <span style={{backgroundColor: "red"}}>{countNumCartItem.countCartItem}</span>
+                          </>
+                          
+                          :
+                          <>
+                            <i className="fas fa-shopping-bag" style={{fontSize: "24px" , color: "black"}}></i>
+                            <span style={{backgroundColor: "black"}}>0</span>
+                          </>
+                          
+                      }
+                      
+                    </a>
+                    <a className="dropdown open">
+                      <img src={user.user.image} style={{ width: "30px", height: "30px", marginTop: "-10px" }} className="rounded-circle  border broder-5 border-danger" />
+                      <div className="user-dropdown">
+                        <ul>
+                          <li><NavLink to="/my-dashboard">My Dashboard<i className="fas fa-home ms-2"></i></NavLink> </li>
+                          <li><NavLink to="/my-account">My Account<i className="fas fa-crown ms-2"></i></NavLink> </li>
+                          <li><Link onClick={() => { logout(); }}>Logout<i className="fas fa-door-open ms-2"></i></Link> </li>
+                        </ul>
+                      </div>
+                    </a>
+                  </> 
+                )
+                :
+                (
+                  <>
+                    <a className="dropdown open">
+
+                      <i className="fas fa-user-circle ms-3 fs-5 my-auto text-dark"></i>
+                      <div className="user-dropdown">
+                        <ul>
+                          <li><Link to="/login" onClick={click}>Sign In<i className="fas fa-sign-in-alt ms-2"></i></Link> </li>
+                          <li><Link to="/sign-up">Sign Up <i className="fas fa-user-plus ms-2"></i></Link> </li>
+                        </ul>
+                      </div>
+                    </a>
+                  </>
+                )
+              }
             </div>
           </div>
         </div>

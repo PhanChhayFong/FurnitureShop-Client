@@ -45,8 +45,8 @@ export default function Sidebar() {
                 <div className="card-body">
                   <div className="shop__sidebar__categories">
                     <ul className="nice-scroll">
-                      {Object.keys(categories).map((key) => (
-                        <li key={key}>
+                      {Object.keys(categories).map((key,i) => (
+                        <li key={i}>
                           <NavLink
                             to={`/shop/product_category/${categories[key]._id}`}
                             onClick={scrollToTop}
