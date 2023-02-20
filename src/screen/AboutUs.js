@@ -1,9 +1,20 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
+import Card from "react-bootstrap/Card";
 
 export default function AboutUs() {
+  const [userAdmin, setUserAdmin] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:5000/api/v1/users/get/user-admin")
+      .then((res) => setUserAdmin(res.data));
+  }, []);
+
   return (
     <div>
+      {/* BreaadCrumb */}
       <section className="breadcrumb-option">
         <div className="container">
           <div className="row">
@@ -19,12 +30,13 @@ export default function AboutUs() {
           </div>
         </div>
       </section>
+
       <section className="about spad">
         <div className="container">
           <div className="row">
             <div className="col-lg-12">
               <div className="about__pic">
-                <img src="img/about/about-us.jpg" />
+                <img src="img/about/about-banner.jpg" />
               </div>
             </div>
           </div>
@@ -154,34 +166,32 @@ export default function AboutUs() {
             </div>
           </div>
           <div className="row">
-            <div className="col-lg-3 col-md-6 col-sm-6">
-              <div className="team__item">
-                <img src="img/about/team-1.jpg" />
-                <h4>John Smith</h4>
-                <span>Fashion Design</span>
+            {userAdmin.map((user) => (
+              <div className="col-lg-3 col-md-6 col-sm-6" key={user._id}>
+                <Card style={{ border: "none" }}>
+                  <Card.Img
+                    src={user.image}
+                    style={{
+                      height: "360px",
+                      objectFit: "cover",
+                      maxHeight: "360px",
+                    }}
+                  />
+                  <Card.Body className="text-start px-0 py-4">
+                    <Card.Title
+                      as="h4"
+                      style={{ color: "#111111 !important", fontWeight: "700" }}
+                    >
+                      {" "}
+                      {user.name}
+                    </Card.Title>
+                    <Card.Text>
+                      {user.isAdmin === true ? "Admin" : ""}
+                    </Card.Text>
+                  </Card.Body>
+                </Card>
               </div>
-            </div>
-            <div className="col-lg-3 col-md-6 col-sm-6">
-              <div className="team__item">
-                <img src="img/about/team-2.jpg" />
-                <h4>Christine Wise</h4>
-                <span>C.E.O</span>
-              </div>
-            </div>
-            <div className="col-lg-3 col-md-6 col-sm-6">
-              <div className="team__item">
-                <img src="img/about/team-3.jpg" />
-                <h4>Sean Robbins</h4>
-                <span>Manager</span>
-              </div>
-            </div>
-            <div className="col-lg-3 col-md-6 col-sm-6">
-              <div className="team__item">
-                <img src="img/about/team-4.jpg" />
-                <h4>Lucy Myers</h4>
-                <span>Delivery</span>
-              </div>
-            </div>
+            ))}
           </div>
         </div>
       </section>

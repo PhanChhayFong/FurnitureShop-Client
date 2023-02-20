@@ -4,6 +4,7 @@ import axios from "axios";
 
 export default function NewArrival() {
   const [products, setProducts] = useState([]);
+
   useEffect(() => {
     axios
       .get("http://localhost:5000/api/v1/products/get/new_arrival_product")
@@ -63,13 +64,13 @@ export default function NewArrival() {
       }
 
       setCart(response.data);
-      return response;
+      return cart;
     } catch (err) {
       console.log(err);
     }
   };
 
-  const handleAddToWishlist = async (productId) => {
+  const handleAddToWishlist = async (productId, qty) => {
     try {
       const response = await axios.post(
         "http://localhost:5000/api/v1/shoppingcarts/add-cart-item",
@@ -77,6 +78,7 @@ export default function NewArrival() {
           user: userId,
           product: productId,
           instance: "wishlist",
+          quantity: qty,
         }
       );
 
@@ -108,7 +110,7 @@ export default function NewArrival() {
                     <li>
                       <a
                         href="#"
-                        onClick={() => handleAddToWishlist(product.id)}
+                        onClick={() => handleAddToWishlist(product.id, 0)}
                       >
                         {wishlist[product.id] ? (
                           <img src="img/icon/red-heart.png" />
@@ -134,24 +136,14 @@ export default function NewArrival() {
                     + Add To Cart
                   </a>
                   <div className="rating">
-                    <i className="fa fa-star-o" />
-                    <i className="fa fa-star-o" />
-                    <i className="fa fa-star-o" />
-                    <i className="fa fa-star-o" />
-                    <i className="fa fa-star-o" />
+                    {[...Array(product.rating)].map((e, i) => (
+                      <i className="fa fa-star star-rating" key={i} />
+                    ))}
+                    {[...Array(5 - product.rating)].map((e, i) => (
+                      <i className="fa fa-star-o" key={i} />
+                    ))}
                   </div>
                   <h5>${product.regularPrice.toFixed(2)}</h5>
-                  <div className="product__color__select">
-                    <label htmlFor="pc-4">
-                      <input type="radio" id="pc-4" />
-                    </label>
-                    <label className="active black" htmlFor="pc-5">
-                      <input type="radio" id="pc-5" />
-                    </label>
-                    <label className="grey" htmlFor="pc-6">
-                      <input type="radio" id="pc-6" />
-                    </label>
-                  </div>
                 </div>
               </div>
             </div>

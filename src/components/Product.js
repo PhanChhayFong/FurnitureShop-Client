@@ -66,13 +66,13 @@ export default function Product() {
       }
 
       setCart(response.data);
-      return response;
+      return cart;
     } catch (err) {
       console.log(err);
     }
   };
 
-  const handleAddToWishlist = async (productId) => {
+  const handleAddToWishlist = async (productId, qty) => {
     try {
       const response = await axios.post(
         "http://localhost:5000/api/v1/shoppingcarts/add-cart-item",
@@ -80,6 +80,7 @@ export default function Product() {
           user: userId,
           product: productId,
           instance: "wishlist",
+          quantity: qty,
         }
       );
 
@@ -174,7 +175,7 @@ export default function Product() {
                       <li>
                         <a
                           href="#"
-                          onClick={() => handleAddToWishlist(product.id)}
+                          onClick={() => handleAddToWishlist(product.id, 0)}
                         >
                           {wishlist[product.id] ? (
                             <img src="img/icon/red-heart.png" />
@@ -204,11 +205,12 @@ export default function Product() {
                         : "+ Add To Cart"}
                     </a>
                     <div className="rating">
-                      <i className="fa fa-star-o" />
-                      <i className="fa fa-star-o" />
-                      <i className="fa fa-star-o" />
-                      <i className="fa fa-star-o" />
-                      <i className="fa fa-star-o" />
+                      {[...Array(product.rating)].map((e, i) => (
+                        <i className="fa fa-star star-rating" key={i} />
+                      ))}
+                      {[...Array(5 - product.rating)].map((e, i) => (
+                        <i className="fa fa-star-o" key={i} />
+                      ))}
                     </div>
                     <h5>
                       {product.salePrice ? (
@@ -218,10 +220,11 @@ export default function Product() {
                             ? product.salePrice.toFixed(2)
                             : "N/A"}
                           <span>
+                            {" "}
                             $
                             {product.regularPrice
                               ? product.regularPrice.toFixed(2)
-                              : "N/A"}
+                              : "N/A"}{" "}
                           </span>
                         </>
                       ) : (

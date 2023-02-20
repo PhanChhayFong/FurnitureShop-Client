@@ -49,13 +49,13 @@ export default function App() {
           <Route path="/shop" element={<Shop />} />
           <Route path="/shop/product_detail/:id" element={<ProductDetail />} />
           <Route path="/shop/product_category/:id" element={<ProductCategory/>} />
-          <Route path="/cart" element={<ProtectedRoute><Cart /></ProtectedRoute>} />
-          <Route path="/wishlist" element={<ProtectedRoute><Wishlist /></ProtectedRoute>} />
+          <Route path="/shop/cart" element={<ProtectedRoute><Cart /></ProtectedRoute>} />
+          <Route path="/shop/wishlist" element={<ProtectedRoute><Wishlist /></ProtectedRoute>} />
           <Route path="/checkout" element={<ProtectedRoute><Checkout /></ProtectedRoute>} />
           <Route path="/login" element={<Login/>}></Route>
           <Route path="/sign-up" element={<SignUp/>}></Route>
           <Route path="/my-dashboard" element={<ProtectedRoute><MyDashboard/></ProtectedRoute>}></Route>
-          <Route path="/order-detail/:id" element={<ProtectedRoute><OrderDetail/></ProtectedRoute>}></Route>
+          <Route path="/my-dashboard/order-detail/:id" element={<ProtectedRoute><OrderDetail/></ProtectedRoute>}></Route>
           <Route path="/my-account" element={<ProtectedRoute><MyAccount/></ProtectedRoute>}></Route>
           <Route path="*" element={<Page404/>} />
       </Routes>

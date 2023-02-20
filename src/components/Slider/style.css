@@ -5,3 +5,6 @@
     float:"right";
 }
 .fw{font-weight:800}
+.carousel-caption {
+    top: 30px !important;
+}

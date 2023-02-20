@@ -13,65 +13,41 @@ export default function Wishlist() {
   useEffect(() => {
     axios
       .get(`http://localhost:5000/api/v1/shoppingcarts/wishlist-item/${userId}`)
-      .then((res) => setWishlistItem(res.data))
-      .catch((err) => console.log(err));
-  }, []);
+      .then((res) => setWishlistItem(res.data));
+    }, [wishlistItems]);
+  // }, []);
 
-  const handleAddToCart = async (productId, proQty) => {
+  // move wishlist item to shopping carts
+  const handleMoveToCart = async (productId, proQty) => {
     try {
-      // get all the data of cart item by each user id
-      const response = await axios.get(
-        `http://localhost:5000/api/v1/shoppingcarts/cart-item/${userId}`
+      const moveToCart = await axios.put(
+        `http://localhost:5000/api/v1/shoppingcarts/move-to-cart/${productId}`,
+        {
+          user: userId,
+          product: productId,
+          instance: "cart",
+          quantity: proQty,
+        }
       );
-      const items = response.data;
-
-      // check the exist cart item that is already exist
-      const existCartItem = items.find(
-        (item) => item.product._id === productId
-      );
-      if (existCartItem) {
-        existCartItem.quantity += proQty;
-        await axios.put(
-          `http://localhost:5000/api/v1/shoppingcarts/update-cart/${existCartItem._id}`,
-          {
-            quantity: existCartItem.quantity,
-          }
-        );
-      } else {
-        await axios.post(
-          "http://localhost:5000/api/v1/shoppingcarts/add-cart-item",
-          {
-            user: userId,
-            product: productId,
-            instance: "cart",
-            quantity: proQty,
-          }
-        );
-      }
-
-      setCart(response.data);
-      return response;
+      setCart(moveToCart.data);
+      return cart;
     } catch (err) {
       console.log(err);
     }
   };
 
-  const handleAddToWishlist = async (productId) => {
+  // remove wishlist item from wishlist page
+  const handleRemoveFromWishlist = async (productId) => {
     try {
-      const response = await axios.post(
-        "http://localhost:5000/api/v1/shoppingcarts/add-cart-item",
-        {
-          user: userId,
-          product: productId,
-          instance: "wishlist",
-        }
+      const removeWishlsitItem = await axios.delete(
+        `http://localhost:5000/api/v1/shoppingcarts/remove/wishlist-item/${productId}`,
+        cart
       );
-
-      setWishlist({ ...wishlist, [productId]: response.data });
-      return response;
+      setWishlist(removeWishlsitItem.data);
     } catch (err) {
       console.log(err);
     }
+    return wishlist;
   };
 
   return (
@@ -138,14 +114,10 @@ export default function Wishlist() {
                             <a
                               href="#"
                               onClick={() =>
-                                handleAddToWishlist(wishlistItem.id)
+                                handleRemoveFromWishlist(wishlistItem.id)
                               }
                             >
-                              {wishlist[wishlistItem.id] ? (
-                                <img src="img/icon/trash-bin.png" />
-                              ) : (
-                                <img src="img/icon/trash-bin.png" />
-                              )}
+                              <img src="img/icon/trash-bin.png" />
                             </a>
                           </li>
                           <li>
@@ -162,17 +134,18 @@ export default function Wishlist() {
                         <a
                           href="#"
                           className="add-cart"
-                          onClick={() => handleAddToCart(wishlistItem.id, 1)}
+                          onClick={() => handleMoveToCart(wishlistItem.id, 1)}
                         >
-                          Move To Cart
-                          <i className="fas fa-shopping-cart ms-3"></i>
+                          Move To Cart{" "}
+                          <i className="fas fa-shopping-cart ms-3"></i>{" "}
                         </a>
                         <div className="rating">
-                          <i className="fa fa-star-o" />
-                          <i className="fa fa-star-o" />
-                          <i className="fa fa-star-o" />
-                          <i className="fa fa-star-o" />
-                          <i className="fa fa-star-o" />
+                          {[...Array(wishlistItem.product.rating)].map((e,i) => (
+                            <i className="fa fa-star star-rating" key={i} />
+                          ))}
+                          {[...Array(5 - wishlistItem.product.rating)].map((e,i) => (
+                            <i className="fa fa-star-o" key={i} />
+                          ))}
                         </div>
                         <h5>
                           {wishlistItem.product.salePrice ? (
@@ -209,17 +182,6 @@ export default function Wishlist() {
                             </>
                           )}
                         </h5>
-                        <div className="product__color__select">
-                          <label htmlFor="pc-4">
-                            <input type="radio" id="pc-4" />
-                          </label>
-                          <label className="active black" htmlFor="pc-5">
-                            <input type="radio" id="pc-5" />
-                          </label>
-                          <label className="grey" htmlFor="pc-6">
-                            <input type="radio" id="pc-6" />
-                          </label>
-                        </div>
                       </div>
                     </div>
                   </div>

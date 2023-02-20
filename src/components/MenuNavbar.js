@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link, Navigate } from "react-router-dom";
+import { Link, NavLink, Navigate } from "react-router-dom";
 import "./style/menuNavBar.css";
 import axios from "axios";
 import ApiService from "../services/api-service";
@@ -7,6 +7,7 @@ import ApiService from "../services/api-service";
 export default function MenuNavbar({ click }) {
   const [companys, setCompanys] = useState();
   const [categories, setCategories] = useState([]);
+
   const [navigate, setNavigate] = useState(false);
   const token = localStorage.getItem("token");
   const user = token ? JSON.parse(token) : "";
@@ -17,33 +18,53 @@ export default function MenuNavbar({ click }) {
 
   useEffect(() => {
     axios
-      .get("http://localhost:5000/api/v1/companys")
-      .then((res) => setCompanys(res.data));
-    axios
-      .get("http://localhost:5000/api/v1/categories")
-      .then((res) => setCategories(res.data));
-    if(token){axios
-      .get(
-        `http://localhost:5000/api/v1/shoppingcarts/get/cart_item_count/${userId}`
+      .all(
+        [
+          axios.get(`http://localhost:5000/api/v1/companys`),
+          axios.get("http://localhost:5000/api/v1/categories"),
+          token &&
+            axios.get(
+              `http://localhost:5000/api/v1/shoppingcarts/get/cart_item_count/${userId}`
+            ),
+          token &&
+            axios.get(
+              `http://localhost:5000/api/v1/shoppingcarts/get/wishlist_item_count/${userId}`
+            ),
+        ].filter(Boolean)
       )
-      .then((res) => setCountNumCartItem(res.data));
-    axios
-      .get(
-        `http://localhost:5000/api/v1/shoppingcarts/get/wishlist_item_count/${userId}`
-      )
-      .then((res) => setCountNumWishlistItem(res.data));}
+      .then(
+        axios.spread(
+          (
+            companyResponse,
+            categoryResponse,
+            cartResponse,
+            wishlistResponse
+          ) => {
+            setCompanys(companyResponse.data);
+            setCategories(categoryResponse.data);
+            token && setCountNumCartItem(cartResponse.data);
+            token && setCountNumWishlistItem(wishlistResponse.data);
+          }
+        )
+      );
+    // }, [
+    //   userId,
+    //   setCompanys,
+    //   setCategories,
+    //   countNumCartItem,
+    //   countNumWishlistItem,
+    // ]);
   }, []);
-
 
   const logout = () => {
     if (token) {
       ApiService.updateActive("users", user.user.id, { active: false });
       localStorage.clear("token");
       setNavigate(true);
+      window.location.reload(false);
     }
   };
   if (navigate) return <Navigate to="/" />;
-
   return (
     <nav>
       <div>
@@ -103,77 +124,126 @@ export default function MenuNavbar({ click }) {
             <nav className="header__menu mobile-menu">
               <ul>
                 <li>
-                  <Link to="/">Home</Link>
+                  <NavLink to="/"><i className="fas fa-home me-2"></i>Home</NavLink>
                 </li>
                 <li>
-                  <Link to="/shop">Shop</Link>
+                  <NavLink to="/shop">Shop</NavLink>
                   <ul className="dropdown">
                     {categories &&
                       categories.map((category) => (
                         <li key={category._id}>
-                          <Link to="/aboutus">{category.name}</Link>
+                          <NavLink
+                            to={`/shop/product_category/${category._id}`}
+                          >
+                            {category.name}
+                          </NavLink>
                         </li>
                       ))}
                   </ul>
                 </li>
                 <li>
-                  <Link to="/aboutus">About Us</Link>
+                  <NavLink to="/aboutus">About Us</NavLink>
                 </li>
                 <li>
-                  <Link to="/contact">Contact Us</Link>
+                  <NavLink to="/contact">Contact Us</NavLink>
                 </li>
               </ul>
             </nav>
           </div>
           <div className="col-lg-3 col-md-3">
             <div className="header__nav__option">
+<<<<<<< HEAD
               <Link to="#" className="search-switch">
-                <img src="img/icon/search.png" width="22" />
+                {" "}
+                <i
+                  className="fas fa-search"
+                  style={{ fontSize: "24px", color: "black" }}
+                ></i>{" "}
               </Link>
 
               {token ? (
                 <>
                   <Link to="/wishlist">
-                    <img src="img/icon/heart.png" width="22" />
-                    <span style={{ marginLeft: "3px" }}>
-                      {countNumWishlistItem
-                        ? countNumWishlistItem.countWishlistItem
-                        : "0"}
-                    </span>
+                    {countNumWishlistItem.countWishlistItem ? (
+                      <>
+                        <i
+                          className="fas fa-heart"
+                          style={{
+                            height: "24px",
+                            fontSize: "24px",
+                            color: "red",
+                          }}
+                        ></i>
+                        <span style={{ backgroundColor: "red" }}>
+                          {countNumWishlistItem.countWishlistItem}
+                        </span>
+                      </>
+                    ) : (
+                      <>
+                        <i
+                          className="far fa-heart"
+                          style={{ fontSize: "22px", color: "black" }}
+                        ></i>
+                        <span style={{ backgroundColor: "black" }}>0</span>
+                      </>
+                    )}
                   </Link>
-                  <Link to="/cart" className="dropdown open">
-                    <img src="img/icon/cart.png" width="22" />
-                    <span style={{ marginLeft: "3px" }}>
-                      {countNumCartItem ? countNumCartItem.countCartItem : "0"}
-                    </span>
+                  <Link to="/cart">
+                    {countNumCartItem.countCartItem ? (
+                      <>
+                        <i
+                          className="fas fa-shopping-bag"
+                          style={{
+                            height: "24px",
+                            fontSize: "24px",
+                            color: "red",
+                          }}
+                        ></i>
+                        <span style={{ backgroundColor: "red" }}>
+                          {countNumCartItem.countCartItem}
+                        </span>
+                      </>
+                    ) : (
+                      <>
+                        <img
+                          src="img/icon/cart.png"
+                          width="20"
+                          style={{ marginTop: "-8px" }}
+                        />
+                        <span style={{ backgroundColor: "black" }}>0</span>
+                      </>
+                    )}
                   </Link>
                   <a className="dropdown open">
                     <img
                       src={user.user.image}
-                      style={{ width: "30px", height: "30px" }}
+                      style={{
+                        width: "30px",
+                        height: "30px",
+                        marginTop: "-10px",
+                      }}
                       className="rounded-circle  border broder-5 border-danger"
                     />
                     <div className="user-dropdown">
                       <ul>
                         <li>
-                          <Link to="/my-dashboard">
+                          <NavLink to="/my-dashboard">
                             My Dashboard<i className="fas fa-home ms-2"></i>
-                          </Link>
+                          </NavLink>{" "}
                         </li>
                         <li>
-                          <Link to="/my-account">
+                          <NavLink to="/my-account">
                             My Account<i className="fas fa-crown ms-2"></i>
-                          </Link>
+                          </NavLink>{" "}
                         </li>
                         <li>
                           <Link
                             onClick={() => {
                               logout();
-                              window.location.reload(true);
                             }}
                           >
                             Logout<i className="fas fa-door-open ms-2"></i>
-                          </Link>
+                          </Link>{" "}
                         </li>
                       </ul>
                     </div>
@@ -188,18 +258,86 @@ export default function MenuNavbar({ click }) {
                         <li>
                           <Link to="/login" onClick={click}>
                             Sign In<i className="fas fa-sign-in-alt ms-2"></i>
-                          </Link>
+                          </Link>{" "}
                         </li>
                         <li>
                           <Link to="/sign-up">
                             Sign Up <i className="fas fa-user-plus ms-2"></i>
-                          </Link>
+                          </Link>{" "}
                         </li>
                       </ul>
                     </div>
                   </a>
                 </>
               )}
+=======
+
+              {token ?
+                (
+                  <>
+                    <a href="/shop/wishlist">
+                      
+                      {
+                        countNumWishlistItem.countWishlistItem ? 
+                          <>
+                            <i className="fas fa-heart" style={{fontSize: "24px" ,  color: "red"}}></i>
+                            <span style={{backgroundColor: "red"}}>{countNumWishlistItem.countWishlistItem}</span>
+                          </>
+                          :
+                          <>
+                            <i className="far fa-heart" style={{fontSize: "22px", color: "black"}}></i>
+                            <span style={{backgroundColor: "black"}}>0</span>
+                          </>
+                          
+                          
+                      }
+                    </a>
+                    <a href="/shop/cart">
+                      {
+                        countNumCartItem.countCartItem ? 
+                          <>
+                            <i className="fas fa-shopping-bag" style={{fontSize: "24px" ,  color: "red"}}></i>
+                            <span style={{backgroundColor: "red"}}>{countNumCartItem.countCartItem}</span>
+                          </>
+                          
+                          :
+                          <>
+                            <i className="fas fa-shopping-bag" style={{fontSize: "24px" , color: "black"}}></i>
+                            <span style={{backgroundColor: "black"}}>0</span>
+                          </>
+                          
+                      }
+                      
+                    </a>
+                    <a className="dropdown open">
+                      <img src={user.user.image} style={{ width: "30px", height: "30px", marginTop: "-10px" }} className="rounded-circle  border broder-5 border-danger" />
+                      <div className="user-dropdown">
+                        <ul>
+                          <li><NavLink to="/my-dashboard">My Dashboard<i class="fas fa-home ms-2"></i></NavLink> </li>
+                          <li><NavLink to="/my-account">My Account<i class="fas fa-crown ms-2"></i></NavLink> </li>
+                          <li><Link onClick={() => { logout(); }}>Logout<i class="fas fa-door-open ms-2"></i></Link> </li>
+                        </ul>
+                      </div>
+                    </a>
+                  </> 
+                )
+                :
+                (
+                  <>
+                    <a className="dropdown open">
+
+                      <i className="fas fa-user-circle ms-3 fs-5 my-auto text-dark"></i>
+                      <div className="user-dropdown">
+                        <ul>
+                          <li><Link to="/login" onClick={click}>Sign In<i class="fas fa-sign-in-alt ms-2"></i></Link> </li>
+                          <li><Link to="/sign-up">Sign Up <i class="fas fa-user-plus ms-2"></i></Link> </li>
+                        </ul>
+                      </div>
+                    </a>
+                  </>
+                )
+              }
+>>>>>>> a270336f3dbadd71cf77e0e814a2fa8ba2cb3a54
             </div>
           </div>
         </div>

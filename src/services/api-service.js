@@ -41,7 +41,6 @@ class ApiService {
     return config(false).put(`${tb}/${id}`, data);
   }
   updatePassword(tb, id, oldPass, data) {
-    console.log(`${tb}/${id}/${oldPass}`);
     return config(true)
       .put(`${tb}/${id}/${oldPass}`, data)
       .catch((err) => {
@@ -58,16 +57,6 @@ class ApiService {
   findByTitle(tb, title) {
     return config(true).get(`/${tb}?title=${title}`);
   }
-  // forgotPass(tb, data) {
-  //   // console.log(data)
-    
-  //   return (config(true)
-  //   .post(`${tb}`, data)
-  //   .catch((err) => {
-  //     if (err.response)
-  //       return Alart.alartLoginError(err.response.status, err.response.data);
-  //   }));
-  // }
 }
 
 export default new ApiService();

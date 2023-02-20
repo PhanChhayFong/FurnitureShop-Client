@@ -1,37 +1,41 @@
-import React, { useState } from "react";
-import { Link, Navigate } from "react-router-dom";
-import axios from "axios";
-import Alart from "../services/Alart";
+import React, { useState } from 'react';
+import { Link, Navigate } from 'react-router-dom';
+import axios from 'axios';
+import Alart from '../services/Alart';
 import "./styles/register.css";
 
 function App() {
+  
   const [confirmPassword, setConfirmPassword] = useState("");
   const [user, setUser] = useState({
     name: "",
     email: "",
-    password: "",
+    password: ""
   });
   const [navigate, setNavigate] = useState(false);
-  if (navigate) {
-    return <Navigate to="/" />;
+  if(navigate){
+    return <Navigate to="/"/>;
   }
   const submit = () => {
-    if (user.name != "" && user.email != "" && user.password != "") {
-      if (user.password == confirmPassword) {
+    if(user.name != "" && user.email !="" && user.password !=""){
+      if(user.password == confirmPassword){
         axios.post("http://localhost:5000/api/v1/users/register", user, {
-          headers: { "Content-Type": "application/json" },
+          headers: {"Content-Type":"application/json"}
         });
         setNavigate(true);
-      } else {
+      }
+      else{
         Alart.alartPasswordError(true);
       }
-    } else {
+    }
+    else{
       Alart.alartPasswordError(false);
     }
   };
 
+
   return (
-    <div className="container-fluid">
+    <div className="container-fluid register-form">
       <div
         className="p-5 bg-image"
         style={{

@@ -13,11 +13,13 @@ export default function Sliders() {
   };
 
   const [sliders, setSliders] = useState([]);
+
   useEffect(() => {
     axios
       .get("http://localhost:5000/api/v1/sliders/get/enable")
       .then((res) => setSliders(res.data));
   }, []);
+
   const styles = {
     Bslide: {
       backgroundImage: `url(${background})`,
@@ -39,7 +41,7 @@ export default function Sliders() {
     txtBox: {
       width: "50%",
       left: "30px",
-      top: "70px",
+      top: "100px",
       textAlign: "left",
     },
   };

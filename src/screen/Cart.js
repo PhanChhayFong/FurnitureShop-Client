@@ -5,17 +5,15 @@ import axios from "axios";
 export default function Cart() {
   const [cartItem, setCartItem] = useState([]);
   const [removeSingleCartItem, setRemoveSingleCartItem] = useState([]);
-  const [clearCart, setClearAllCartItem] = useState([]);
+  const [clearAllCart, setClearAllCartItem] = useState([]);
 
   const token = localStorage.getItem("token");
   const user = token ? JSON.parse(token) : "";
   const userId = user ? user.user.id : "";
-  console.log(userId);
   useEffect(() => {
     axios
       .get(`http://localhost:5000/api/v1/shoppingcarts/cart-item/${userId}`)
-      .then((res) => setCartItem(res.data))
-      .catch((err) => console.log(err));
+      .then((res) => setCartItem(res.data));
   },[]);
 
   const totalPrice = cartItem.reduce(
@@ -39,6 +37,7 @@ export default function Cart() {
     } catch (err) {
       console.log(err);
     }
+    return clearAllCart;
   };
 
   const handleRemoveCartItem = async (cartId) => {
@@ -51,6 +50,7 @@ export default function Cart() {
     } catch (err) {
       console.log(err);
     }
+    return removeSingleCartItem;
   };
 
   return (
@@ -137,6 +137,7 @@ export default function Cart() {
                               </div>
                             </td>
                             <td className="cart__price">
+                              ${" "}
                               {item.product.salePrice
                                 ? item.product.salePrice.toFixed(2)
                                 : item.product.regularPrice.toFixed(2)}

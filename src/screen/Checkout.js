@@ -4,7 +4,6 @@ import axios from "axios";
 import Alart from "../services/Alart";
 
 export default function Checkout() {
-  const i = 0;
   const [cartItem, setCartItem] = useState([]);
   const [clearCart, setclearCartItem] = useState([]);
   const token = localStorage.getItem("token");
@@ -14,8 +13,8 @@ export default function Checkout() {
   useEffect(() => {
     axios
       .get(`http://localhost:5000/api/v1/shoppingcarts/cart-item/${userId}`)
-      .then((res) => setCartItem(res.data))
-      .catch((err) => console.log(err));
+      .then((res) => setCartItem(res.data));
+    // }, [cartItem]);
   }, []);
 
   const subTotal = cartItem.reduce(
@@ -140,7 +139,7 @@ export default function Checkout() {
                   <div className="row">
                     <div className="col-lg-8 col-md-6">
                       <h6 className="coupon__code">
-                        <span className="icon_tag_alt" /> Have a coupon?
+                        <span className="icon_tag_alt" /> Have a coupon?{" "}
                         <a href="#">Click here</a> to enter your code
                       </h6>
                       <h6 className="checkout__title">Billing Details</h6>
@@ -250,7 +249,7 @@ export default function Checkout() {
                             </tr>
                           </thead>
                           <tbody>
-                            {cartItem.map((item, i = 1) => (
+                            {cartItem.map((item, i) => (
                               <tr key={i}>
                                 <td style={{ width: "10px" }}>{i + 1}.</td>
                                 <td>

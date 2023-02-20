@@ -10,8 +10,7 @@ function Login() {
   useEffect(() => {
     axios
       .get("http://localhost:5000/api/v1/companys")
-      .then((res) => setCompanys(res.data))
-      .catch((err) => console.log(err));
+      .then((res) => setCompanys(res.data));
   }, []);
 
   const [navigate, setNavigate] = useState(false);
@@ -69,8 +68,7 @@ function Login() {
 
         // redirect to Home Page
         setNavigate(true);
-
-        window.location.reload(true);
+        window.location.reload(false);
       }
     } else {
       user.email
@@ -83,7 +81,7 @@ function Login() {
   }
 
   return (
-    <div className="container">
+    <div className="container-fluid login-form">
       <div className="row">
         <div className="col-6 mb-5">
           <div className="d-flex flex-column ms-5">

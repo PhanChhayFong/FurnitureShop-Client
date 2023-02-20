@@ -47,7 +47,6 @@ class Alart {
         } else if (result.isDenied) {
           Swal.fire("Changes are not saved", "", "info");
         }
-        console.log(result);
         return result;
       });
     }
@@ -92,9 +91,9 @@ class Alart {
     await Swal.fire({
       title: "Change Password",
       html:
-        '<input type="password" id="swal-input1" className="swal2-input" placeholder="Enter Old Password">' +
-        '<input type="password" id="swal-input2" className="swal2-input" placeholder="Enter New Password">' +
-        '<input type="password" id="swal-input3" className="swal2-input" placeholder="Confirm New Password">',
+        '<input type="password" id="swal-input1" class="swal2-input" placeholder="Enter Old Password">' +
+        '<input type="password" id="swal-input2" class="swal2-input" placeholder="Enter New Password">' +
+        '<input type="password" id="swal-input3" class="swal2-input" placeholder="Confirm New Password">',
     });
 
     if (
@@ -142,8 +141,8 @@ class Alart {
       await Swal.fire({
         title: "Change Password",
         html:
-          '<input type="password" id="swal-input1" className="swal2-input" placeholder="Enter New Password">' +
-          '<input type="password" id="swal-input2" className="swal2-input" placeholder="Confirm New Password">',
+          '<input type="password" id="swal-input1" class="swal2-input" placeholder="Enter New Password">' +
+          '<input type="password" id="swal-input2" class="swal2-input" placeholder="Confirm New Password">',
       });
 
       if (

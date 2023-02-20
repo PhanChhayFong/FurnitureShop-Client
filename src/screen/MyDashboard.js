@@ -6,20 +6,51 @@ import axios from "axios";
 
 export default function MyDashboard() {
   const [orders, setOrders] = useState([]);
-  const token = localStorage.getItem("token");
-  const user = token ? JSON.parse(token) : "";
-  const userId = user ? user.user.id : "";
-  const i = 0;
   const [total_purchase, setTotal_purchase] = useState([]);
   const [total_delivery, setTotal_delivery] = useState([]);
 
+  const token = localStorage.getItem("token");
+  const user = token ? JSON.parse(token) : "";
+  const userId = user ? user.user.id : "";
+<<<<<<< HEAD
+=======
+ 
   useEffect(() => {
-    setTimeout(() => {
-      axios
-        .get(`http://localhost:5000/api/v1/orders/item-order/${userId}`)
-        .then((res) => setOrders(res.data))
-        .catch((err) => console.log(err));
-    }, 1000);
+      axios.all([
+        axios.get(`http://localhost:5000/api/v1/orders/item-order/${userId}`),
+        axios.get(`http://localhost:5000/api/v1/orders/total-purchased/${userId}`),
+        axios.get(`http://localhost:5000/api/v1/orders/total-delivery/${userId}`)
+      ])
+      .then(axios.spread((orderResponse, totalPurchasedResponse ,totalDeliveryResponse) => {
+        setOrders(orderResponse.data);
+        setTotal_purchase(totalPurchasedResponse.data);
+        setTotal_delivery(totalDeliveryResponse.data);
+      }))
+      .catch(err => console.log(err));
+  }, [orders, setTotal_purchase, setTotal_delivery]);
+>>>>>>> a270336f3dbadd71cf77e0e814a2fa8ba2cb3a54
+
+  useEffect(() => {
+    axios
+      .all([
+        axios.get(`http://localhost:5000/api/v1/orders/item-order/${userId}`),
+        axios.get(
+          `http://localhost:5000/api/v1/orders/total-purchased/${userId}`
+        ),
+        axios.get(
+          `http://localhost:5000/api/v1/orders/total-delivery/${userId}`
+        ),
+      ])
+      .then(
+        axios.spread(
+          (orderResponse, totalPurchasedResponse, totalDeliveryResponse) => {
+            setOrders(orderResponse.data);
+            setTotal_purchase(totalPurchasedResponse.data);
+            setTotal_delivery(totalDeliveryResponse.data);
+          }
+        )
+      );
+    // }, [setOrders, setTotal_purchase, setTotal_delivery]);
   }, []);
 
   // update the order status to success
@@ -42,19 +73,6 @@ export default function MyDashboard() {
       (item.status === "Success" && item.totalPrice ? item.totalPrice : 0),
     0
   );
-  useEffect(() => {
-    axios
-      .get(`http://localhost:5000/api/v1/orders/total-purchased/${userId}`)
-      .then((res) => setTotal_purchase(res.data))
-      .catch((err) => console.log(err));
-  }, []);
-
-  useEffect(() => {
-    axios
-      .get(`http://localhost:5000/api/v1/orders/total-delivery/${userId}`)
-      .then((res) => setTotal_delivery(res.data))
-      .catch((err) => console.log(err));
-  }, []);
 
   return (
     <div>
@@ -105,7 +123,9 @@ export default function MyDashboard() {
                     <div className="col-xs-8 text-left">
                       <span className="icon-stat-label">Total Purchase</span>
                       <span className="icon-stat-value">
-                        {total_purchase.totalPurchased}
+                        {total_purchase.totalPurchased
+                          ? total_purchase.totalPurchased
+                          : 0}
                       </span>
                     </div>
                     <div className="col-xs-4 text-center">
@@ -175,8 +195,8 @@ export default function MyDashboard() {
               <>
                 <div className="row mt-4">
                   <div className="col-xl-12">
-                    <Table table striped bordered hover className="text-center">
-                      <thead>
+                    <table className="text-center table table-striped table-hover table-bordered">
+                      <thead className="table-light">
                         <tr>
                           <th>ID</th>
                           <th>SubTotal</th>
@@ -191,7 +211,7 @@ export default function MyDashboard() {
                         </tr>
                       </thead>
                       <tbody>
-                        {orders.map((item, i = 1) => (
+                        {orders.map((item, i) => (
                           <tr key={item.id}>
                             <td>{i + 1}</td>
                             <td>${item.subTotal.toFixed(2)}</td>
@@ -205,28 +225,33 @@ export default function MyDashboard() {
                             <td>
                               {item.status === "Delivering" ? (
                                 <>
+                                  {" "}
                                   <span className="bg-warning text-dark status-delivering">
                                     Delivering
-                                  </span>
+                                  </span>{" "}
                                 </>
                               ) : (
                                 <>
+                                  {" "}
                                   <span className="bg-success text-light status-success">
                                     Success
-                                  </span>
+                                  </span>{" "}
                                 </>
                               )}
                             </td>
+<<<<<<< HEAD
                             {/* <td>{formatDate(item.dateOrdered)}</td> */}
                             <td>
-                              {new Date(item.dateOrdered).toLocaleDateString()}|
-                              {new Date(item.dateOrdered).toLocaleTimeString()}
+                              {new Date(item.dateOrdered).toLocaleDateString()}{" "}
+                              |{" "}
+                              {new Date(item.dateOrdered).toLocaleTimeString()}{" "}
                             </td>
                             <td>
                               <Link
                                 to={`/order-detail/${item.id}`}
                                 className="btn btn-info btn-sm"
                               >
+                                {" "}
                                 <i className="fa-solid fa-eye" />
                               </Link>
                               <a
@@ -240,11 +265,18 @@ export default function MyDashboard() {
                               >
                                 <i className="fas fa-check"></i>
                               </a>
+=======
+                            <td>
+                              {(new Date(item.dateOrdered)).toLocaleDateString('en-Us', {weekday: 'short', day: 'numeric', month: 'short', year: 'numeric'})} | {(new Date(item.dateOrdered)).toLocaleTimeString([], {hour: '2-digit', minute: '2-digit', hour12: true})} </td>
+                            <td>
+                              <Link to={`/my-dashboard/order-detail/${item.id}`} className="btn btn-info btn-sm"> <i className="fa-solid fa-eye" /></Link>
+                              <a href="#" className={item.status === "Success" ? "d-none" : "btn btn-sm btn-success ms-2"} onClick={() => updateStatusSuccess (item.id)}><i className="fas fa-check"></i></a>
+>>>>>>> a270336f3dbadd71cf77e0e814a2fa8ba2cb3a54
                             </td>
                           </tr>
                         ))}
                       </tbody>
-                    </Table>
+                    </table>
                   </div>
                 </div>
               </>

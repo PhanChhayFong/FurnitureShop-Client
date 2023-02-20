@@ -29,6 +29,13 @@
 /*----------------------------------------*/
 /* Template default CSS
 /*----------------------------------------*/
+.star-rating{
+	color: #f7941d !important;
+	padding: 0px 2px;
+}
+.fa-star-o{
+	padding: 0px 2px !important;
+}
 .disabled {
 	pointer-events: none;
 	cursor: not-allowed;
@@ -528,6 +535,7 @@ ol {
 	font-weight: 600;
 	position: relative;
 	padding: 3px 0;
+	text-decoration: none;
 }
 
 .header__menu ul li a:after {
@@ -561,8 +569,13 @@ ol {
 	color: #0d0d0d;
 	font-size: 11px;
 	position: absolute;
-	left: 5px;
-	top: 8px;
+	left: 16px;
+	top: -17px;
+	/* background-color: red; */
+	padding: 2px 7px;
+	border-radius: 50%;
+	color: #fff;
+	font-weight: 700;
 }
 
 .header__nav__option a:last-child {
@@ -1086,7 +1099,12 @@ ol {
 	z-index: -1;
 }
 
-.product__item__pic .product__hover li img {
+.product__item__pic .product__hover li a{
+	text-decoration: none;
+	color: #000;;
+}
+
+.product__item__pic .product__hover li a i {
 	background: #ffffff;
 	padding: 10px;
 	display: inline-block;
@@ -1299,6 +1317,7 @@ ol {
 	-webkit-transition: all, 0.3s;
 	-o-transition: all, 0.3s;
 	transition: all, 0.3s;
+	text-decoration: none;
 }
 
 .shop__sidebar__categories ul li a:hover,
