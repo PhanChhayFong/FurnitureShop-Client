@@ -70,12 +70,12 @@ export default function MyAccount() {
                     style={{
                       width: "160px",
                       height: "160px",
-                      borderRadius:"50%",
-                      backgroundImage:`url(${users.image})`,
-                      backgroundPosition:"center",
-                      backgroundRepeat:"no-repeat",
-                      backgroundSize:"100%",
-                      margin:"0 auto",
+                      borderRadius: "50%",
+                      backgroundImage: `url(${users.image})`,
+                      backgroundPosition: "center",
+                      backgroundRepeat: "no-repeat",
+                      backgroundSize: "100%",
+                      margin: "0 auto",
                       border: "5px solid rgb(238, 238, 238)",
                     }}
                   />
@@ -170,7 +170,7 @@ export default function MyAccount() {
         id="exampleModalToggle"
         aria-hidden="true"
         aria-labelledby="exampleModalToggleLabel"
-        tabindex="-1"
+        tabIndex="-1"
       >
         <div className="modal-dialog modal-dialog-centered modal-xl ">
           <div className="modal-content">

@@ -175,10 +175,14 @@ export default function Footer({ click }) {
           <div className="col-lg-3 col-md-6 col-sm-6 text-center order-2 order-lg-4">
             <div className="footer__widget">
               <h6>Our Social Media</h6>
-              <button style={{borderRadius:"50%",width:50,height:50}}><i className="fa fa-facebook-square fs-5" aria-hidden="true"></i></button>
-              <button style={{borderRadius:"50%",width:50,height:50}}><i className="fa-brands fa-telegram fs-5" aria-hidden="true"></i></button>
-              <button style={{borderRadius:"50%",width:50,height:50}}><i className="fa-solid fa-envelope  fs-5" aria-hidden="true"></i></button>
-              <button style={{borderRadius:"50%",width:50,height:50}}><i className="fa-brands fa-twitter  fs-5" aria-hidden="true"></i></button>
+              {companys && companys.map((company) => (
+              <div key={company._id}>
+                <a href={`${company.facebook}`} style={{borderRadius:"50%",padding:10,width:50,height:50}}><i className="fa fa-facebook-square fs-3"/></a>
+                <a href={`${company.telegram}`} style={{borderRadius:"50%",padding:10,width:50,height:50}}><i className="fa-brands fa-telegram fs-3"/></a>
+                <a href={`${company.email}`} style={{borderRadius:"50%",padding:10,width:50,height:50}}><i className="fa-solid fa-envelope  fs-3"/></a>
+                <a href={`${company.twitter}`} style={{borderRadius:"50%",padding:10,width:50,height:50}}><i className="fa-brands fa-twitter  fs-3"/></a>
+              </div>
+              ))}
             </div>
           </div>
         </div>
