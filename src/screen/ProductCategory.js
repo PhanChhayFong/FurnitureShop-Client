@@ -308,17 +308,6 @@ export default function ProductCategory() {
                             </>
                           )}
                         </h5>
-                        <div className="product__color__select">
-                          <label htmlFor="pc-4">
-                            <input type="radio" id="pc-4" />
-                          </label>
-                          <label className="active black" htmlFor="pc-5">
-                            <input type="radio" id="pc-5" />
-                          </label>
-                          <label className="grey" htmlFor="pc-6">
-                            <input type="radio" id="pc-6" />
-                          </label>
-                        </div>
                       </div>
                     </div>
                   </div>
