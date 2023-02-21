@@ -8,9 +8,7 @@ import "./style.css";
 export default function Sliders() {
   const [index, setIndex] = useState(0);
 
-  const handleSelect = (selectedIndex, e) => {
-    setIndex(selectedIndex);
-  };
+  const handleSelect = (selectedIndex, e) => setIndex(selectedIndex);
 
   const [sliders, setSliders] = useState([]);
 
