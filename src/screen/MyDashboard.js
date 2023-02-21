@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import "./styles/my-dashboard.css";
-import Table from "react-bootstrap/Table";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
@@ -8,21 +7,19 @@ export default function MyDashboard() {
   const [orders, setOrders] = useState([]);
   const [total_purchase, setTotal_purchase] = useState([]);
   const [total_delivery, setTotal_delivery] = useState([]);
+  const [re, setRe] = useState(false);
 
   const token = localStorage.getItem("token");
   const user = token ? JSON.parse(token) : "";
   const userId = user ? user.user.id : "";
 
   useEffect(() => {
+    setRe(false);
     axios
       .all([
         axios.get(`http://localhost:5000/api/v1/orders/item-order/${userId}`),
-        axios.get(
-          `http://localhost:5000/api/v1/orders/total-purchased/${userId}`
-        ),
-        axios.get(
-          `http://localhost:5000/api/v1/orders/total-delivery/${userId}`
-        ),
+        axios.get(`http://localhost:5000/api/v1/orders/total-purchased/${userId}`),
+        axios.get(`http://localhost:5000/api/v1/orders/total-delivery/${userId}`),
       ])
       .then(
         axios.spread(
@@ -33,41 +30,15 @@ export default function MyDashboard() {
           }
         )
       )
-      .catch((err) => console.log(err));
-  }, [orders, setTotal_purchase, setTotal_delivery]);
-
-  useEffect(() => {
-    axios
-      .all([
-        axios.get(`http://localhost:5000/api/v1/orders/item-order/${userId}`),
-        axios.get(
-          `http://localhost:5000/api/v1/orders/total-purchased/${userId}`
-        ),
-        axios.get(
-          `http://localhost:5000/api/v1/orders/total-delivery/${userId}`
-        ),
-      ])
-      .then(
-        axios.spread(
-          (orderResponse, totalPurchasedResponse, totalDeliveryResponse) => {
-            setOrders(orderResponse.data);
-            setTotal_purchase(totalPurchasedResponse.data);
-            setTotal_delivery(totalDeliveryResponse.data);
-          }
-        )
-      );
-    // }, [setOrders, setTotal_purchase, setTotal_delivery]);
-  }, []);
+    // }, [orders, setTotal_purchase, setTotal_delivery]);
+  }, [re]);
 
   // update the order status to success
   const updateStatusSuccess = async (orderId) => {
     try {
       const orderResponse = orders.find((item) => item.id === orderId);
-      axios.put(
-        `http://localhost:5000/api/v1/orders/success/${orderId}`,
-        orderResponse
-      );
-
+      axios.put(`http://localhost:5000/api/v1/orders/success/${orderId}`,orderResponse);
+      setRe(true);
       return orderResponse;
     } catch (err) {
       console.log(err);
@@ -167,23 +138,20 @@ export default function MyDashboard() {
             {/* Main Dashboard */}
 
             {orders.length === 0 ? (
-              <>
-                <div className="row my-5">
-                  <div className="col-lg-12 text-center">
-                    <h1>Order is empty...</h1>
-                    <p>Please go to shop and add product</p>
-                    <Link
-                      to="/shop"
-                      className="btn btn-success btn-sm px-4 py-2 fw-bold text-center"
-                    >
-                      Shop Now <i className="fas fa-shopping-cart ms-1"></i>
-                    </Link>
-                  </div>
+              <div className="row my-5">
+                <div className="col-lg-12 text-center">
+                  <h1>Order is empty...</h1>
+                  <p>Please go to shop and add product</p>
+                  <Link
+                    to="/shop"
+                    className="btn btn-success btn-sm px-4 py-2 fw-bold text-center"
+                  >
+                    Shop Now <i className="fas fa-shopping-cart ms-1"></i>
+                  </Link>
                 </div>
-              </>
+              </div>
             ) : (
-              <>
-                <div className="row mt-4">
+              <div className="row mt-4">
                   <div className="col-xl-12">
                     <table className="text-center table table-striped table-hover table-bordered">
                       <thead className="table-light">
@@ -214,26 +182,20 @@ export default function MyDashboard() {
                             <td>{item.email}</td>
                             <td>
                               {item.status === "Delivering" ? (
-                                <>
-                                  {" "}
-                                  <span className="bg-warning text-dark status-delivering">
-                                    Delivering
-                                  </span>{" "}
-                                </>
+                                <span className="bg-warning text-dark status-delivering">
+                                  Delivering
+                                </span>
                               ) : (
-                                <>
-                                  {" "}
-                                  <span className="bg-success text-light status-success">
-                                    Success
-                                  </span>{" "}
-                                </>
+                                <span className="bg-success text-light status-success">
+                                  Success
+                                </span>
                               )}
                             </td>
                             {/* <td>{formatDate(item.dateOrdered)}</td> */}
                             <td>
-                              {new Date(item.dateOrdered).toLocaleDateString()}{" "}
-                              |{" "}
-                              {new Date(item.dateOrdered).toLocaleTimeString()}{" "}
+                              {new Date(item.dateOrdered).toLocaleDateString()}
+                              {" "} | {" "} 
+                              {new Date(item.dateOrdered).toLocaleTimeString()}
                             </td>
                             <td>
                               <Link
@@ -261,8 +223,7 @@ export default function MyDashboard() {
                       </tbody>
                     </table>
                   </div>
-                </div>
-              </>
+              </div>
             )}
           </div>
         </div>

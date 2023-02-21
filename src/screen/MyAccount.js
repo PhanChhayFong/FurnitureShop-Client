@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./styles/my-account.css";
 import { Link } from "react-router-dom";
-import axios from "axios";
 import Alart from "../services/Alart";
 import apiService from "../services/api-service";
 
@@ -11,13 +10,7 @@ export default function MyAccount() {
   const [changed, setChanged] = useState(false);
   const token = localStorage.getItem("token");
   const user = token ? JSON.parse(token) : "";
-  const userId = user ? user.user.id : "";
-  useEffect(() => {
-    axios
-      .get(`http://localhost:5000/api/v1/users/${userId}`)
-      .then((res) => setUsers(res.data));
-    // }, [userId]);
-  }, []);
+  useEffect(() => setUsers(user.user), []);
 
   // edit new Image of User Profile
   const hiddenImageUpload = React.useRef(null);
@@ -33,7 +26,7 @@ export default function MyAccount() {
   };
 
   // update the user profile
-  const update = async () => apiService.update("users", userId, users);
+  const update = async () => apiService.update("users", user.user.id, users);
 
   return (
     <>
@@ -92,9 +85,18 @@ export default function MyAccount() {
                       href="#exampleModalToggle"
                       role="button"
                     >
-                      <i className="fas fa-user me-2"></i>Update Profile
+                      <i className="fas fa-user me-2"/>Update Profile
                     </button>
                   </p>
+                  <button
+                    type="button"
+                    className="btn btn-primary btn-sm text-light fw-bold p-2 px-3"
+                    data-toggle="modal"
+                    role="button"
+                    onClick={() => Alart.alartChangePassword(user.user.id)}
+                  >
+                    <i className="fas fa-key me-2"/>Change Password
+                  </button>
                 </div>
               </div>
             </div>
@@ -164,7 +166,6 @@ export default function MyAccount() {
       </section>
 
       {/* Bootstrap Modal */}
-
       <div
         className="modal fade"
         id="exampleModalToggle"
