@@ -33,7 +33,7 @@ export default function Cart() {
       const response = await axios.delete(
         `http://localhost:5000/api/v1/shoppingcarts/clear/cart_items/${userId}`
       );
-
+      setRe(true);
       setClearAllCartItem(response.data);
       return response;
     } catch (err) {
