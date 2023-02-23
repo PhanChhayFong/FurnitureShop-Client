@@ -132,7 +132,7 @@ function Login() {
               >
                 Log in
               </button>
-              <a className="text-muted" href="#!">
+              <a className="text-muted" href="#!" onClick={() => Alart.alartForgotPassword()}>
                 Forgot password?
               </a>
             </div>
