@@ -10,7 +10,12 @@ export default function MyAccount() {
   const [changed, setChanged] = useState(false);
   const token = localStorage.getItem("token");
   const user = token ? JSON.parse(token) : "";
-  useEffect(() => setUsers(user.user), []);
+  const userID = user.user.id;
+  const [re, Setre] = useState(false);
+  useEffect(() => {
+    Setre(false);
+    apiService.get(`users`,`${userID}`).then((res) => setUsers(res.data));
+  }, [re]);
 
   // edit new Image of User Profile
   const hiddenImageUpload = React.useRef(null);
@@ -26,7 +31,10 @@ export default function MyAccount() {
   };
 
   // update the user profile
-  const update = async () => apiService.update("users", user.user.id, users);
+  const update = async () => {
+    apiService.update("users", user.user.id, users);
+    Setre(true);
+  };
 
   return (
     <>
@@ -85,7 +93,8 @@ export default function MyAccount() {
                       href="#exampleModalToggle"
                       role="button"
                     >
-                      <i className="fas fa-user me-2"/>Update Profile
+                      <i className="fas fa-user me-2" />
+                      Update Profile
                     </button>
                   </p>
                   <button
@@ -95,7 +104,8 @@ export default function MyAccount() {
                     role="button"
                     onClick={() => Alart.alartChangePassword(user.user.id)}
                   >
-                    <i className="fas fa-key me-2"/>Change Password
+                    <i className="fas fa-key me-2" />
+                    Change Password
                   </button>
                 </div>
               </div>
@@ -305,7 +315,10 @@ export default function MyAccount() {
                 <>
                   <button
                     className="btn btn-success btn-sm fw-bold"
-                    onClick={() => Alart.alartSave(changed, update())}
+                    onClick={() => {
+                      Setre(true);
+                      Alart.alartSave(changed, update());
+                    }}
                     data-dismiss="modal"
                   >
                     Update<i className="fas fa-tools ms-2"></i>
