@@ -99,7 +99,6 @@ export default function MenuNavbar({ click }) {
             <a href="#">
               <img src="img/icon/cart.png" /> <span>0</span>
             </a>
-            <div className="price">$0.00</div>
           </div>
           <div id="mobile-menu-wrap" />
           <div className="offcanvas__text">
