@@ -48,24 +48,16 @@ export default function MenuNavbar({ click }) {
           }
         )
       );
-    // }, [
-    //   userId,
-    //   setCompanys,
-    //   setCategories,
-    //   countNumCartItem,
-    //   countNumWishlistItem,
-    // ]);
   }, []);
 
   const logout = () => {
+    <Navigate to="/" />
     if (token) {
       ApiService.updateActive("users", user.user.id, { active: false });
       localStorage.clear("token");
-      setNavigate(true);
       window.location.reload(true);
     }
   };
-  if (navigate) return <Navigate to="/" />;
   return (
     <nav>
       <div>
