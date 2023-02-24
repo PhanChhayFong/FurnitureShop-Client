@@ -63,7 +63,7 @@ function App() {
               <div className="col-6">
                 <input
                   className="form-control"
-                  id="form1"
+                  id="form2"
                   type="email"
                   value={user.email}
                   onChange={(e) => {
@@ -81,7 +81,7 @@ function App() {
               <div className="col-6">
                 <input
                   className="form-control"
-                  id="form1"
+                  id="form3"
                   type="password"
                   value={user.password}
                   onChange={(e) => {
@@ -97,7 +97,7 @@ function App() {
               <div className="col-6">
                 <input
                   className="form-control"
-                  id="form1"
+                  id="form4"
                   type="password"
                   value={confirmPassword}
                   onChange={(e) => {

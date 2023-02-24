@@ -34,6 +34,9 @@ class Alart {
       text: "Can't Move " + error,
     });
   };
+  alartSaveSuccess = () => {
+    Swal.fire("Saved!", "", "success");
+  }
   alartSave = (changed) => {
     if (changed) {
       Swal.fire({
@@ -162,10 +165,12 @@ class Alart {
               _("swal-input1") !== "" &&
               _("swal-input2") !== "" &&
               _("swal-input1") == _("swal-input2")
-            )
+            ){
               ApiService.updateFGPassword("users/chfgPass", res.data.user.id, {
                 password: `${_("swal-input1")}`,
               });
+              this.alartSaveSuccess();
+            }
             else if (_("swal-input1") !== _("swal-input2"))
               this.alartPasswordError(true);
             else this.alartLoginEmpty("New Password");

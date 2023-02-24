@@ -132,7 +132,11 @@ function Login() {
               >
                 Log in
               </button>
-              <a className="text-muted" href="#!" onClick={() => Alart.alartForgotPassword()}>
+              <a
+                className="text-muted"
+                href="#!"
+                onClick={() => Alart.alartForgotPassword()}
+              >
                 Forgot password?
               </a>
             </div>
@@ -140,14 +144,8 @@ function Login() {
             <div className="d-flex flex-row align-items-center justify-content-center pb-4 mb-4">
               <p className="mb-0">Don't have an account?</p>
 
-              <Link to="/sign-up" className="ms-2">
-                <button
-                  type="button"
-                  outline
-                  className="mx-2 btn btn-outline-danger"
-                >
-                  Create new
-                </button>
+              <Link to="/sign-up" className="ms-2 mx-2 btn btn-outline-danger">
+                Create new
               </Link>
             </div>
           </div>

@@ -10,34 +10,41 @@ export default function MyDashboard() {
   const [re, setRe] = useState(false);
 
   const token = localStorage.getItem("token");
-  const user = token ? JSON.parse(token) : "";
-  const userId = user ? user.user.id : "";
 
   useEffect(() => {
-    setRe(false);
-    axios
-      .all([
-        axios.get(`http://localhost:5000/api/v1/orders/item-order/${userId}`),
-        axios.get(`http://localhost:5000/api/v1/orders/total-purchased/${userId}`),
-        axios.get(`http://localhost:5000/api/v1/orders/total-delivery/${userId}`),
-      ])
-      .then(
-        axios.spread(
-          (orderResponse, totalPurchasedResponse, totalDeliveryResponse) => {
-            setOrders(orderResponse.data);
-            setTotal_purchase(totalPurchasedResponse.data);
-            setTotal_delivery(totalDeliveryResponse.data);
-          }
-        )
-      )
-    // }, [orders, setTotal_purchase, setTotal_delivery]);
+    if (token) {
+      setRe(false);
+      const userId = JSON.parse(token).user.id;
+      axios
+        .all([
+          axios.get(`http://localhost:5000/api/v1/orders/item-order/${userId}`),
+          axios.get(
+            `http://localhost:5000/api/v1/orders/total-purchased/${userId}`
+          ),
+          axios.get(
+            `http://localhost:5000/api/v1/orders/total-delivery/${userId}`
+          ),
+        ])
+        .then(
+          axios.spread(
+            (orderResponse, totalPurchasedResponse, totalDeliveryResponse) => {
+              setOrders(orderResponse.data);
+              setTotal_purchase(totalPurchasedResponse.data);
+              setTotal_delivery(totalDeliveryResponse.data);
+            }
+          )
+        );
+    }
   }, [re]);
 
   // update the order status to success
   const updateStatusSuccess = async (orderId) => {
     try {
       const orderResponse = orders.find((item) => item.id === orderId);
-      axios.put(`http://localhost:5000/api/v1/orders/success/${orderId}`,orderResponse);
+      axios.put(
+        `http://localhost:5000/api/v1/orders/success/${orderId}`,
+        orderResponse
+      );
       setRe(true);
       return orderResponse;
     } catch (err) {
@@ -152,77 +159,76 @@ export default function MyDashboard() {
               </div>
             ) : (
               <div className="row mt-4">
-                  <div className="col-xl-12">
-                    <table className="text-center table table-striped table-hover table-bordered">
-                      <thead className="table-light">
-                        <tr>
-                          <th>ID</th>
-                          <th>SubTotal</th>
-                          <th>Tax</th>
-                          <th>Total</th>
-                          <th>Name</th>
-                          <th>Mobile</th>
-                          <th>Email</th>
-                          <th>Status</th>
-                          <th>Order Date</th>
-                          <th>Action</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {orders.map((item, i) => (
-                          <tr key={item.id}>
-                            <td>{i + 1}</td>
-                            <td>${item.subTotal.toFixed(2)}</td>
-                            <td>${item.tax.toFixed(2)}</td>
-                            <td>${item.totalPrice.toFixed(2)}</td>
-                            <td>
-                              {item.lastname} {item.firstname}
-                            </td>
-                            <td>+ 855 {item.phone}</td>
-                            <td>{item.email}</td>
-                            <td>
-                              {item.status === "Delivering" ? (
-                                <span className="bg-warning text-dark status-delivering">
-                                  Delivering
-                                </span>
-                              ) : (
-                                <span className="bg-success text-light status-success">
-                                  Success
-                                </span>
-                              )}
-                            </td>
-                            {/* <td>{formatDate(item.dateOrdered)}</td> */}
-                            <td>
-                              {new Date(item.dateOrdered).toLocaleDateString()}
-                              {" "} | {" "} 
-                              {new Date(item.dateOrdered).toLocaleTimeString()}
-                            </td>
-                            <td>
-                              <Link
-                                to={`/my-dashboard/order-detail/${item.id}`}
-                                className="btn btn-info btn-sm"
+                <div className="col-xl-12">
+                  <table className="text-center table table-striped table-hover table-bordered">
+                    <thead className="table-light">
+                      <tr>
+                        <th>ID</th>
+                        <th>SubTotal</th>
+                        <th>Tax</th>
+                        <th>Total</th>
+                        <th>Name</th>
+                        <th>Mobile</th>
+                        <th>Email</th>
+                        <th>Status</th>
+                        <th>Order Date</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {orders.map((item, i) => (
+                        <tr key={item.id}>
+                          <td>{i + 1}</td>
+                          <td>${item.subTotal.toFixed(2)}</td>
+                          <td>${item.tax.toFixed(2)}</td>
+                          <td>${item.totalPrice.toFixed(2)}</td>
+                          <td>
+                            {item.lastname} {item.firstname}
+                          </td>
+                          <td>+ 855 {item.phone}</td>
+                          <td>{item.email}</td>
+                          <td>
+                            {item.status === "Delivering" ? (
+                              <span className="bg-warning text-dark status-delivering">
+                                Delivering
+                              </span>
+                            ) : (
+                              <span className="bg-success text-light status-success">
+                                Success
+                              </span>
+                            )}
+                          </td>
+                          {/* <td>{formatDate(item.dateOrdered)}</td> */}
+                          <td>
+                            {new Date(item.dateOrdered).toLocaleDateString()} |{" "}
+                            {new Date(item.dateOrdered).toLocaleTimeString()}
+                          </td>
+                          <td>
+                            <Link
+                              to={`/my-dashboard/order-detail/${item.id}`}
+                              className="btn btn-info btn-sm"
+                            >
+                              {" "}
+                              <i className="fa-solid fa-eye" />
+                            </Link>
+                            {item.status == "Success" ? (
+                              ""
+                            ) : (
+                              <a
+                                href="#"
+                                title="Confirm"
+                                className={"btn btn-sm btn-success ms-2"}
+                                onClick={() => updateStatusSuccess(item.id)}
                               >
-                                {" "}
-                                <i className="fa-solid fa-eye" />
-                              </Link>
-                              {item.status == "Success" ? (
-                                ""
-                              ) : (
-                                <a
-                                  href="#"
-                                  title="Confirm"
-                                  className={"btn btn-sm btn-success ms-2"}
-                                  onClick={() => updateStatusSuccess(item.id)}
-                                >
-                                  <i className="fas fa-check"></i>
-                                </a>
-                              )}
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
+                                <i className="fas fa-check"></i>
+                              </a>
+                            )}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
               </div>
             )}
           </div>

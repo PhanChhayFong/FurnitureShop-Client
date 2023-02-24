@@ -10,17 +10,20 @@ export default function MyAccount() {
   const [changed, setChanged] = useState(false);
   const token = localStorage.getItem("token");
   const user = token ? JSON.parse(token) : "";
-  const userID = user.user.id;
   const [re, Setre] = useState(false);
   useEffect(() => {
-    Setre(false);
-    apiService.get(`users`,`${userID}`).then((res) => setUsers(res.data));
+    if (token) {
+      Setre(false);
+      apiService
+        .get(`users`, `${user.user.id}`)
+        .then((res) => setUsers(res.data));
+    }
   }, [re]);
 
   // edit new Image of User Profile
   const hiddenImageUpload = React.useRef(null);
   const handleClick = () => hiddenImageUpload.current.click();
-  const hnadleInputChange = (event) => {
+  const handleInputChange = (event) => {
     // review image
     setImg(URL.createObjectURL(event.target.files[0]));
     setUsers({
@@ -216,7 +219,19 @@ export default function MyAccount() {
                       }}
                     />
                   </div>
-
+                  <div className="mb-3">
+                    <label className="form-label">Nationality</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      placeholder="Nationality..."
+                      value={users.nationality || ""}
+                      onChange={(e) => {
+                        setChanged(true);
+                        setUsers({ ...users, nationality: e.target.value });
+                      }}
+                    />
+                  </div>
                   <div className="mb-4">
                     <label
                       className="form-label"
@@ -228,7 +243,7 @@ export default function MyAccount() {
                     <input
                       type="file"
                       ref={hiddenImageUpload}
-                      onChange={hnadleInputChange}
+                      onChange={handleInputChange}
                       accept="*/image"
                       className="form-control"
                     />
@@ -317,7 +332,8 @@ export default function MyAccount() {
                     className="btn btn-success btn-sm fw-bold"
                     onClick={() => {
                       Setre(true);
-                      Alart.alartSave(changed, update());
+                      update();
+                      Alart.alartSaveSuccess();
                     }}
                     data-dismiss="modal"
                   >

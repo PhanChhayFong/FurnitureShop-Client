@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link, NavLink, Navigate, redirect } from "react-router-dom";
+import { Link, NavLink, Navigate } from "react-router-dom";
 import "./style/menuNavBar.css";
 import axios from "axios";
 import ApiService from "../services/api-service";
@@ -8,7 +8,6 @@ export default function MenuNavbar({ click }) {
   const [companys, setCompanys] = useState();
   const [categories, setCategories] = useState([]);
 
-  const [navigate, setNavigate] = useState(false);
   const token = localStorage.getItem("token");
   const user = token ? JSON.parse(token) : "";
 
