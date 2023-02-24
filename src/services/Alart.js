@@ -163,7 +163,7 @@ class Alart {
               _("swal-input2") !== "" &&
               _("swal-input1") == _("swal-input2")
             )
-              ApiService.updatePassword("users/chfgPass", res.data.user.id, {
+              ApiService.updateFGPassword("users/chfgPass", res.data.user.id, {
                 password: `${_("swal-input1")}`,
               });
             else if (_("swal-input1") !== _("swal-input2"))

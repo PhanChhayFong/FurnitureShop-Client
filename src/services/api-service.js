@@ -48,6 +48,14 @@ class ApiService {
           return Alart.alartLoginError(err.response.status, err.response.data);
       });
   }
+  updateFGPassword(tb, id, data) {
+    return config(true)
+      .put(`${tb}/${id}`, data)
+      .catch((err) => {
+        if (err.response)
+          return Alart.alartLoginError(err.response.status, err.response.data);
+      });
+  }
   delete(tb, id) {
     return config(true).delete(`/${tb}/${id}`);
   }
