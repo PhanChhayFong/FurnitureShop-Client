@@ -105,8 +105,9 @@ export default function Checkout() {
               <div className="breadcrumb__text">
                 <h4>Check Out</h4>
                 <div className="breadcrumb__links">
-                  <a href="./index.html">Home</a>
-                  <a href="./shop.html">Shop</a>
+                  <Link to="/">Home</Link>
+                  <Link to="/shop">Shop</Link>
+                  <Link to="/shop/cart">Shopping Cart</Link>
                   <span>Check Out</span>
                 </div>
               </div>
@@ -288,13 +289,17 @@ export default function Checkout() {
                           </li>
                         </ul>
 
-                        <div className="checkout__order__products">
-                          Payment Method
-                        </div>
                         <div className="checkout__input__checkbox">
                           <label htmlFor="payment">
-                            Cash On Delivery
+                            Payment Method
                             <input type="checkbox" id="payment" />
+                            <span className="checkmark" />
+                          </label>
+                        </div>
+                        <div className="checkout__input__checkbox">
+                          <label htmlFor="cash">
+                            Cash On Delivery
+                            <input type="checkbox" id="cash" />
                             <span className="checkmark" />
                           </label>
                         </div>
