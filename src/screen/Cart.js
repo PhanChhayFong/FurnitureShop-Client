@@ -17,7 +17,6 @@ export default function Cart() {
       .then((res) => setCartItem(res.data));
     setRe(false);
   }, [re]);
-
   const totalPrice = cartItem.reduce(
     (total, item) =>
       total +
@@ -83,6 +82,7 @@ export default function Cart() {
         );
         setRemoveSingleCartItem(cartItem.filter((item) => item._id !== cartId));
         setRe(true);
+        window.location.reload(true);
         return response;
       }
     } catch (err) {
@@ -134,7 +134,8 @@ export default function Cart() {
                         <tr>
                           <th>Product</th>
                           <th>Quantity</th>
-                          <th>Total</th>
+                          <th>Unit Price</th>
+                          <th>Price</th>
                           <th />
                         </tr>
                       </thead>
@@ -175,10 +176,13 @@ export default function Cart() {
                               </div>
                             </td>
                             <td className="cart__price">
+                              $ {item.product.salePrice}
+                            </td>
+                            <td className="cart__price">
                               ${" "}
                               {item.product.salePrice
-                                ? item.product.salePrice.toFixed(2)
-                                : item.product.regularPrice.toFixed(2)}
+                                ? (item.product.salePrice*item.quantity).toFixed(2)
+                                : (item.product.regularPrice*item.quantity).toFixed(2)}
                             </td>
                             <td className="cart__close">
                               <a
@@ -232,10 +236,7 @@ export default function Cart() {
                     <h6>Cart total</h6>
                     <ul>
                       <li>
-                        Subtotal <span>$ {totalPrice.toFixed(2)}</span>
-                      </li>
-                      <li>
-                        Total <span>$ {totalPrice.toFixed(2)}</span>
+                        Total Price : <span>$ {totalPrice.toFixed(2)}</span>
                       </li>
                     </ul>
                     <Link to="/checkout" className="primary-btn">

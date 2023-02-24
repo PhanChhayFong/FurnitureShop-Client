@@ -71,11 +71,14 @@ export default function ProductCategory() {
   const token = localStorage.getItem("token");
   const user = token ? JSON.parse(token) : "";
   const userId = user ? user.user.id : "";
-    useEffect(() => {
-        axios.get(`http://localhost:5000/api/v1/products/get/product_category/${categoryId}`)
-        .then(res=> setProducts(res.data))
-        .catch(err => console.log(err))
-    },[]);
+  useEffect(() => {
+    axios
+      .get(
+        `http://localhost:5000/api/v1/products/get/product_category/${categoryId}`
+      )
+      .then((res) => setProducts(res.data))
+      .catch((err) => console.log(err));
+  }, []);
 
   const handleAddToCart = async (productId, proQty) => {
     try {
@@ -222,94 +225,101 @@ export default function ProductCategory() {
               <div className="row">
                 {currentItems.map((product) => (
                   <div key={product._id} className="col-lg-4 col-md-6 col-sm-6">
-                    <div className="product__item">
-                      <div
-                        className="product__item__pic set-bg"
-                        style={{ backgroundImage: `url(${product.image})` }}
-                      >
-                        {product.salePrice ? (
-                          <span className="label text-light bg-dark">
-                            sales
-                          </span>
-                        ) : (
-                          " "
-                        )}
-                        {product.countInStock >= 0 &&
-                        product.countInStock <= 20 ? (
-                          <p className="float-end text-light bg-danger fw-bold remaining">
-                            Remaining: {product.countInStock}
-                          </p>
-                        ) : (
-                          " "
-                        )}
-
-                        <ul className="product__hover">
-                          <li>
-                            <a
-                              href="#"
-                              onClick={() => handleAddToWishlist(product._id)}
-                            >
-                              {wishlist[product._id] ? (
-                                <i className="far fa-heart text-danger"></i>
-                              ) : (
-                                <i className="far fa-heart"></i>
-                              )}
-                            </a>
-                          </li>
-                          <li>
-                            <Link to={`/shop/product_detail/${product._id}`}>
-                              <i className="fas fa-search"></i>
-                            </Link>
-                          </li>
-                        </ul>
-                      </div>
-                      <div className="product__item__text">
-                        <h6>{product.name}</h6>
-                        <a
-                          href="#"
-                          className={
-                            product.countInStock === 0 ? "disabled" : "add-cart"
-                          }
-                          onClick={() => handleAddToCart(product._id, 1)}
+                    <Link
+                      to={`/shop/product_detail/${product._id}`}
+                      style={{ textDecoration: "none" }}
+                    >
+                      <div className="product__item">
+                        <div
+                          className="product__item__pic set-bg"
+                          style={{ backgroundImage: `url(${product.image})` }}
                         >
-                          {product.countInStock === 0
-                            ? "Add To Cart is not available"
-                            : "+ Add To Cart"}
-                        </a>
-                        <div className="rating">
-                          {[...Array(product.rating)].map((e, i) => (
-                            <i className="fa fa-star star-rating" key={i} />
-                          ))}
-                          {[...Array(5 - product.rating)].map((e, i) => (
-                            <i className="fa fa-star-o" key={i} />
-                          ))}
-                        </div>
-                        <h5>
                           {product.salePrice ? (
-                            <>
-                              $
-                              {product.salePrice
-                                ? product.salePrice.toFixed(2)
-                                : "N/A"}
-                              <span>
+                            <span className="label text-light bg-dark">
+                              sales
+                            </span>
+                          ) : (
+                            " "
+                          )}
+                          {product.countInStock >= 0 &&
+                          product.countInStock <= 20 ? (
+                            <p className="float-end text-light bg-danger fw-bold remaining">
+                              Remaining: {product.countInStock}
+                            </p>
+                          ) : (
+                            " "
+                          )}
+
+                          <ul className="product__hover">
+                            <li>
+                              <a
+                                href="#"
+                                onClick={() => handleAddToWishlist(product._id)}
+                              >
+                                {wishlist[product._id] ? (
+                                  <i className="far fa-heart text-danger"></i>
+                                ) : (
+                                  <i className="far fa-heart"></i>
+                                )}
+                              </a>
+                            </li>
+                            <li>
+                              <Link to={`/shop/product_detail/${product._id}`}>
+                                <i className="fas fa-search"></i>
+                              </Link>
+                            </li>
+                          </ul>
+                        </div>
+                        <div className="product__item__text">
+                          <h6>{product.name}</h6>
+                          <a
+                            href="#"
+                            className={
+                              product.countInStock === 0
+                                ? "disabled"
+                                : "add-cart"
+                            }
+                            onClick={() => handleAddToCart(product._id, 1)}
+                          >
+                            {product.countInStock === 0
+                              ? "Add To Cart is not available"
+                              : "+ Add To Cart"}
+                          </a>
+                          <div className="rating">
+                            {[...Array(product.rating)].map((e, i) => (
+                              <i className="fa fa-star star-rating" key={i} />
+                            ))}
+                            {[...Array(5 - product.rating)].map((e, i) => (
+                              <i className="fa fa-star-o" key={i} />
+                            ))}
+                          </div>
+                          <h5>
+                            {product.salePrice ? (
+                              <>
+                                $
+                                {product.salePrice
+                                  ? product.salePrice.toFixed(2)
+                                  : "N/A"}
+                                <span>
+                                  $
+                                  {product.regularPrice
+                                    ? product.regularPrice.toFixed(2)
+                                    : "N/A"}
+                                </span>
+                              </>
+                            ) : (
+                              <>
+                                {" "}
                                 $
                                 {product.regularPrice
                                   ? product.regularPrice.toFixed(2)
-                                  : "N/A"}
-                              </span>
-                            </>
-                          ) : (
-                            <>
-                              {" "}
-                              $
-                              {product.regularPrice
-                                ? product.regularPrice.toFixed(2)
-                                : "N/A"}{" "}
-                            </>
-                          )}
-                        </h5>
+                                  : "N/A"}{" "}
+                              </>
+                            )}
+                          </h5>
+                        </div>
                       </div>
-                    </div>
+                    </Link>
                   </div>
                 ))}
               </div>

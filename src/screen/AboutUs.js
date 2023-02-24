@@ -5,11 +5,23 @@ import Card from "react-bootstrap/Card";
 
 export default function AboutUs() {
   const [userAdmin, setUserAdmin] = useState([]);
+  const [countClient, setCountClient] = useState([]);
+  const [category, setCategory] = useState([]);
+  const [products, setProducts] = useState([]);
 
   useEffect(() => {
     axios
-      .get("http://localhost:5000/api/v1/users/")
+      .get("http://localhost:5000/api/v1/users/get/user-admin")
       .then((res) => setUserAdmin(res.data));
+    axios
+      .get("http://localhost:5000/api/v1/users")
+      .then((res) => setCountClient(res.data));
+    axios
+      .get("http://localhost:5000/api/v1/categories")
+      .then((res) => setCategory(res.data));
+    axios
+      .get("http://localhost:5000/api/v1/products")
+      .then((res) => setProducts(res.data));
   }, []);
 
   return (
@@ -95,11 +107,8 @@ export default function AboutUs() {
                 </div>
               </div>
             </div>
-            <div className="col-lg-6 p-0">
-              <div
-                className="testimonial__pic set-bg"
-                data-setbg="img/about/testimonial-pic.jpg"
-              />
+            <div className="col-lg-6 p-0 mt-5 pe-5">
+              <img src="img/about/catalog-furniture-custom.jpg" />
             </div>
           </div>
         </div>
@@ -110,7 +119,9 @@ export default function AboutUs() {
             <div className="col-lg-3 col-md-6 col-sm-6">
               <div className="counter__item">
                 <div className="counter__item__number">
-                  <h2 className="cn_num">102</h2>
+                  <h2 className="cn_num">
+                    {countClient.length - userAdmin.length}
+                  </h2>
                 </div>
                 <span>
                   Our <br />
@@ -121,7 +132,7 @@ export default function AboutUs() {
             <div className="col-lg-3 col-md-6 col-sm-6">
               <div className="counter__item">
                 <div className="counter__item__number">
-                  <h2 className="cn_num">30</h2>
+                  <h2 className="cn_num">{category.length}</h2>
                 </div>
                 <span>
                   Total <br />
@@ -132,11 +143,11 @@ export default function AboutUs() {
             <div className="col-lg-3 col-md-6 col-sm-6">
               <div className="counter__item">
                 <div className="counter__item__number">
-                  <h2 className="cn_num">102</h2>
+                  <h2 className="cn_num">{products.length}</h2>
                 </div>
                 <span>
-                  In <br />
-                  Country
+                  Our <br />
+                  Products
                 </span>
               </div>
             </div>

@@ -14,7 +14,6 @@ export default function Checkout() {
     axios
       .get(`http://localhost:5000/api/v1/shoppingcarts/cart-item/${userId}`)
       .then((res) => setCartItem(res.data));
-    // }, [cartItem]);
   }, []);
 
   const subTotal = cartItem.reduce(
