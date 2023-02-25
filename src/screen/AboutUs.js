@@ -14,13 +14,13 @@ export default function AboutUs() {
       .get("http://localhost:5000/api/v1/users/get/user-admin")
       .then((res) => setUserAdmin(res.data));
     axios
-      .get("http://localhost:5000/api/v1/users")
+      .get("http://localhost:5000/api/v1/users/get/count")
       .then((res) => setCountClient(res.data));
     axios
-      .get("http://localhost:5000/api/v1/categories")
+      .get("http://localhost:5000/api/v1/categories/get/count")
       .then((res) => setCategory(res.data));
     axios
-      .get("http://localhost:5000/api/v1/products")
+      .get("http://localhost:5000/api/v1/products/getcount/count")
       .then((res) => setProducts(res.data));
   }, []);
 
@@ -120,19 +120,21 @@ export default function AboutUs() {
               <div className="counter__item">
                 <div className="counter__item__number">
                   <h2 className="cn_num">
-                    {countClient.length - userAdmin.length}
+                    {countClient.userCount ? countClient.userCount : 0}
                   </h2>
                 </div>
                 <span>
                   Our <br />
-                  Clients
+                  Users
                 </span>
               </div>
             </div>
             <div className="col-lg-3 col-md-6 col-sm-6">
               <div className="counter__item">
                 <div className="counter__item__number">
-                  <h2 className="cn_num">{category.length}</h2>
+                  <h2 className="cn_num">
+                    {category.categories ? category.categories : 0}
+                  </h2>
                 </div>
                 <span>
                   Total <br />
@@ -143,7 +145,9 @@ export default function AboutUs() {
             <div className="col-lg-3 col-md-6 col-sm-6">
               <div className="counter__item">
                 <div className="counter__item__number">
-                  <h2 className="cn_num">{products.length}</h2>
+                  <h2 className="cn_num">
+                    {products.productCount ? products.productCount : 0}
+                  </h2>
                 </div>
                 <span>
                   Our <br />

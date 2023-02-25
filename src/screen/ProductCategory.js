@@ -134,6 +134,7 @@ export default function ProductCategory() {
       }
 
       setCart(response.data);
+      window.location.reload(true);
       return cart;
     } catch (err) {
       console.log(err);

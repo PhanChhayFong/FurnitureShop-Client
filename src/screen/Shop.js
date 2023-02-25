@@ -69,7 +69,6 @@ export default function Shop() {
   const token = localStorage.getItem("token");
   const user = token ? JSON.parse(token) : "";
   const userId = user ? user.user.id : "";
-
   const handleAddToCart = async (productId, proQty) => {
     try {
       // get the product data by product id
@@ -214,7 +213,10 @@ export default function Shop() {
               <div className="row">
                 {currentItems.map((product) => (
                   <div key={product.id} className="col-lg-4 col-md-6 col-sm-6">
-                    <Link to={`/shop/product_detail/${product.id}`} style={{textDecoration:"none"}}>
+                    <Link
+                      to={`/shop/product_detail/${product.id}`}
+                      style={{ textDecoration: "none" }}
+                    >
                       <div className="product__item">
                         <div
                           className="product__item__pic set-bg"

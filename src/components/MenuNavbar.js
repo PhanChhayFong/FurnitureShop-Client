@@ -15,7 +15,6 @@ export default function MenuNavbar({ click }) {
   const [countNumCartItem, setCountNumCartItem] = useState(0);
   const [countNumWishlistItem, setCountNumWishlistItem] = useState(0);
 
-
   useEffect(() => {
     axios
       .all(
@@ -50,7 +49,7 @@ export default function MenuNavbar({ click }) {
   }, []);
 
   const logout = () => {
-    <Navigate to="/" />
+    <Navigate to="/" />;
     if (token) {
       ApiService.updateActive("users", user.user.id, { active: false });
       localStorage.clear("token");
@@ -58,7 +57,7 @@ export default function MenuNavbar({ click }) {
     }
   };
   return (
-    <nav>
+    <>
       <div>
         {/* Offcanvas Menu Begin */}
         <div className="offcanvas-menu-overlay" />
@@ -101,7 +100,7 @@ export default function MenuNavbar({ click }) {
 
       <div className="container">
         <div className="row">
-          <div className="col-lg-3 col-md-3">
+          <div className="col-md-3">
             <div className="header__logo p-0 pt-2">
               {companys &&
                 companys.map((company) => (
@@ -111,11 +110,13 @@ export default function MenuNavbar({ click }) {
                 ))}
             </div>
           </div>
-          <div className="col-lg-6 col-md-6">
+          <div className="col-md-6">
             <nav className="header__menu mobile-menu">
               <ul>
                 <li>
-                  <NavLink to="/"><i className="fas fa-home me-2"></i>Home</NavLink>
+                  <NavLink to="/">
+                    <i className="fas fa-home me-2"></i>Home
+                  </NavLink>
                 </li>
                 <li>
                   <NavLink to="/shop">Shop</NavLink>
@@ -141,80 +142,129 @@ export default function MenuNavbar({ click }) {
               </ul>
             </nav>
           </div>
-          <div className="col-lg-3 col-md-3">
+          <div className="col-md-3">
             <div className="header__nav__option">
-              <Link to="#" className="search-switch">
+              <a to="#" className="search-switch">
                 {" "}
                 <i
                   className="fas fa-search"
                   style={{ fontSize: "24px", color: "black" }}
                 ></i>{" "}
-              </Link>
+              </a>
 
-              {token ?
-                (
-                  <>
-                    <a href="/shop/wishlist">
-                      
-                      {
-                        countNumWishlistItem.countWishlistItem ? 
-                          <>
-                            <i className="fas fa-heart" style={{fontSize: "24px" ,  color: "red"}}></i>
-                            <span style={{backgroundColor: "red"}}>{countNumWishlistItem.countWishlistItem}</span>
-                          </>
-                          :
-                          <>
-                            <i className="far fa-heart" style={{fontSize: "22px", color: "black"}}></i>
-                            <span style={{backgroundColor: "black"}}>0</span>
-                          </>
-                      }
-                    </a>
-                    <a href="/shop/cart">
-                      {
-                        countNumCartItem.countCartItem ? 
-                          <>
-                            <i className="fas fa-shopping-bag" style={{fontSize: "24px" ,  color: "red"}}></i>
-                            <span style={{backgroundColor: "red"}}>{countNumCartItem.countCartItem}</span>
-                          </>
-                          
-                          :
-                          <>
-                            <i className="fas fa-shopping-bag" style={{fontSize: "24px" , color: "black"}}></i>
-                            <span style={{backgroundColor: "black"}}>0</span>
-                          </>
-                          
-                      }
-                      
-                    </a>
-                    <a className="dropdown open">
-                      <div style={{ width: "30px", height: "30px", backgroundImage:`url(${user.user.image})`, backgroundPosition:"center",backgroundSize:"100%",backgroundRepeat:"no-repeat"}} className="rounded-circle  border broder-5 border-danger" />
-                      <div className="user-dropdown">
-                        <ul>
-                          {user.user.isAdmin?<li><a onClick={()=>{window.location.href = 'http://localhost:3000/'}}>AdminDashboard</a></li>:""}
-                          <li><NavLink to="/my-dashboard">My Dashboard<i className="fas fa-home ms-2"></i></NavLink> </li>
-                          <li><NavLink to="/my-account">My Account<i className="fas fa-crown ms-2"></i></NavLink> </li>
-                          <li><Link onClick={() => { logout(); }}>Logout<i className="fas fa-door-open ms-2"></i></Link> </li>
-                        </ul>
-                      </div>
-                    </a>
-                  </> 
-                )
-                :
-                (
-                  <>
-                    <a className="dropdown open">
-
-                      <i className="fas fa-user-circle ms-3 fs-5 my-auto text-dark"></i>
-                      <div className="user-dropdown">
-                        <ul>
-                          <li><Link to="/login" onClick={click}>Sign In<i className="fas fa-sign-in-alt ms-2"></i></Link> </li>
-                          <li><Link to="/sign-up">Sign Up <i className="fas fa-user-plus ms-2"></i></Link> </li>
-                        </ul>
-                      </div>
-                    </a>
-                  </>
-                )
-              }
+              {token ? (
+                <>
+                  <Link to="/shop/wishlist">
+                    {countNumWishlistItem.countWishlistItem ? (
+                      <>
+                        <i
+                          className="fas fa-heart"
+                          style={{ fontSize: "24px", color: "red" }}
+                        ></i>
+                        <span style={{ backgroundColor: "red" }}>
+                          {countNumWishlistItem.countWishlistItem}
+                        </span>
+                      </>
+                    ) : (
+                      <>
+                        <i
+                          className="far fa-heart"
+                          style={{ fontSize: "22px", color: "black" }}
+                        ></i>
+                        <span style={{ backgroundColor: "black" }}>0</span>
+                      </>
+                    )}
+                  </Link>
+                  <Link to="/shop/cart">
+                    {countNumCartItem.countCartItem ? (
+                      <>
+                        <i
+                          className="fas fa-shopping-bag"
+                          style={{ fontSize: "24px", color: "red" }}
+                        ></i>
+                        <span style={{ backgroundColor: "red" }}>
+                          {countNumCartItem.countCartItem}
+                        </span>
+                      </>
+                    ) : (
+                      <>
+                        <i
+                          className="fas fa-shopping-bag"
+                          style={{ fontSize: "24px", color: "black" }}
+                        ></i>
+                        <span style={{ backgroundColor: "black" }}>0</span>
+                      </>
+                    )}
+                  </Link>
+                  <span className="dropdown open">
+                    <a
+                      style={{
+                        width: "30px",
+                        height: "30px",
+                        backgroundImage: `url(${user.user.image})`,
+                        backgroundPosition: "center",
+                        backgroundSize: "100%",
+                        backgroundRepeat: "no-repeat",
+                      }}
+                      className="rounded-circle p-0 m-0 border broder-5 border-danger"
+                    />
+                    <div className="user-dropdown">
+                      <ul>
+                        {user.user.isAdmin ? (
+                          <li>
+                            <a
+                              onClick={() => {
+                                window.location.href = "http://localhost:3000/";
+                              }}
+                            >
+                              AdminDashboard
+                            </a>
+                          </li>
+                        ) : (
+                          ""
+                        )}
+                        <li>
+                          <NavLink to="/my-dashboard">
+                            My Dashboard<i className="fas fa-home ms-2"></i>
+                          </NavLink>{" "}
+                        </li>
+                        <li>
+                          <NavLink to="/my-account">
+                            My Account<i className="fas fa-crown ms-2"></i>
+                          </NavLink>{" "}
+                        </li>
+                        <li>
+                          <Link
+                            onClick={() => {
+                              logout();
+                            }}
+                          >
+                            Logout<i className="fas fa-door-open ms-2"></i>
+                          </Link>{" "}
+                        </li>
+                      </ul>
+                    </div>
+                  </span>
+                </>
+              ) : (
+                <span className="dropdown open">
+                  <i className="fas fa-user-circle ms-3 fs-5 my-auto text-dark"></i>
+                  <div className="user-dropdown">
+                    <ul>
+                      <li>
+                        <Link to="/login" onClick={click}>
+                          Sign In<i className="fas fa-sign-in-alt ms-2"></i>
+                        </Link>{" "}
+                      </li>
+                      <li>
+                        <Link to="/sign-up">
+                          Sign Up <i className="fas fa-user-plus ms-2"></i>
+                        </Link>{" "}
+                      </li>
+                    </ul>
+                  </div>
+                </span>
+              )}
             </div>
           </div>
         </div>
@@ -222,6 +272,6 @@ export default function MenuNavbar({ click }) {
           <i className="fa fa-bars" />
         </div>
       </div>
-    </nav>
+    </>
   );
 }

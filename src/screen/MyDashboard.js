@@ -29,8 +29,14 @@ export default function MyDashboard() {
           axios.spread(
             (orderResponse, totalPurchasedResponse, totalDeliveryResponse) => {
               setOrders(orderResponse.data);
-              setTotal_purchase(totalPurchasedResponse.data);
-              setTotal_delivery(totalDeliveryResponse.data);
+              setTotal_purchase(
+                totalPurchasedResponse.data != 0
+                  ? totalPurchasedResponse.data
+                  : 0
+              );
+              setTotal_delivery(
+                totalDeliveryResponse.data != 0 ? totalDeliveryResponse.data : 0
+              );
             }
           )
         );
@@ -188,14 +194,20 @@ export default function MyDashboard() {
                           <td>+ 855 {item.phone}</td>
                           <td>{item.email}</td>
                           <td>
-                            {item.status === "Delivering" ? (
-                              <span className="bg-warning text-dark status-delivering">
-                                Delivering
+                            {item.status == "Ordered" ? (
+                              <span className="bg-danger text-light status">
+                                Ordered
                               </span>
                             ) : (
-                              <span className="bg-success text-light status-success">
-                                Success
-                              </span>
+                              item.status == "Delivering" ? (
+                                <span className="bg-warning text-dark status">
+                                  Delivering
+                                </span>
+                              ) : (
+                                <span className="bg-success text-light status">
+                                  Success
+                                </span>
+                              )
                             )}
                           </td>
                           {/* <td>{formatDate(item.dateOrdered)}</td> */}
@@ -211,7 +223,7 @@ export default function MyDashboard() {
                               {" "}
                               <i className="fa-solid fa-eye" />
                             </Link>
-                            {item.status == "Success" ? (
+                            {item.status == "Success" ||item.status == "Ordered" ? (
                               ""
                             ) : (
                               <a

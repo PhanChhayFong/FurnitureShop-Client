@@ -90,6 +90,13 @@ class Alart {
       text: `Please Enter Your ${error}`,
     });
   };
+  alartEmpty = () => {
+    Swal.fire({
+      icon: "error",
+      title: "Empty Fill",
+      text: `Please Enter Informaton`,
+    });
+  };
   alartChangePassword = async (id) => {
     await Swal.fire({
       title: "Change Password",
