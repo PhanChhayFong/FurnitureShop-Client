@@ -46,6 +46,7 @@ export default function Checkout() {
     tax: "",
     subTotal: "",
     totalPrice: "",
+    Tmode: false,
   });
 
   function em(inputtx) {
@@ -82,6 +83,7 @@ export default function Checkout() {
           tax: taxPrice,
           subTotal: subTotal,
           totalPrice: totalPrice,
+          Tmode:order.Tmode,
         };
 
         const orderResponse = await axios.post(
@@ -109,6 +111,7 @@ export default function Checkout() {
       ...order,
       [e.target.name]: e.target.value,
     });
+    console.log(order);
   };
 
   return (
@@ -300,21 +303,27 @@ export default function Checkout() {
                           Total <span>${totalPrice.toFixed(2)}</span>
                         </li>
                       </ul>
-
-                      <div className="checkout__input__checkbox">
+                      <div>
+                        <label>Payment Method : </label>{" "}
+                        <select name="Tmode" value={order.Tmode} onChange={handleChange}>
+                          <option value={false}>Cash On Delivery</option>
+                          <option value={true}>Credit Card</option>
+                        </select>
+                      </div>
+                      {/* <div className="checkout__input__checkbox">
                         <label htmlFor="payment">
-                          Payment Method
+                          Credit Card
                           <input type="checkbox" id="payment" />
                           <span className="checkmark" />
                         </label>
                       </div>
                       <div className="checkout__input__checkbox">
-                        <label htmlFor="cash">
+                        <label htmlFor="payment">
                           Cash On Delivery
-                          <input type="checkbox" id="cash" />
+                          <input type="checkbox" id="payment" />
                           <span className="checkmark" />
                         </label>
-                      </div>
+                      </div> */}
 
                       <a
                         href="#"
