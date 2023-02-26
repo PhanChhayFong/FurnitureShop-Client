@@ -143,6 +143,7 @@ export default function Shop() {
       );
 
       setWishlist({ ...wishlist, [productId]: response.data });
+      window.location.reload(true);
       return response;
     } catch (err) {
       console.log(err);
@@ -213,103 +214,94 @@ export default function Shop() {
               <div className="row">
                 {currentItems.map((product) => (
                   <div key={product.id} className="col-lg-4 col-md-6 col-sm-6">
-                    <Link
-                      to={`/shop/product_detail/${product.id}`}
-                      style={{ textDecoration: "none" }}
-                    >
-                      <div className="product__item">
-                        <div
-                          className="product__item__pic set-bg"
-                          style={{ backgroundImage: `url(${product.image})` }}
-                        >
-                          {product.salePrice ? (
-                            <p className="label text-light bg-dark float-start">
-                              sales
-                            </p>
-                          ) : (
-                            " "
-                          )}
-                          {product.countInStock >= 0 &&
-                          product.countInStock <= 20 ? (
-                            <p className="float-end text-light bg-danger fw-bold remaining">
-                              Remaining: {product.countInStock}
-                            </p>
-                          ) : (
-                            " "
-                          )}
+                    <div className="product__item">
+                      <div
+                        className="product__item__pic set-bg"
+                        style={{ backgroundImage: `url(${product.image})` }}
+                      >
+                        {product.salePrice ? (
+                          <p className="label text-light bg-dark float-start">
+                            sales
+                          </p>
+                        ) : (
+                          " "
+                        )}
+                        {product.countInStock >= 0 &&
+                        product.countInStock <= 20 ? (
+                          <p className="float-end text-light bg-danger fw-bold remaining">
+                            Remaining: {product.countInStock}
+                          </p>
+                        ) : (
+                          " "
+                        )}
 
-                          <ul className="product__hover">
-                            <li>
-                              <a
-                                href="#"
-                                onClick={() =>
-                                  handleAddToWishlist(product.id, 0)
-                                }
-                              >
-                                {wishlist[product.id] ? (
-                                  <i className="far fa-heart text-danger"></i>
-                                ) : (
-                                  <i className="far fa-heart"></i>
-                                )}
-                              </a>
-                            </li>
-                            <li>
-                              <Link to={`/shop/product_detail/${product.id}`}>
-                                <i className="fas fa-search"></i>
-                              </Link>
-                            </li>
-                          </ul>
+                        <ul className="product__hover">
+                          <li>
+                            <a
+                              href="#"
+                              onClick={() => handleAddToWishlist(product.id, 0)}
+                            >
+                              {wishlist[product.id] ? (
+                                <i className="far fa-heart text-danger"></i>
+                              ) : (
+                                <i className="far fa-heart"></i>
+                              )}
+                            </a>
+                          </li>
+                          <li>
+                            <Link to={`/shop/product_detail/${product.id}`}>
+                              <i className="fas fa-search"></i>
+                            </Link>
+                          </li>
+                        </ul>
+                      </div>
+                      <div className="product__item__text">
+                        <h6>{product.name}</h6>
+                        <a
+                          href="#"
+                          className={
+                            product.countInStock === 0 ? "disabled" : "add-cart"
+                          }
+                          onClick={() => handleAddToCart(product.id, 1)}
+                        >
+                          {product.countInStock === 0
+                            ? "Add To Cart is not available"
+                            : "+ Add To Cart"}
+                        </a>
+                        <div className="rating">
+                          {[...Array(product.rating)].map((e, i) => (
+                            <i className="fa fa-star star-rating" key={i} />
+                          ))}
+                          {[...Array(5 - product.rating)].map((e, i) => (
+                            <i className="fa fa-star-o" key={i} />
+                          ))}
                         </div>
-                        <div className="product__item__text">
-                          <h6>{product.name}</h6>
-                          <a
-                            href="#"
-                            className={
-                              product.countInStock === 0
-                                ? "disabled"
-                                : "add-cart"
-                            }
-                            onClick={() => handleAddToCart(product.id, 1)}
-                          >
-                            {product.countInStock === 0
-                              ? "Add To Cart is not available"
-                              : "+ Add To Cart"}
-                          </a>
-                          <div className="rating">
-                            {[...Array(product.rating)].map((e, i) => (
-                              <i className="fa fa-star star-rating" key={i} />
-                            ))}
-                            {[...Array(5 - product.rating)].map((e, i) => (
-                              <i className="fa fa-star-o" key={i} />
-                            ))}
-                          </div>
-                          <h5>
-                            {product.salePrice ? (
-                              <>
-                                $
-                                {product.salePrice
-                                  ? product.salePrice.toFixed(2)
-                                  : "N/A"}
-                                <span>
-                                  $
-                                  {product.regularPrice
-                                    ? product.regularPrice.toFixed(2)
-                                    : "N/A"}
-                                </span>
-                              </>
-                            ) : (
-                              <>
-                                {" "}
+                        <h5>
+                          {product.salePrice ? (
+                            <>
+                              $
+                              {product.salePrice
+                                ? product.salePrice.toFixed(2)
+                                : "N/A"}
+                              <span>
                                 $
                                 {product.regularPrice
                                   ? product.regularPrice.toFixed(2)
-                                  : "N/A"}{" "}
-                              </>
-                            )}
-                          </h5>
-                        </div>
+                                  : "N/A"}
+                              </span>
+                            </>
+                          ) : (
+                            <>
+                              {" "}
+                              $
+                              {product.regularPrice
+                                ? product.regularPrice.toFixed(2)
+                                : "N/A"}{" "}
+                            </>
+                          )}
+                        </h5>
                       </div>
-                    </Link>
+                    </div>
                   </div>
                 ))}
               </div>

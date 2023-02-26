@@ -23,7 +23,7 @@ export default function Wishlist() {
 
   // move wishlist item to shopping carts
   const handleMoveToCart = async (productId, proQty) => {
-    if (token) {
+    if (token) 
       try {
         const moveToCart = await axios.put(
           `http://localhost:5000/api/v1/shoppingcarts/move-to-cart/${productId}`,
@@ -35,11 +35,12 @@ export default function Wishlist() {
           }
         );
         setCart(moveToCart.data);
+        window.location.reload(true);
         return cart;
       } catch (err) {
         console.log(err);
       }
-    }
+    
   };
 
   // remove wishlist item from wishlist page
@@ -51,6 +52,7 @@ export default function Wishlist() {
       );
       setWishlist(removeWishlsitItem.data);
       setRe(true);
+      window.location.reload(true);
     } catch (err) {
       console.log(err);
     }
