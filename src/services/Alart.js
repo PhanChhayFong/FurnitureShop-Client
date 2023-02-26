@@ -119,7 +119,6 @@ class Alart {
       this.alartPasswordError(true);
     else this.alartLoginEmpty("Password");
   };
-
   alartForgotPassword = async () => {
     const { value: email } = await Swal.fire({
       title: "Forgot Password?...",

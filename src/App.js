@@ -1,8 +1,11 @@
 // import logo from './logo.svg';
 // import './App.css';
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { BrowserRouter as Router , Routes, Route} from "react-router-dom";
+import { Elements } from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
+import axios from "axios";
 // component
 import MenuNavbar from "./components/MenuNavbar";
 import Footer from "./components/footer";
@@ -17,11 +20,11 @@ import ProductCategory from "./screen/ProductCategory";
 import Cart from "./screen/Cart";
 import Wishlist from "./screen/Wishlist";
 import Checkout from "./screen/Checkout";
+import Payment from "./screen/Payment";
 
 import Login from "./screen/Login";
 import SignUp from "./screen/SignUp";
 import ProtectedRoute from "./components/ProtectedRoute";
-
 
 import MyDashboard from "./screen/MyDashboard";
 import OrderDetail from "./screen/OrderDetail";
@@ -30,10 +33,14 @@ import MyAccount from "./screen/MyAccount";
 // page 404 not found
 import Page404 from "./screen/page404";
 
-
 export default function App() {
-  return (
+  
+  const [stripeAPIKey, setStripeAPIKey] = useState("");
 
+  useEffect(() => {
+    axios.get("http://localhost:5000/api/v1/payments/stripeapi").then((res) => setStripeAPIKey(res.data));
+  });
+  return (
     <Router>
       <MenuNavbar /> 
       
@@ -46,7 +53,13 @@ export default function App() {
           <Route path="/shop/product_category/:id" element={<ProductCategory/>} />
           <Route path="/shop/cart" element={<ProtectedRoute><Cart /></ProtectedRoute>} />
           <Route path="/shop/wishlist" element={<ProtectedRoute><Wishlist /></ProtectedRoute>} />
-          <Route path="/checkout" element={<ProtectedRoute><Checkout /></ProtectedRoute>} />
+          {/* <Route path="/checkout" element={<ProtectedRoute><Checkout /></ProtectedRoute>} /> */}
+          {/* <Route path="/checkout/payment/:id" element={<ProtectedRoute><Payment /></ProtectedRoute>} /> */}
+          {stripeAPIKey && (
+            <Route path="/checkout" element={<Elements stripe={loadStripe(stripeAPIKey)}><ProtectedRoute><Checkout /></ProtectedRoute></Elements>} />
+          )}
+          {/* <Route path="/checkout/payment/:id" element={<Elements stripe={loadStripe(stripeAPIKey)}><ProtectedRoute><Payment /></ProtectedRoute></Elements>} /> */}
+          
           <Route path="/login" element={<Login/>}></Route>
           <Route path="/sign-up" element={<SignUp/>}></Route>
           <Route path="/my-dashboard" element={<ProtectedRoute><MyDashboard/></ProtectedRoute>}></Route>

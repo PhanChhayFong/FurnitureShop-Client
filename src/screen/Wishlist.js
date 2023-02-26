@@ -7,34 +7,38 @@ export default function Wishlist() {
   const [wishlist, setWishlist] = useState({});
   const [wishlistItems, setWishlistItem] = useState([]);
   const token = localStorage.getItem("token");
-  const user = token ? JSON.parse(token) : "";
-  const userId = user ? user.user.id : "";
+  const userId = token ? JSON.parse(token).user.id : "";
   const [re, setRe] = useState(false);
 
   useEffect(() => {
-    axios
-      .get(`http://localhost:5000/api/v1/shoppingcarts/wishlist-item/${userId}`)
-      .then((res) => setWishlistItem(res.data));
-    setRe(false);
-    // }, [wishlistItems]);
+    if (token) {
+      axios
+        .get(
+          `http://localhost:5000/api/v1/shoppingcarts/wishlist-item/${userId}`
+        )
+        .then((res) => setWishlistItem(res.data));
+      setRe(false);
+    }
   }, [re]);
 
   // move wishlist item to shopping carts
   const handleMoveToCart = async (productId, proQty) => {
-    try {
-      const moveToCart = await axios.put(
-        `http://localhost:5000/api/v1/shoppingcarts/move-to-cart/${productId}`,
-        {
-          user: userId,
-          product: productId,
-          instance: "cart",
-          quantity: proQty,
-        }
-      );
-      setCart(moveToCart.data);
-      return cart;
-    } catch (err) {
-      console.log(err);
+    if (token) {
+      try {
+        const moveToCart = await axios.put(
+          `http://localhost:5000/api/v1/shoppingcarts/move-to-cart/${productId}`,
+          {
+            user: userId,
+            product: productId,
+            instance: "cart",
+            quantity: proQty,
+          }
+        );
+        setCart(moveToCart.data);
+        return cart;
+      } catch (err) {
+        console.log(err);
+      }
     }
   };
 

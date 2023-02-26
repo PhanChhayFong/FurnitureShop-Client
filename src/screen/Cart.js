@@ -9,13 +9,14 @@ export default function Cart() {
   const [re, setRe] = useState(false);
 
   const token = localStorage.getItem("token");
-  const user = token ? JSON.parse(token) : "";
-  const userId = user ? user.user.id : "";
+  const userId = token ? JSON.parse(token).user.id : "";
   useEffect(() => {
-    axios
-      .get(`http://localhost:5000/api/v1/shoppingcarts/cart-item/${userId}`)
-      .then((res) => setCartItem(res.data));
-    setRe(false);
+    if (token) {
+      axios
+        .get(`http://localhost:5000/api/v1/shoppingcarts/cart-item/${userId}`)
+        .then((res) => setCartItem(res.data));
+      setRe(false);
+    }
   }, [re]);
   const totalPrice = cartItem.reduce(
     (total, item) =>
@@ -28,67 +29,73 @@ export default function Cart() {
   );
 
   const clearAllCartItem = async () => {
-    try {
-      const response = await axios.delete(
-        `http://localhost:5000/api/v1/shoppingcarts/clear/cart_items/${userId}`
-      );
-      setRe(true);
-      setClearAllCartItem(response.data);
-      return response;
-    } catch (err) {
-      console.log(err);
+    if (token) {
+      try {
+        const response = await axios.delete(
+          `http://localhost:5000/api/v1/shoppingcarts/clear/cart_items/${userId}`
+        );
+        setRe(true);
+        setClearAllCartItem(response.data);
+        return response;
+      } catch (err) {
+        console.log(err);
+      }
+      return clearAllCart;
     }
-    return clearAllCart;
   };
 
   const handleRemoveCartItem = async (cartId, productId, proQty) => {
-    try {
-      // get the product data by product id
-      const productResponse = await axios.get(
-        `http://localhost:5000/api/v1/products/${productId}`
-      );
-      const subStractCountInStock = productResponse.data;
-
-      // substract the countInStock of product by 1
-      subStractCountInStock.countInStock += proQty;
-
-      // get all the data of cart item by each user id
-      const response = await axios.get(
-        `http://localhost:5000/api/v1/shoppingcarts/cart-item/${userId}`
-      );
-      const items = response.data;
-
-      // check the exist cart item that is already exist
-      const existCartItem = items.find(
-        (item) => item.product._id === productId
-      );
-      if (existCartItem) {
-        existCartItem.quantity += proQty;
-        await axios.put(
-          `http://localhost:5000/api/v1/shoppingcarts/update-cart/${existCartItem._id}`,
-          {
-            quantity: existCartItem.quantity,
-          }
+    if (token) {
+      try {
+        // get the product data by product id
+        const productResponse = await axios.get(
+          `http://localhost:5000/api/v1/products/${productId}`
         );
+        const subStractCountInStock = productResponse.data;
 
-        // implement the update of substract count_in_stock
-        await axios.put(
-          `http://localhost:5000/api/v1/products/update_count_in_stock/${productId}`,
-          subStractCountInStock
-        );
+        // substract the countInStock of product by 1
+        subStractCountInStock.countInStock += proQty;
 
-        const response = await axios.delete(
-          `http://localhost:5000/api/v1/shoppingcarts/remove/cart_item/${cartId}`
+        // get all the data of cart item by each user id
+        const response = await axios.get(
+          `http://localhost:5000/api/v1/shoppingcarts/cart-item/${userId}`
         );
-        setRemoveSingleCartItem(cartItem.filter((item) => item._id !== cartId));
-        setRe(true);
-        window.location.reload(true);
-        return response;
+        const items = response.data;
+
+        // check the exist cart item that is already exist
+        const existCartItem = items.find(
+          (item) => item.product._id === productId
+        );
+        if (existCartItem) {
+          existCartItem.quantity += proQty;
+          await axios.put(
+            `http://localhost:5000/api/v1/shoppingcarts/update-cart/${existCartItem._id}`,
+            {
+              quantity: existCartItem.quantity,
+            }
+          );
+
+          // implement the update of substract count_in_stock
+          await axios.put(
+            `http://localhost:5000/api/v1/products/update_count_in_stock/${productId}`,
+            subStractCountInStock
+          );
+
+          const response = await axios.delete(
+            `http://localhost:5000/api/v1/shoppingcarts/remove/cart_item/${cartId}`
+          );
+          setRemoveSingleCartItem(
+            cartItem.filter((item) => item._id !== cartId)
+          );
+          setRe(true);
+          window.location.reload(true);
+          return response;
+        }
+      } catch (err) {
+        console.log(err);
       }
-    } catch (err) {
-      console.log(err);
+      return removeSingleCartItem;
     }
-    return removeSingleCartItem;
   };
 
   return (
@@ -181,8 +188,12 @@ export default function Cart() {
                             <td className="cart__price">
                               ${" "}
                               {item.product.salePrice
-                                ? (item.product.salePrice*item.quantity).toFixed(2)
-                                : (item.product.regularPrice*item.quantity).toFixed(2)}
+                                ? (
+                                    item.product.salePrice * item.quantity
+                                  ).toFixed(2)
+                                : (
+                                    item.product.regularPrice * item.quantity
+                                  ).toFixed(2)}
                             </td>
                             <td className="cart__close">
                               <a

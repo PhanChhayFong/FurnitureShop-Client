@@ -2,20 +2,40 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import Alart from "../services/Alart";
-
+import {
+  useStripe,
+  useElements,
+  CardNumberElement,
+  CardExpiryElement,
+  CardCvcElement,
+} from "@stripe/react-stripe-js";
+const options = {
+  style: {
+    base: {
+      fontSize: "16px",
+    },
+    invalid: {
+      color: "#9e2146",
+    },
+  },
+};
 export default function Checkout() {
+  // testing auth : 4000 0027 6000 3184
+  const stripe = useStripe();
+  const elements = useElements();
   const [cartItem, setCartItem] = useState([]);
   const [clearCart, setclearCartItem] = useState([]);
   const token = localStorage.getItem("token");
-  const user = token ? JSON.parse(token) : "";
-  const userId = user ? user.user.id : "";
+  const user = token ? JSON.parse(token).user : "";
+  const userId = token ? user.id : "";
 
   useEffect(() => {
-    axios
-      .get(`http://localhost:5000/api/v1/shoppingcarts/cart-item/${userId}`)
-      .then((res) => setCartItem(res.data));
+    if (token)
+      axios
+        .get(`http://localhost:5000/api/v1/shoppingcarts/cart-item/${userId}`)
+        .then((res) => setCartItem(res.data));
   }, []);
-
+  //subtotal tax TotalPrice
   const subTotal = cartItem.reduce(
     (total, item) =>
       total +
@@ -27,7 +47,7 @@ export default function Checkout() {
   );
   const taxPrice = subTotal * 0.1;
   const totalPrice = subTotal + taxPrice;
-
+  //datatype
   const [order, setOrder] = useState({
     orderItems: [
       {
@@ -48,13 +68,19 @@ export default function Checkout() {
     totalPrice: "",
     Tmode: false,
   });
-
+  //add data from each txtbox
+  const handleChange = (e) => {
+    setOrder({
+      ...order,
+      [e.target.name]: e.target.value,
+    });
+  };
+  //if txtbox empty
   function em(inputtx) {
     if (inputtx.length == 0) return false;
     else return true;
   }
-  const handleSubmitPlaceOrder = async (e) => {
-    // protect page without being refreshed.
+  const validate = () => {
     if (
       em(order.firstname) &&
       em(order.lastname) &&
@@ -63,57 +89,102 @@ export default function Checkout() {
       em(order.city) &&
       em(order.phone) &&
       em(order.email)
-    ) {
+    )
+      return true;
+    return false;
+  };
+  //add to tbOrder
+  const addOrders = async () => {
+    try {
+      const orderData = {
+        orderItems: cartItem.map((item) => ({
+          product: item.product.id,
+          quantity: item.quantity,
+        })),
+        user: userId,
+        firstname: order.firstname,
+        lastname: order.lastname,
+        phone: order.phone,
+        email: order.email,
+        shippingAddress: order.shippingAddress,
+        city: order.city,
+        country: order.country,
+        tax: taxPrice,
+        subTotal: subTotal,
+        totalPrice: totalPrice,
+        Tmode: order.Tmode,
+      };
+      const orderResponse = await axios.post(
+        `http://localhost:5000/api/v1/orders`,
+        orderData
+      );
+      setOrder(orderResponse.data, Alart.alartOrderSuccess());
+      // clear cart
+      const clearCartItem = await axios.delete(
+        `http://localhost:5000/api/v1/shoppingcarts/clear/cart_items/${userId}`
+      );
+      setclearCartItem(clearCartItem);
+      window.location.reload(true);
+      return clearCart;
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  //submit when customer choose Cash on Delivery
+  const submitCash = () => {
+    // protect page without being refreshed.
+    if (validate()) addOrders();
+    else Alart.alartEmpty();
+  };
+  //submit when customer choose Credit Card
+  const submitCard = async (e) => {
+    if (validate()) {
       e.preventDefault();
-
+      document.querySelector("#pay_btn").disabled = true;
       try {
-        const orderData = {
-          orderItems: cartItem.map((item) => ({
-            product: item.product.id,
-            quantity: item.quantity,
-          })),
-          user: userId,
-          firstname: order.firstname,
-          lastname: order.lastname,
-          phone: order.phone,
-          email: order.email,
-          shippingAddress: order.shippingAddress,
-          city: order.city,
-          country: order.country,
-          tax: taxPrice,
-          subTotal: subTotal,
-          totalPrice: totalPrice,
-          Tmode:order.Tmode,
+        const config = {
+          headers: {
+            "Content-Type": "application/json",
+          },
         };
-
-        const orderResponse = await axios.post(
-          `http://localhost:5000/api/v1/orders`,
-          orderData
+        let res = await axios.post(
+          "http://localhost:5000/api/v1/payments/placeOrder",
+          { amount: Math.round(totalPrice) },
+          config
         );
-        setOrder(orderResponse.data, Alart.alartOrderSuccess());
+        const clientSecret = res.data.client_secret;
 
-        // clear cart
-        const clearCartItem = await axios.delete(
-          `http://localhost:5000/api/v1/shoppingcarts/clear/cart_items/${userId}`
-        );
-        setclearCartItem(clearCartItem);
-        window.location.reload(true);
-
-        return clearCart;
-      } catch (err) {
-        console.log(err);
+        if (!stripe || !elements) {
+          return;
+        }
+        const result = await stripe.confirmCardPayment(clientSecret, {
+          payment_method: {
+            card: elements.getElement(CardNumberElement),
+            billing_details: {
+              name: user.name,
+              email: user.email,
+            },
+          },
+        });
+        if (result.error) {
+          Alart.alartLoginEmpty(result.error.message);
+          document.querySelector("#pay_btn").disabled = false;
+        } else {
+          if (result.paymentIntent.status === "succeeded") {
+            Alart.alartSaveSuccess();
+            addOrders();
+          } else {
+            Alart.alartLoginEmpty(
+              "There is some issue while payment processing"
+            );
+          }
+        }
+      } catch (error) {
+        document.querySelector("#pay_btn").disabled = false;
+        Alart.alartLoginEmpty(error.response.data.message);
       }
     } else Alart.alartEmpty();
   };
-
-  const handleChange = (e) => {
-    setOrder({
-      ...order,
-      [e.target.name]: e.target.value,
-    });
-    console.log(order);
-  };
-
   return (
     <div>
       <section className="breadcrumb-option">
@@ -283,9 +354,8 @@ export default function Checkout() {
                                 $
                                 {(
                                   (item.product.salePrice
-                                    ? item.product.salePrice.toFixed(2)
-                                    : item.product.regularPrice.toFixed(2)) *
-                                  item.quantity
+                                    ? item.product.salePrice
+                                    : item.product.regularPrice) * item.quantity
                                 ).toFixed(2)}
                               </td>
                             </tr>
@@ -303,35 +373,54 @@ export default function Checkout() {
                           Total <span>${totalPrice.toFixed(2)}</span>
                         </li>
                       </ul>
-                      <div>
-                        <label>Payment Method : </label>{" "}
-                        <select name="Tmode" value={order.Tmode} onChange={handleChange}>
-                          <option value={false}>Cash On Delivery</option>
-                          <option value={true}>Credit Card</option>
-                        </select>
-                      </div>
-                      {/* <div className="checkout__input__checkbox">
-                        <label htmlFor="payment">
-                          Credit Card
-                          <input type="checkbox" id="payment" />
+                      <label>Payment Method : </label>{" "}
+                      <div className="checkout__input__checkbox">
+                        <label htmlFor="cash">
+                          Cash On Delivery
+                          <input
+                            type="radio"
+                            id="cash"
+                            name="Tmode"
+                            value={false}
+                            onChange={handleChange}
+                          />
                           <span className="checkmark" />
                         </label>
                       </div>
                       <div className="checkout__input__checkbox">
                         <label htmlFor="payment">
-                          Cash On Delivery
-                          <input type="checkbox" id="payment" />
+                          Credit Card
+                          <input
+                            type="radio"
+                            id="payment"
+                            name="Tmode"
+                            value={true}
+                            onChange={handleChange}
+                          />
                           <span className="checkmark" />
                         </label>
-                      </div> */}
-
-                      <a
-                        href="#"
-                        onClick={() => handleSubmitPlaceOrder()}
-                        className="site-btn text-center text-light"
-                      >
-                        PLACE ORDER
-                      </a>
+                      </div>
+                      {order.Tmode == "false" ? (
+                        <button
+                          type="button"
+                          style={{ cursor: "pointer" }}
+                          onClick={() => submitCash()}
+                          className="site-btn text-center text-light"
+                        >
+                          PLACE ORDER
+                        </button>
+                      ) : (
+                        <button
+                          type="button"
+                          href="#exampleModalToggle"
+                          data-toggle="modal"
+                          role="button"
+                          style={{ cursor: "pointer" }}
+                          className="site-btn text-center text-light"
+                        >
+                          PLACE ORDERs
+                        </button>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -340,6 +429,86 @@ export default function Checkout() {
           )}
         </div>
       </section>
+
+      {/* model */}
+      <div
+        className="modal fade"
+        id="exampleModalToggle"
+        aria-hidden="true"
+        aria-labelledby="exampleModalToggleLabel"
+        tabIndex="-1"
+      >
+        <div className="modal-dialog modal-dialog-centered  ">
+          <div className="modal-content">
+            <div className="modal-header bg-light">
+              <h6
+                className="modal-title fw-bold text-capitalize"
+                id="exampleModalToggleLabel"
+              >
+                Credit Card
+              </h6>
+              <button
+                type="button"
+                className="btn-close btn-sm fw-bold"
+                data-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+
+            <div className="modal-body">
+              <div className="row wrapper">
+                <div className="col-12 mx-auto">
+                  <form
+                    className="shadow-lg p-5 rounded-lg bg-primary"
+                    onSubmit={submitCard}
+                  >
+                    <div className="form-group">
+                      <label htmlFor="card_num_field">Card Number</label>
+                      <CardNumberElement
+                        type="text"
+                        id="card_num_field"
+                        className="form-control"
+                        options={options}
+                      />
+                    </div>
+
+                    <div className="form-group">
+                      <label htmlFor="card_exp_field">Card Expiry</label>
+                      <CardExpiryElement
+                        type="text"
+                        id="card_exp_field"
+                        className="form-control"
+                        options={options}
+                      />
+                    </div>
+
+                    <div className="form-group">
+                      <label htmlFor="card_cvc_field">Card CVC</label>
+                      <CardCvcElement
+                        type="text"
+                        id="card_cvc_field"
+                        className="form-control"
+                        options={options}
+                      />
+                    </div>
+
+                    <div className="text-center">
+                      <button
+                        id="pay_btn"
+                        type="submit"
+                        className="btn btn-block py-2 bg-light"
+                        style={{ width: "50%" }}
+                      >
+                        Pay - {totalPrice.toFixed(2)}
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
