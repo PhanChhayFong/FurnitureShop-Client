@@ -25,6 +25,7 @@ export default function Checkout() {
   const elements = useElements();
   const [cartItem, setCartItem] = useState([]);
   const [clearCart, setclearCartItem] = useState([]);
+  //getting data from localStorage
   const token = localStorage.getItem("token");
   const user = token ? JSON.parse(token).user : "";
   const userId = token ? user.id : "";
@@ -80,6 +81,7 @@ export default function Checkout() {
     if (inputtx.length == 0) return false;
     else return true;
   }
+  //check each txtbox
   const validate = () => {
     if (
       em(order.firstname) &&

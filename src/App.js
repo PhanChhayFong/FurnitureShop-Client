@@ -20,7 +20,6 @@ import ProductCategory from "./screen/ProductCategory";
 import Cart from "./screen/Cart";
 import Wishlist from "./screen/Wishlist";
 import Checkout from "./screen/Checkout";
-import Payment from "./screen/Payment";
 
 import Login from "./screen/Login";
 import SignUp from "./screen/SignUp";
@@ -53,13 +52,9 @@ export default function App() {
           <Route path="/shop/product_category/:id" element={<ProductCategory/>} />
           <Route path="/shop/cart" element={<ProtectedRoute><Cart /></ProtectedRoute>} />
           <Route path="/shop/wishlist" element={<ProtectedRoute><Wishlist /></ProtectedRoute>} />
-          {/* <Route path="/checkout" element={<ProtectedRoute><Checkout /></ProtectedRoute>} /> */}
-          {/* <Route path="/checkout/payment/:id" element={<ProtectedRoute><Payment /></ProtectedRoute>} /> */}
           {stripeAPIKey && (
             <Route path="/checkout" element={<Elements stripe={loadStripe(stripeAPIKey)}><ProtectedRoute><Checkout /></ProtectedRoute></Elements>} />
           )}
-          {/* <Route path="/checkout/payment/:id" element={<Elements stripe={loadStripe(stripeAPIKey)}><ProtectedRoute><Payment /></ProtectedRoute></Elements>} /> */}
-          
           <Route path="/login" element={<Login/>}></Route>
           <Route path="/sign-up" element={<SignUp/>}></Route>
           <Route path="/my-dashboard" element={<ProtectedRoute><MyDashboard/></ProtectedRoute>}></Route>
