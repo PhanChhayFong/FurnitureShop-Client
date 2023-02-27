@@ -53,6 +53,7 @@ function Login() {
 
         // set expire date for 1h
         date.setHours(date.getHours() + 1);
+        // date.setSeconds(date.getSeconds() + 20);
 
         const item = {
           user: response.data.user,

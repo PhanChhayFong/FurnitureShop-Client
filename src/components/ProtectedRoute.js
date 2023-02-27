@@ -16,6 +16,7 @@ const ProtectedRoute = ({ children }) => {
       ) {
         localStorage.clear("token");
         navigate("/login");
+        window.location.reload(true);
       }
     }
   }, []);

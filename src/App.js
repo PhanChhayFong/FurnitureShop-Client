@@ -2,7 +2,12 @@
 // import './App.css';
 import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { BrowserRouter as Router , Routes, Route} from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import axios from "axios";
@@ -33,38 +38,99 @@ import MyAccount from "./screen/MyAccount";
 import Page404 from "./screen/page404";
 
 export default function App() {
-  
   const [stripeAPIKey, setStripeAPIKey] = useState("");
 
+  <Navigate to="/login" />;
+  const token = localStorage.getItem("token");
   useEffect(() => {
-    axios.get("http://localhost:5000/api/v1/payments/stripeapi").then((res) => setStripeAPIKey(res.data));
-  });
+    axios
+      .get("http://localhost:5000/api/v1/payments/stripeapi")
+      .then((res) => setStripeAPIKey(res.data));
+    if (!token) {
+      <Navigate to="/" />;
+    } else {
+      const item = JSON.parse(token);
+      const expItem = new Date(item.expDate);
+      const now = new Date();
+      if (now.getTime() > expItem) {
+        localStorage.clear("token");
+        <Navigate to="/" />;
+        window.location.reload(true);
+      }
+    }
+  }, []);
   return (
     <Router>
-      <MenuNavbar /> 
-      
+      <MenuNavbar />
+
       <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/aboutus" element={<AboutUs />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/shop" element={<Shop />} />
-          <Route path="/shop/product_detail/:id" element={<ProductDetail />} />
-          <Route path="/shop/product_category/:id" element={<ProductCategory/>} />
-          <Route path="/shop/cart" element={<ProtectedRoute><Cart /></ProtectedRoute>} />
-          <Route path="/shop/wishlist" element={<ProtectedRoute><Wishlist /></ProtectedRoute>} />
-          {stripeAPIKey && (
-            <Route path="/checkout" element={<Elements stripe={loadStripe(stripeAPIKey)}><ProtectedRoute><Checkout /></ProtectedRoute></Elements>} />
-          )}
-          <Route path="/login" element={<Login/>}></Route>
-          <Route path="/sign-up" element={<SignUp/>}></Route>
-          <Route path="/my-dashboard" element={<ProtectedRoute><MyDashboard/></ProtectedRoute>}></Route>
-          <Route path="/my-dashboard/order-detail/:id" element={<ProtectedRoute><OrderDetail/></ProtectedRoute>}></Route>
-          <Route path="/my-account" element={<ProtectedRoute><MyAccount/></ProtectedRoute>}></Route>
-          <Route path="*" element={<Page404/>} />
+        <Route path="/" element={<HomePage />} />
+        <Route path="/aboutus" element={<AboutUs />} />
+        <Route path="/contact" element={<Contact />} />
+        <Route path="/shop" element={<Shop />} />
+        <Route path="/shop/product_detail/:id" element={<ProductDetail />} />
+        <Route
+          path="/shop/product_category/:id"
+          element={<ProductCategory />}
+        />
+        <Route
+          path="/shop/cart"
+          element={
+            <ProtectedRoute>
+              <Cart />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/shop/wishlist"
+          element={
+            <ProtectedRoute>
+              <Wishlist />
+            </ProtectedRoute>
+          }
+        />
+        {stripeAPIKey && (
+          <Route
+            path="/checkout"
+            element={
+              <Elements stripe={loadStripe(stripeAPIKey)}>
+                <ProtectedRoute>
+                  <Checkout />
+                </ProtectedRoute>
+              </Elements>
+            }
+          />
+        )}
+        <Route path="/login" element={<Login />}></Route>
+        <Route path="/sign-up" element={<SignUp />}></Route>
+        <Route
+          path="/my-dashboard"
+          element={
+            <ProtectedRoute>
+              <MyDashboard />
+            </ProtectedRoute>
+          }
+        ></Route>
+        <Route
+          path="/my-dashboard/order-detail/:id"
+          element={
+            <ProtectedRoute>
+              <OrderDetail />
+            </ProtectedRoute>
+          }
+        ></Route>
+        <Route
+          path="/my-account"
+          element={
+            <ProtectedRoute>
+              <MyAccount />
+            </ProtectedRoute>
+          }
+        ></Route>
+        <Route path="*" element={<Page404 />} />
       </Routes>
-      
+
       <Footer />
     </Router>
-
   );
 }
