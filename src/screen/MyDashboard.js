@@ -52,6 +52,7 @@ export default function MyDashboard() {
         orderResponse
       );
       setRe(true);
+      // window.location.reload(true);
       return orderResponse;
     } catch (err) {
       console.log(err);

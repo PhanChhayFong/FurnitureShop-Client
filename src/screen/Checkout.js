@@ -98,6 +98,7 @@ export default function Checkout() {
   //add to tbOrder
   const addOrders = async () => {
     try {
+      const date = new Date();
       const orderData = {
         orderItems: cartItem.map((item) => ({
           product: item.product.id,
@@ -115,6 +116,8 @@ export default function Checkout() {
         subTotal: subTotal,
         totalPrice: totalPrice,
         Tmode: order.Tmode,
+        TDate: order.Tmode == "true" ? date : "",
+        Tstatus: order.Tmode == "true" ? true : false,
       };
       const orderResponse = await axios.post(
         `http://localhost:5000/api/v1/orders`,
@@ -151,7 +154,7 @@ export default function Checkout() {
         };
         let res = await axios.post(
           "http://localhost:5000/api/v1/payments/placeOrder",
-          { amount: Math.round(totalPrice) },
+          { amount: Math.round(totalPrice * 100) },
           config
         );
         const clientSecret = res.data.client_secret;
