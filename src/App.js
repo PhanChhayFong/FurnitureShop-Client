@@ -14,6 +14,7 @@ import axios from "axios";
 // component
 import MenuNavbar from "./components/MenuNavbar";
 import Footer from "./components/footer";
+import ApiService from "./services/api-service";
 // page
 import HomePage from "./screen/HomePage";
 import AboutUs from "./screen/AboutUs";
@@ -53,6 +54,7 @@ export default function App() {
       const expItem = new Date(item.expDate);
       const now = new Date();
       if (now.getTime() > expItem) {
+        ApiService.updateActive("users", item.user.id, { active: false });
         localStorage.clear("token");
         <Navigate to="/" />;
         window.location.reload(true);
