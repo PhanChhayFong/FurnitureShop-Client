@@ -44,7 +44,7 @@ export default function Sidebar() {
               >
                 <div className="card-body">
                   <div className="shop__sidebar__categories">
-                    <ul className="nice-scroll">
+                    <ul>
                       {Object.keys(categories).map((key,i) => (
                         <li key={i}>
                           <NavLink
