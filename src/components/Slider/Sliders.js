@@ -40,7 +40,7 @@ export default function Sliders() {
       width: "50%",
       left: "30px",
       top: "100px",
-      textAlign: "left",
+      textAlign: "center",
     },
   };
   return (
@@ -56,7 +56,7 @@ export default function Sliders() {
               {slider.miniTitle}
             </h5>
             <h1 className="fw">{slider.title}</h1>
-            <p className="fw">{slider.description}</p>
+            <p className="fw text-justify">{slider.description}</p>
             <a
               href={slider.url}
               className="primary-btn"
