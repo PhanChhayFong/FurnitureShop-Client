@@ -4,6 +4,7 @@ import axios from "axios";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from "react-responsive-carousel";
 import "./styles/product-detail.css";
+import Alart from "../services/Alart";
 
 export default function ProductDetail() {
   const params = useParams();
@@ -41,82 +42,94 @@ export default function ProductDetail() {
   }, []);
 
   const handleAddToCart = async (productId, quantity) => {
-    try {
-      // get the product data by product id
-      const productResponse = await axios.get(
-        `http://localhost:5000/api/v1/products/${productId}`
-      );
-      const subStractCountInStock = productResponse.data;
-
-      // substract the countInStock of product by 1
-      subStractCountInStock.countInStock -= quantity;
-
-      // get all the data of cart item by each user id
-      const response = await axios.get(
-        `http://localhost:5000/api/v1/shoppingcarts/cart-item/${userId}`
-      );
-      const items = response.data;
-
-      // check the exist cart item that is already exist
-      const existCartItem = items.find(
-        (item) => item.product._id === productId
-      );
-      if (existCartItem) {
-        existCartItem.quantity += parseInt(quantity);
-        await axios.put(
-          `http://localhost:5000/api/v1/shoppingcarts/update-cart/${existCartItem._id}`,
-          {
-            quantity: existCartItem.quantity,
-          }
+    if (localStorage.getItem("token"))
+      try {
+        // get the product data by product id
+        const productResponse = await axios.get(
+          `http://localhost:5000/api/v1/products/${productId}`
         );
+        const subStractCountInStock = productResponse.data;
 
-        // implement the update of substract count_in_stock
-        await axios.put(
-          `http://localhost:5000/api/v1/products/update_count_in_stock/${productId}`,
-          subStractCountInStock
+        // substract the countInStock of product by 1
+        subStractCountInStock.countInStock -= quantity;
+
+        // get all the data of cart item by each user id
+        const response = await axios.get(
+          `http://localhost:5000/api/v1/shoppingcarts/cart-item/${userId}`
         );
-      } else {
-        await axios.post(
+        const items = response.data;
+
+        // check the exist cart item that is already exist
+        const existCartItem = items.find(
+          (item) => item.product._id === productId
+        );
+        if (existCartItem) {
+          existCartItem.quantity += parseInt(quantity);
+          await axios.put(
+            `http://localhost:5000/api/v1/shoppingcarts/update-cart/${existCartItem._id}`,
+            {
+              quantity: existCartItem.quantity,
+            }
+          );
+
+          // implement the update of substract count_in_stock
+          await axios.put(
+            `http://localhost:5000/api/v1/products/update_count_in_stock/${productId}`,
+            subStractCountInStock
+          );
+        } else {
+          await axios.post(
+            "http://localhost:5000/api/v1/shoppingcarts/add-cart-item",
+            {
+              user: userId,
+              product: productId,
+              instance: "cart",
+              quantity: quantity,
+            }
+          );
+
+          // implement the update of substract count_in_stock
+          await axios.put(
+            `http://localhost:5000/api/v1/products/update_count_in_stock/${productId}`,
+            subStractCountInStock
+          );
+        }
+
+        setCart(response.data);
+        return cart;
+      } catch (err) {
+        console.log(err);
+      }
+    else
+      Alart.alartError(
+        "Can't Add to Cart",
+        "Please Sign in to buy this product!!!"
+      );
+  };
+
+  const handleAddToWishlist = async (productId, qty) => {
+    if (localStorage.getItem("token"))
+      try {
+        const response = await axios.post(
           "http://localhost:5000/api/v1/shoppingcarts/add-cart-item",
           {
             user: userId,
             product: productId,
-            instance: "cart",
-            quantity: quantity,
+            instance: "wishlist",
+            quantity: qty,
           }
         );
 
-        // implement the update of substract count_in_stock
-        await axios.put(
-          `http://localhost:5000/api/v1/products/update_count_in_stock/${productId}`,
-          subStractCountInStock
-        );
+        setWishlist({ ...wishlist, [productId]: response.data });
+        return response;
+      } catch (err) {
+        console.log(err);
       }
-
-      setCart(response.data);
-      return cart;
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  const handleAddToWishlist = async (productId, qty) => {
-    try {
-      const response = await axios.post(
-        "http://localhost:5000/api/v1/shoppingcarts/add-cart-item",
-        {
-          user: userId,
-          product: productId,
-          instance: "wishlist",
-          quantity: qty,
-        }
+    else
+      Alart.alartError(
+        "Can't Add to Wishlist",
+        "Please Sign in to Wishlist this product!!!"
       );
-
-      setWishlist({ ...wishlist, [productId]: response.data });
-      return response;
-    } catch (err) {
-      console.log(err);
-    }
   };
 
   const handleChange = (e) => {

@@ -1,14 +1,41 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import Alart from "../services/Alart";
 
 export default function Contact() {
   const [company, setCompany] = useState([]);
+  const [contact, setContact] = useState({
+    username: "",
+    email: "",
+    subject: "",
+    message: "",
+  });
 
   useEffect(() => {
     axios
       .get("http://localhost:5000/api/v1/companys")
-      .then((res) => setCompany(res.data))
+      .then((res) => setCompany(res.data));
   }, []);
+
+  //add data from each txtbox
+  const handleChange = (e) => {
+    setContact({
+      ...contact,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const sendMail = () => {
+    if (
+      contact.username != "" &&
+      contact.email != "" &&
+      contact.subject != "" &&
+      contact.message != ""
+    ) {
+      Alart.alartSendMessage(contact);
+      Alart.alartSaveSuccess();
+    } else Alart.alartLoginError("Send Mail", "Please! Input Information!!!");
+  };
 
   return (
     <div>
@@ -68,17 +95,44 @@ export default function Contact() {
             </div>
             <div className="col-lg-6 col-md-6">
               <div className="contact__form">
-                <form action="#">
+                <form>
                   <div className="row">
                     <div className="col-lg-6">
-                      <input type="text" placeholder="Name" />
+                      <input
+                        type="text"
+                        name="username"
+                        onChange={handleChange}
+                        placeholder="Name"
+                      />
                     </div>
                     <div className="col-lg-6">
-                      <input type="text" placeholder="Email" />
+                      <input
+                        type="email"
+                        name="email"
+                        onChange={handleChange}
+                        placeholder="Email"
+                      />
                     </div>
                     <div className="col-lg-12">
-                      <textarea placeholder="Message" defaultValue={""} />
-                      <button type="submit" className="site-btn">
+                      <input
+                        type="text"
+                        name="subject"
+                        onChange={handleChange}
+                        placeholder="Subject"
+                      />
+                    </div>
+                    <div className="col-lg-12">
+                      <textarea
+                        placeholder="Message"
+                        name="message"
+                        onChange={handleChange}
+                        defaultValue={""}
+                      />
+                      <button
+                        type="button"
+                        onClick={() => sendMail()}
+                        className="site-btn"
+                      >
                         Send Message
                       </button>
                     </div>

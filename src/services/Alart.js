@@ -1,6 +1,7 @@
 import ApiService from "../services/api-service";
 import axios from "axios";
 import Swal from "sweetalert2";
+import apiService from "../services/api-service";
 window.Swal = Swal;
 function _(obj) {
   return document.getElementById(obj).value;
@@ -36,7 +37,7 @@ class Alart {
   };
   alartSaveSuccess = () => {
     Swal.fire("Saved!", "", "success");
-  }
+  };
   alartSave = (changed) => {
     if (changed) {
       Swal.fire({
@@ -88,6 +89,13 @@ class Alart {
       icon: "error",
       title: "Can't Login",
       text: `Please Enter Your ${error}`,
+    });
+  };
+  alartError = (title, error) => {
+    Swal.fire({
+      icon: "error",
+      title: `${title}`,
+      text: `${error}`,
     });
   };
   alartEmpty = () => {
@@ -171,13 +179,12 @@ class Alart {
               _("swal-input1") !== "" &&
               _("swal-input2") !== "" &&
               _("swal-input1") == _("swal-input2")
-            ){
+            ) {
               ApiService.updateFGPassword("users/chfgPass", res.data.user.id, {
                 password: `${_("swal-input1")}`,
               });
               this.alartSaveSuccess();
-            }
-            else if (_("swal-input1") !== _("swal-input2"))
+            } else if (_("swal-input1") !== _("swal-input2"))
               this.alartPasswordError(true);
             else this.alartLoginEmpty("New Password");
           } else this.alartOTP();
@@ -227,6 +234,12 @@ class Alart {
       icon: "success",
       title: `Thank For Order`,
     });
+  };
+  alartSendMessage = async (data) => {
+    await axios.post(
+      `http://localhost:5000/api/v1/users/message/${data.username}/${data.email}/${data.subject}/${data.message}/`,
+      { headers: { "Content-Type": "application/json" } }
+    );
   };
 }
 export default new Alart();

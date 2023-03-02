@@ -4,6 +4,7 @@ import axios from "axios";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import "./style/hot_product.css";
+import Alart from "../services/Alart";
 
 export default function HotSaleProduct() {
   const [hot_products, setHotSaleProduct] = useState([]);
@@ -21,6 +22,7 @@ export default function HotSaleProduct() {
   const userId = user ? user.user.id : "";
 
   const handleAddToCart = async (productId, proQty) => {
+    if (localStorage.getItem("token"))
     try {
       const productResponse = await axios.get(
         `http://localhost:5000/api/v1/products/${productId}`
@@ -71,9 +73,15 @@ export default function HotSaleProduct() {
     } catch (err) {
       console.log(err);
     }
+    else
+      Alart.alartError(
+        "Can't Add to Cart",
+        "Please Sign in to buy this product!!!"
+      );
   };
 
   const handleAddToWishlist = async (productId, qty) => {
+    if (localStorage.getItem("token"))
     try {
       const response = await axios.post(
         "http://localhost:5000/api/v1/shoppingcarts/add-cart-item",
@@ -90,6 +98,11 @@ export default function HotSaleProduct() {
     } catch (err) {
       console.log(err);
     }
+    else
+      Alart.alartError(
+        "Can't Add to Wishlist",
+        "Please Sign in to Wishlist this product!!!"
+      );
   };
 
   return (

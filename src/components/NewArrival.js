@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import Alart from "../services/Alart";
 
 export default function NewArrival() {
   const [products, setProducts] = useState([]);
@@ -18,6 +19,7 @@ export default function NewArrival() {
   const userId = user ? user.user.id : "";
 
   const handleAddToCart = async (productId, proQty) => {
+    if (localStorage.getItem("token"))
     try {
       const productResponse = await axios.get(
         `http://localhost:5000/api/product/${productId}`
@@ -68,9 +70,15 @@ export default function NewArrival() {
     } catch (err) {
       console.log(err);
     }
+    else
+      Alart.alartError(
+        "Can't Add to Cart",
+        "Please Sign in to buy this product!!!"
+      );
   };
 
   const handleAddToWishlist = async (productId, qty) => {
+    if (localStorage.getItem("token"))
     try {
       const response = await axios.post(
         "http://localhost:5000/api/v1/shoppingcarts/add-cart-item",
@@ -87,6 +95,11 @@ export default function NewArrival() {
     } catch (err) {
       console.log(err);
     }
+    else
+      Alart.alartError(
+        "Can't Add to Wishlist",
+        "Please Sign in to Wishlist this product!!!"
+      );
   };
 
   return (
