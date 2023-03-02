@@ -1,7 +1,6 @@
 import ApiService from "../services/api-service";
 import axios from "axios";
 import Swal from "sweetalert2";
-import apiService from "../services/api-service";
 window.Swal = Swal;
 function _(obj) {
   return document.getElementById(obj).value;
