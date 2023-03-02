@@ -240,5 +240,12 @@ class Alart {
       { headers: { "Content-Type": "application/json" } }
     );
   };
+  alartLoading = () => {
+    Swal.fire({
+      title: "Login In. Please Wait!!!",
+      html: "Sending request to Login ...",
+      didOpen: () => Swal.showLoading(),
+    });
+  };
 }
 export default new Alart();

@@ -26,6 +26,7 @@ function Login() {
 
   const login = async () => {
     if (user.email != "" && user.password != "") {
+      Alart.alartLoading();
       const response = await axios
         .post(
           "http://localhost:5000/api/v1/users/login",
