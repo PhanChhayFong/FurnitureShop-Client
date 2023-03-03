@@ -9,7 +9,6 @@ const ProtectedRoute = ({ children }) => {
       navigate("/login");
     } else {
       const item = JSON.parse(token);
-      apiService.updateActive("users", item.user.id, { active: true });
       const expItem = new Date(item.expDate);
       const now = new Date();
       if (
