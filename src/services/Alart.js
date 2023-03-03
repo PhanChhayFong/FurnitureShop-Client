@@ -140,9 +140,7 @@ class Alart {
       const res = await axios
         .post(
           `http://localhost:5000/api/v1/users/fgPassword`,
-          {
-            email: email,
-          },
+          { email: email },
           { headers: { "Content-Type": "application/json" } },
           { withCredentials: true }
         )
