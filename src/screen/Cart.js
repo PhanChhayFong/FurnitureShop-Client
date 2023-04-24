@@ -183,7 +183,10 @@ export default function Cart() {
                               </div>
                             </td>
                             <td className="cart__price">
-                              $ {item.product.salePrice}
+                              ${" "}
+                              {item.product.salePrice
+                                ? item.product.salePrice.toFixed(2)
+                                : item.product.regularPrice.toFixed(2)}
                             </td>
                             <td className="cart__price">
                               ${" "}
