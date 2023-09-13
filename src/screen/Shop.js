@@ -205,18 +205,22 @@ export default function Shop() {
                       <p>Sort by Price:</p>
                       <select value={filter} onChange={filterByPriceStatus}>
                         <option value="">-- Select Filter Price --</option>
-                        <option value="minSalePrice">
-                          Min Sale Price : $0 - $150
-                        </option>
-                        <option value="maxSalePrice">
-                          Max Sale Price : $150 - $2000
-                        </option>
-                        <option value="minregularPrice">
-                          Min Regular Price : $0 - $150
-                        </option>
-                        <option value="maxregularPrice">
-                          Max Regular Price : $150 - $2000
-                        </option>
+                        <optgroup label="Sale Price">
+                          <option value="minSalePrice">
+                            $0 - $150
+                          </option>
+                          <option value="maxSalePrice">
+                            $150 - $2000
+                          </option>
+                        </optgroup>
+                        <optgroup label="Regular Price">
+                          <option value="minregularPrice">
+                            $0 - $150
+                          </option>
+                          <option value="maxregularPrice">
+                            $150 - $2000
+                          </option>
+                        </optgroup>
                       </select>
                     </div>
                   </div>
@@ -230,7 +234,10 @@ export default function Shop() {
                     <div className="product__item">
                       <div
                         className="product__item__pic set-bg"
-                        style={{ backgroundImage: `url(${product.image})` }}
+                        style={{
+                          backgroundImage: `url(${product.image})`,
+                          backgroundSize: "auto 100%",
+                        }}
                       >
                         {product.salePrice ? (
                           <p className="label text-light bg-dark float-start">
