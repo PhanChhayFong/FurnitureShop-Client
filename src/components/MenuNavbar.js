@@ -64,31 +64,74 @@ export default function MenuNavbar({ click }) {
         <div className="offcanvas-menu-wrapper">
           <div className="offcanvas__option">
             <div className="offcanvas__links">
-              <a href="#">Sign in</a>
-              <a href="#">FAQs</a>
-            </div>
-            <div className="offcanvas__top__hover">
-              <span>
-                Usd <i className="arrow_carrot-down" />
-              </span>
-              <ul>
-                0.00
-                <li>USD</li>
-                <li>EUR</li>
-                <li>USD</li>
-              </ul>
+              {!token ? (
+                <Link to="/login" onClick={click}>
+                  Sign In
+                </Link>
+              ) : (
+                <span className="dropdown open">
+                  <a
+                    style={{
+                      width: "30px",
+                      height: "30px",
+                      backgroundImage: `url(${user.user.image})`,
+                      backgroundPosition: "center",
+                      backgroundSize: "100%",
+                      backgroundRepeat: "no-repeat",
+                    }}
+                    className="rounded-circle p-0 m-0 border broder-5 border-danger"
+                  />
+                  <div className="user-dropdown">
+                    <ul>
+                      {user.user.isAdmin ? (
+                        <li>
+                          <a
+                            style={{ cursor: "pointer" }}
+                            onClick={() => {
+                              window.location.href = "http://localhost:3000/";
+                            }}
+                          >
+                            AdminDashboard<i class="fa fa-dashboard ms-2"></i>
+                          </a>
+                        </li>
+                      ) : (
+                        ""
+                      )}
+                      <li>
+                        <NavLink to="/my-dashboard">
+                          My Dashboard<i className="fas fa-home ms-2"></i>
+                        </NavLink>
+                      </li>
+                      <li>
+                        <NavLink to="/my-account">
+                          My Account<i className="fas fa-crown ms-2"></i>
+                        </NavLink>
+                      </li>
+                      <li>
+                        <Link
+                          onClick={() => {
+                            logout();
+                          }}
+                        >
+                          Logout<i className="fas fa-door-open ms-2"></i>
+                        </Link>
+                      </li>
+                    </ul>
+                  </div>
+                </span>
+              )}
             </div>
           </div>
           <div className="offcanvas__nav__option">
-            <a href="#" className="search-switch">
-              <img src="img/icon/search.png" />
-            </a>
-            <a href="#">
+            <Link to="/shop">
+              <i class="fa fa-shopping-cart text-dark" aria-hidden="true"></i>
+            </Link>
+            <Link to="/shop/wishlist">
               <img src="img/icon/heart.png" />
-            </a>
-            <a href="#">
-              <img src="img/icon/cart.png" /> <span>0</span>
-            </a>
+            </Link>
+            <Link to="/shop/cart">
+              <img src="img/icon/cart.png" />
+            </Link>
           </div>
           <div id="mobile-menu-wrap" />
           <div className="offcanvas__text">
@@ -144,14 +187,6 @@ export default function MenuNavbar({ click }) {
           </div>
           <div className="col-md-3">
             <div className="header__nav__option">
-              <a to="#" className="search-switch">
-                {" "}
-                <i
-                  className="fas fa-search"
-                  style={{ fontSize: "24px", color: "black" }}
-                ></i>{" "}
-              </a>
-
               {token ? (
                 <>
                   <Link to="/shop/wishlist">
@@ -212,7 +247,8 @@ export default function MenuNavbar({ click }) {
                       <ul>
                         {user.user.isAdmin ? (
                           <li>
-                            <a style={{cursor:'pointer'}}
+                            <a
+                              style={{ cursor: "pointer" }}
                               onClick={() => {
                                 window.location.href = "http://localhost:3000/";
                               }}
@@ -226,12 +262,12 @@ export default function MenuNavbar({ click }) {
                         <li>
                           <NavLink to="/my-dashboard">
                             My Dashboard<i className="fas fa-home ms-2"></i>
-                          </NavLink>{" "}
+                          </NavLink>
                         </li>
                         <li>
                           <NavLink to="/my-account">
                             My Account<i className="fas fa-crown ms-2"></i>
-                          </NavLink>{" "}
+                          </NavLink>
                         </li>
                         <li>
                           <Link
@@ -240,7 +276,7 @@ export default function MenuNavbar({ click }) {
                             }}
                           >
                             Logout<i className="fas fa-door-open ms-2"></i>
-                          </Link>{" "}
+                          </Link>
                         </li>
                       </ul>
                     </div>
@@ -254,12 +290,12 @@ export default function MenuNavbar({ click }) {
                       <li>
                         <Link to="/login" onClick={click}>
                           Sign In<i className="fas fa-sign-in-alt ms-2"></i>
-                        </Link>{" "}
+                        </Link>
                       </li>
                       <li>
                         <Link to="/sign-up">
                           Sign Up <i className="fas fa-user-plus ms-2"></i>
-                        </Link>{" "}
+                        </Link>
                       </li>
                     </ul>
                   </div>

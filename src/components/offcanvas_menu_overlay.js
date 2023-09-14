@@ -20,8 +20,8 @@ export default function offcanvas(){
             </div>
             <div className="offcanvas__nav__option">
             <a href="#" className="search-switch"><img src="img/icon/search.png"   /></a>
-            <a href="#"><img src="img/icon/heart.png"   /></a>
-            <a href="#"><img src="img/icon/cart.png"   /> <span>0</span></a>
+            <a href="#"><img src="img/icon/heart.png"/></a>
+            <a href="#"><img src="img/icon/cart.png"/> <span>0</span></a>
             <div className="price">$0.00</div>
             </div>
             <div id="mobile-menu-wrap" />
