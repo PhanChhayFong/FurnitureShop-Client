@@ -212,7 +212,7 @@ export default function MenuNavbar({ click }) {
                       <ul>
                         {user.user.isAdmin ? (
                           <li>
-                            <a
+                            <a style={{cursor:'pointer'}}
                               onClick={() => {
                                 window.location.href = "http://localhost:3000/";
                               }}
