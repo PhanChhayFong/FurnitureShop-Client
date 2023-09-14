@@ -88,7 +88,7 @@ function Login() {
   return (
     <div className="container-fluid login-form">
       <div className="row">
-        <div className="col-6 mb-5">
+        <div className="col-12 col-lg-6 mb-5">
           <div className="d-flex flex-column ms-5">
             {companys &&
               companys.map((company) => (
@@ -157,7 +157,7 @@ function Login() {
           </div>
         </div>
 
-        <div className="col-6 mb-5 rounded">
+        <div className="col-12 col-lg-6 mb-5 rounded">
           <div className="d-flex flex-column  justify-content-center gradient-custom-2 h-100 mb-4">
             {companys &&
               companys.map((company) => (

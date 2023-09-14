@@ -43,7 +43,7 @@ function App() {
           <h2 className="fw-bold mb-5">Sign up now</h2>
           <form>
             <div className="row">
-              <div className="col-6">
+              <div className="col-12 col-lg-6">
                 <input
                   className="form-control"
                   id="form1"
@@ -59,7 +59,7 @@ function App() {
                 <label className="mb-4">Username</label>
               </div>
 
-              <div className="col-6">
+              <div className="col-12 col-lg-6">
                 <input
                   className="form-control"
                   id="form2"
@@ -77,7 +77,7 @@ function App() {
             </div>
 
             <div className="row">
-              <div className="col-6">
+              <div className="col-12 col-lg-6">
                 <input
                   className="form-control"
                   id="form3"
@@ -93,7 +93,7 @@ function App() {
                 <label className="mb-4">Password</label>
               </div>
 
-              <div className="col-6">
+              <div className="col-12 col-lg-6">
                 <input
                   className="form-control"
                   id="form4"
