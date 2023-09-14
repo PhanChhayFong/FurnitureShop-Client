@@ -72,8 +72,8 @@ export default function MenuNavbar({ click }) {
                 <span className="dropdown open">
                   <a
                     style={{
-                      width: "30px",
-                      height: "30px",
+                      width: "45px",
+                      height: "45px",
                       backgroundImage: `url(${user.user.image})`,
                       backgroundPosition: "center",
                       backgroundSize: "100%",
