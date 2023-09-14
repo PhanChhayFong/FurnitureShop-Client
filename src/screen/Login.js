@@ -78,9 +78,12 @@ function Login() {
         : Alart.alartLoginEmpty("Email");
     }
   };
-  if (navigate) {
-    return <Navigate to="/" />;
-  }
+
+  if (navigate) return <Navigate to="/" />;
+
+  const handleKeyPress = (event) => {
+    if (event.key == "Enter") login();
+  };
 
   return (
     <div className="container-fluid login-form">
@@ -124,6 +127,7 @@ function Login() {
                   password: e.target.value,
                 });
               }}
+              onKeyPress={handleKeyPress}
             />
 
             <div className="text-center pt-1 mb-5 pb-1">

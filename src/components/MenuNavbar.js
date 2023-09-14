@@ -217,7 +217,7 @@ export default function MenuNavbar({ click }) {
                                 window.location.href = "http://localhost:3000/";
                               }}
                             >
-                              AdminDashboard
+                              AdminDashboard<i class="fa fa-dashboard ms-2"></i>
                             </a>
                           </li>
                         ) : (
