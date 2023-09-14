@@ -162,7 +162,10 @@ export default function Product() {
                 <div className="product__item">
                   <div
                     className="product__item__pic set-bg"
-                    style={{ backgroundImage: `url(${product.image})` }}
+                    style={{
+                      backgroundImage: `url(${product.image})`,
+                      backgroundSize: "auto 100%",
+                    }}
                   >
                     {/* Display the sale badage if it the salePrice is greater than zero */}
                     {product.salePrice ? (

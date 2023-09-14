@@ -20,56 +20,56 @@ export default function NewArrival() {
 
   const handleAddToCart = async (productId, proQty) => {
     if (localStorage.getItem("token"))
-    try {
-      const productResponse = await axios.get(
-        `http://localhost:5000/api/product/${productId}`
-      );
-      const subStractCountInStock = productResponse.data;
-      subStractCountInStock.countInStock -= proQty;
-
-      // get all the data of cart item by each user id
-      const response = await axios.get(
-        `http://localhost:5000/api/v1/shoppingcarts/cart-item/${userId}`
-      );
-      const items = response.data;
-
-      // check the exist cart item that is already exist
-      const existCartItem = items.find(
-        (item) => item.product._id === productId
-      );
-      if (existCartItem) {
-        existCartItem.quantity += proQty;
-        await axios.put(
-          `http://localhost:5000/api/v1/shoppingcarts/update-cart/${existCartItem._id}`,
-          { quantity: existCartItem.quantity }
+      try {
+        const productResponse = await axios.get(
+          `http://localhost:5000/api/product/${productId}`
         );
+        const subStractCountInStock = productResponse.data;
+        subStractCountInStock.countInStock -= proQty;
 
-        await axios.put(
-          `http://localhost:5000/api/v1/products/update_count_in_stock/${productId}`,
-          subStractCountInStock
+        // get all the data of cart item by each user id
+        const response = await axios.get(
+          `http://localhost:5000/api/v1/shoppingcarts/cart-item/${userId}`
         );
-      } else {
-        await axios.post(
-          "http://localhost:5000/api/v1/shoppingcarts/add-cart-item",
-          {
-            user: userId,
-            product: productId,
-            instance: "cart",
-            quantity: proQty,
-          }
-        );
+        const items = response.data;
 
-        await axios.put(
-          `http://localhost:5000/api/v1/products/update_count_in_stock/${productId}`,
-          subStractCountInStock
+        // check the exist cart item that is already exist
+        const existCartItem = items.find(
+          (item) => item.product._id === productId
         );
+        if (existCartItem) {
+          existCartItem.quantity += proQty;
+          await axios.put(
+            `http://localhost:5000/api/v1/shoppingcarts/update-cart/${existCartItem._id}`,
+            { quantity: existCartItem.quantity }
+          );
+
+          await axios.put(
+            `http://localhost:5000/api/v1/products/update_count_in_stock/${productId}`,
+            subStractCountInStock
+          );
+        } else {
+          await axios.post(
+            "http://localhost:5000/api/v1/shoppingcarts/add-cart-item",
+            {
+              user: userId,
+              product: productId,
+              instance: "cart",
+              quantity: proQty,
+            }
+          );
+
+          await axios.put(
+            `http://localhost:5000/api/v1/products/update_count_in_stock/${productId}`,
+            subStractCountInStock
+          );
+        }
+
+        setCart(response.data);
+        return cart;
+      } catch (err) {
+        console.log(err);
       }
-
-      setCart(response.data);
-      return cart;
-    } catch (err) {
-      console.log(err);
-    }
     else
       Alart.alartError(
         "Can't Add to Cart",
@@ -79,22 +79,22 @@ export default function NewArrival() {
 
   const handleAddToWishlist = async (productId, qty) => {
     if (localStorage.getItem("token"))
-    try {
-      const response = await axios.post(
-        "http://localhost:5000/api/v1/shoppingcarts/add-cart-item",
-        {
-          user: userId,
-          product: productId,
-          instance: "wishlist",
-          quantity: qty,
-        }
-      );
+      try {
+        const response = await axios.post(
+          "http://localhost:5000/api/v1/shoppingcarts/add-cart-item",
+          {
+            user: userId,
+            product: productId,
+            instance: "wishlist",
+            quantity: qty,
+          }
+        );
 
-      setWishlist({ ...wishlist, [productId]: response.data });
-      return response;
-    } catch (err) {
-      console.log(err);
-    }
+        setWishlist({ ...wishlist, [productId]: response.data });
+        return response;
+      } catch (err) {
+        console.log(err);
+      }
     else
       Alart.alartError(
         "Can't Add to Wishlist",
@@ -116,7 +116,10 @@ export default function NewArrival() {
               <div className="product__item">
                 <div
                   className="product__item__pic set-bg"
-                  style={{ backgroundImage: `url(${product.image})` }}
+                  style={{
+                    backgroundImage: `url(${product.image})`,
+                    backgroundSize: "auto 100%",
+                  }}
                 >
                   <span className="label bg-dark text-light">New</span>
                   <ul className="product__hover">
