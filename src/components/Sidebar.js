@@ -9,7 +9,7 @@ export default function Sidebar() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:5000/api/v1/products/get/product_category")
+      .get("http://localhost:4000/api/v1/products/get/product_category")
       .then((res) => setCategories(res.data));
     setRerender(false);
   }, [rerender]);

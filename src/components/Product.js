@@ -10,7 +10,7 @@ export default function Product() {
   const [products, setProducts] = useState([]);
   useEffect(() => {
     axios
-      .get("http://localhost:5000/api/v1/products/get/featured_product")
+      .get("http://localhost:4000/api/v1/products/get/featured_product")
       .then((res) => setProducts(res.data));
   }, []);
 
@@ -24,14 +24,14 @@ export default function Product() {
     if (localStorage.getItem("token"))
       try {
         const productResponse = await axios.get(
-          `http://localhost:5000/api/v1/products/${productId}`
+          `http://localhost:4000/api/v1/products/${productId}`
         );
         const subStractCountInStock = productResponse.data;
         subStractCountInStock.countInStock -= proQty;
 
         // get all the data of cart item by each user id
         const response = await axios.get(
-          `http://localhost:5000/api/v1/shoppingcarts/cart-item/${userId}`
+          `http://localhost:4000/api/v1/shoppingcarts/cart-item/${userId}`
         );
         const items = response.data;
 
@@ -42,17 +42,17 @@ export default function Product() {
         if (existCartItem) {
           existCartItem.quantity += proQty;
           await axios.put(
-            `http://localhost:5000/api/v1/shoppingcarts/update-cart/${existCartItem._id}`,
+            `http://localhost:4000/api/v1/shoppingcarts/update-cart/${existCartItem._id}`,
             { quantity: existCartItem.quantity }
           );
 
           await axios.put(
-            `http://localhost:5000/api/v1/products/update_count_in_stock/${productId}`,
+            `http://localhost:4000/api/v1/products/update_count_in_stock/${productId}`,
             subStractCountInStock
           );
         } else {
           await axios.post(
-            "http://localhost:5000/api/v1/shoppingcarts/add-cart-item",
+            "http://localhost:4000/api/v1/shoppingcarts/add-cart-item",
             {
               user: userId,
               product: productId,
@@ -62,7 +62,7 @@ export default function Product() {
           );
 
           await axios.put(
-            `http://localhost:5000/api/v1/products/update_count_in_stock/${productId}`,
+            `http://localhost:4000/api/v1/products/update_count_in_stock/${productId}`,
             subStractCountInStock
           );
         }
@@ -83,7 +83,7 @@ export default function Product() {
     if (localStorage.getItem("token"))
       try {
         const response = await axios.post(
-          "http://localhost:5000/api/v1/shoppingcarts/add-cart-item",
+          "http://localhost:4000/api/v1/shoppingcarts/add-cart-item",
           {
             user: userId,
             product: productId,

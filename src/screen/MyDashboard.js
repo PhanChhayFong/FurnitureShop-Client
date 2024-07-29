@@ -17,12 +17,12 @@ export default function MyDashboard() {
       const userId = JSON.parse(token).user.id;
       axios
         .all([
-          axios.get(`http://localhost:5000/api/v1/orders/item-order/${userId}`),
+          axios.get(`http://localhost:4000/api/v1/orders/item-order/${userId}`),
           axios.get(
-            `http://localhost:5000/api/v1/orders/total-purchased/${userId}`
+            `http://localhost:4000/api/v1/orders/total-purchased/${userId}`
           ),
           axios.get(
-            `http://localhost:5000/api/v1/orders/total-delivery/${userId}`
+            `http://localhost:4000/api/v1/orders/total-delivery/${userId}`
           ),
         ])
         .then(
@@ -48,7 +48,7 @@ export default function MyDashboard() {
     try {
       const orderResponse = orders.find((item) => item.id === orderId);
       axios.put(
-        `http://localhost:5000/api/v1/orders/success/${orderId}`,
+        `http://localhost:4000/api/v1/orders/success/${orderId}`,
         orderResponse
       );
       setRe(true);

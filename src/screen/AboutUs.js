@@ -11,16 +11,16 @@ export default function AboutUs() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:5000/api/v1/users/get/user-admin")
+      .get("http://localhost:4000/api/v1/users/get/user-admin")
       .then((res) => setUserAdmin(res.data));
     axios
-      .get("http://localhost:5000/api/v1/users/get/count")
+      .get("http://localhost:4000/api/v1/users/get/count")
       .then((res) => setCountClient(res.data));
     axios
-      .get("http://localhost:5000/api/v1/categories/get/count")
+      .get("http://localhost:4000/api/v1/categories/get/count")
       .then((res) => setCategory(res.data));
     axios
-      .get("http://localhost:5000/api/v1/products/getcount/count")
+      .get("http://localhost:4000/api/v1/products/getcount/count")
       .then((res) => setProducts(res.data));
   }, []);
 

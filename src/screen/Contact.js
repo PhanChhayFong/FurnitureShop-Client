@@ -13,7 +13,7 @@ export default function Contact() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:5000/api/v1/companys")
+      .get("http://localhost:4000/api/v1/companys")
       .then((res) => setCompany(res.data));
   }, []);
 

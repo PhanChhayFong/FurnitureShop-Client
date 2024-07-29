@@ -13,7 +13,7 @@ export default function Cart() {
   useEffect(() => {
     if (token) {
       axios
-        .get(`http://localhost:5000/api/v1/shoppingcarts/cart-item/${userId}`)
+        .get(`http://localhost:4000/api/v1/shoppingcarts/cart-item/${userId}`)
         .then((res) => setCartItem(res.data));
       setRe(false);
     }
@@ -32,7 +32,7 @@ export default function Cart() {
     if (token) {
       try {
         const response = await axios.delete(
-          `http://localhost:5000/api/v1/shoppingcarts/clear/cart_items/${userId}`
+          `http://localhost:4000/api/v1/shoppingcarts/clear/cart_items/${userId}`
         );
         setRe(true);
         setClearAllCartItem(response.data);
@@ -49,7 +49,7 @@ export default function Cart() {
       try {
         // get the product data by product id
         const productResponse = await axios.get(
-          `http://localhost:5000/api/v1/products/${productId}`
+          `http://localhost:4000/api/v1/products/${productId}`
         );
         const subStractCountInStock = productResponse.data;
 
@@ -58,7 +58,7 @@ export default function Cart() {
 
         // get all the data of cart item by each user id
         const response = await axios.get(
-          `http://localhost:5000/api/v1/shoppingcarts/cart-item/${userId}`
+          `http://localhost:4000/api/v1/shoppingcarts/cart-item/${userId}`
         );
         const items = response.data;
 
@@ -69,7 +69,7 @@ export default function Cart() {
         if (existCartItem) {
           existCartItem.quantity += proQty;
           await axios.put(
-            `http://localhost:5000/api/v1/shoppingcarts/update-cart/${existCartItem._id}`,
+            `http://localhost:4000/api/v1/shoppingcarts/update-cart/${existCartItem._id}`,
             {
               quantity: existCartItem.quantity,
             }
@@ -77,12 +77,12 @@ export default function Cart() {
 
           // implement the update of substract count_in_stock
           await axios.put(
-            `http://localhost:5000/api/v1/products/update_count_in_stock/${productId}`,
+            `http://localhost:4000/api/v1/products/update_count_in_stock/${productId}`,
             subStractCountInStock
           );
 
           const response = await axios.delete(
-            `http://localhost:5000/api/v1/shoppingcarts/remove/cart_item/${cartId}`
+            `http://localhost:4000/api/v1/shoppingcarts/remove/cart_item/${cartId}`
           );
           setRemoveSingleCartItem(
             cartItem.filter((item) => item._id !== cartId)

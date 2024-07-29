@@ -33,7 +33,7 @@ export default function Checkout() {
   useEffect(() => {
     if (token)
       axios
-        .get(`http://localhost:5000/api/v1/shoppingcarts/cart-item/${userId}`)
+        .get(`http://localhost:4000/api/v1/shoppingcarts/cart-item/${userId}`)
         .then((res) => setCartItem(res.data));
   }, []);
   //subtotal tax TotalPrice
@@ -120,13 +120,13 @@ export default function Checkout() {
         Tstatus: order.Tmode == "true" ? true : false,
       };
       const orderResponse = await axios.post(
-        `http://localhost:5000/api/v1/orders`,
+        `http://localhost:4000/api/v1/orders`,
         orderData
       );
       setOrder(orderResponse.data, Alart.alartOrderSuccess());
       // clear cart
       const clearCartItem = await axios.delete(
-        `http://localhost:5000/api/v1/shoppingcarts/clear/cart_items/${userId}`
+        `http://localhost:4000/api/v1/shoppingcarts/clear/cart_items/${userId}`
       );
       setclearCartItem(clearCartItem);
       window.location.reload(true);
@@ -153,7 +153,7 @@ export default function Checkout() {
           },
         };
         let res = await axios.post(
-          "http://localhost:5000/api/v1/payments/placeOrder",
+          "http://localhost:4000/api/v1/payments/placeOrder",
           { amount: Math.round(totalPrice * 100) },
           config
         );

@@ -14,7 +14,7 @@ export default function Wishlist() {
     if (token) {
       axios
         .get(
-          `http://localhost:5000/api/v1/shoppingcarts/wishlist-item/${userId}`
+          `http://localhost:4000/api/v1/shoppingcarts/wishlist-item/${userId}`
         )
         .then((res) => setWishlistItem(res.data));
       setRe(false);
@@ -26,7 +26,7 @@ export default function Wishlist() {
     if (token) 
       try {
         const moveToCart = await axios.put(
-          `http://localhost:5000/api/v1/shoppingcarts/move-to-cart/${productId}`,
+          `http://localhost:4000/api/v1/shoppingcarts/move-to-cart/${productId}`,
           {
             user: userId,
             product: productId,
@@ -47,7 +47,7 @@ export default function Wishlist() {
   const handleRemoveFromWishlist = async (productId) => {
     try {
       const removeWishlsitItem = await axios.delete(
-        `http://localhost:5000/api/v1/shoppingcarts/remove/wishlist-item/${productId}`,
+        `http://localhost:4000/api/v1/shoppingcarts/remove/wishlist-item/${productId}`,
         cart
       );
       setWishlist(removeWishlsitItem.data);

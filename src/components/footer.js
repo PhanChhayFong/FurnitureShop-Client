@@ -13,8 +13,8 @@ export default function Footer({ click }) {
   useEffect(() => {
     axios
       .all([
-        axios.get("http://localhost:5000/api/v1/companys"),
-        axios.get("http://localhost:5000/api/v1/categories"),
+        axios.get("http://localhost:4000/api/v1/companys"),
+        axios.get("http://localhost:4000/api/v1/categories"),
       ])
       .then(
         axios.spread((companyResponse, categoryResponse) => {

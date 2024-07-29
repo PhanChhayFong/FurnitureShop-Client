@@ -19,15 +19,15 @@ export default function MenuNavbar({ click }) {
     axios
       .all(
         [
-          axios.get(`http://localhost:5000/api/v1/companys`),
-          axios.get("http://localhost:5000/api/v1/categories"),
+          axios.get(`http://localhost:4000/api/v1/companys`),
+          axios.get("http://localhost:4000/api/v1/categories"),
           token &&
             axios.get(
-              `http://localhost:5000/api/v1/shoppingcarts/get/cart_item_count/${userId}`
+              `http://localhost:4000/api/v1/shoppingcarts/get/cart_item_count/${userId}`
             ),
           token &&
             axios.get(
-              `http://localhost:5000/api/v1/shoppingcarts/get/wishlist_item_count/${userId}`
+              `http://localhost:4000/api/v1/shoppingcarts/get/wishlist_item_count/${userId}`
             ),
         ].filter(Boolean)
       )

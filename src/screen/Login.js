@@ -9,7 +9,7 @@ function Login() {
   const [companys, setCompanys] = useState();
   useEffect(() => {
     axios
-      .get("http://localhost:5000/api/v1/companys")
+      .get("http://localhost:4000/api/v1/companys")
       .then((res) => setCompanys(res.data));
   }, []);
 
@@ -29,7 +29,7 @@ function Login() {
       Alart.alartLoading();
       const response = await axios
         .post(
-          "http://localhost:5000/api/v1/users/login",
+          "http://localhost:4000/api/v1/users/login",
           user,
           { headers: { "Content-Type": "application/json" } },
           { withCredentials: true }

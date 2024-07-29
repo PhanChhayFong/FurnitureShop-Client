@@ -45,7 +45,7 @@ export default function App() {
   const token = localStorage.getItem("token");
   useEffect(() => {
     axios
-      .get("http://localhost:5000/api/v1/payments/stripeapi")
+      .get("http://localhost:4000/api/v1/payments/stripeapi")
       .then((res) => setStripeAPIKey(res.data));
     if (!token) {
       <Navigate to="/" />;
